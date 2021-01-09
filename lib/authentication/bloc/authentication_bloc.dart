@@ -47,7 +47,9 @@ class AuthenticationBloc
       AuthenticationStatusChanged event) {
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
-        return const AuthenticationState.unauthenticated();
+        // не знаю, говнокод ли это, но так приходится писать
+        return AuthenticationState.unauthenticated(
+            _authenticationRepository.user);
       case AuthenticationStatus.authenticated:
         return AuthenticationState.authenticated(
             _authenticationRepository.user);
