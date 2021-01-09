@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data_layer/authentication_repository/authentication_repository.dart';
 
+import '../../data_layer/repository/authentication_repository.dart';
+import '../../widgets/authentication_decorator.dart';
 import '../register.dart';
 import 'register_form.dart';
-import '../../widgets/authentication_decorator.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key key}) : super(key: key);

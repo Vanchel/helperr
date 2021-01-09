@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data_layer/authentication_repository/src/authentication_repository.dart';
+import '../../data_layer/repository/authentication_repository.dart';
 
 part 'register_state.dart';
 
@@ -27,7 +27,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
       emit(const RegisterState(status: RegisterStatus.success));
     } on Exception catch (_) {
-      emit(const RegisterState(status: RegisterStatus.success));
+      emit(const RegisterState(status: RegisterStatus.failure));
     }
   }
 }

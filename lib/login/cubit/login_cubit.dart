@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import '../../data_layer/authentication_repository/src/authentication_repository.dart';
+import '../../data_layer/repository/authentication_repository.dart';
 
 part 'login_state.dart';
 
@@ -16,11 +16,11 @@ class LoginCubit extends Cubit<LoginState> {
 
   final AuthenticationRepository _authenticationRepository;
 
-  Future<void> submitLogin(String username, String password) async {
+  Future<void> submitLogin(String email, String password) async {
     emit(const LoginState(status: LoginStatus.inProgress));
     try {
       await _authenticationRepository.logIn(
-        username: username,
+        email: email,
         password: password,
       );
       emit(const LoginState(status: LoginStatus.success));

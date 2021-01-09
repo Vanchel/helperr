@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'data_layer/authentication_repository/authentication_repository.dart';
-import 'data_layer/user_repository/user_repository.dart';
-
 import 'authentication/authentication.dart';
+import 'data_layer/repository/authentication_repository.dart';
 import 'home/home.dart';
 import 'login/login.dart';
 import 'splash/splash.dart';
@@ -13,13 +11,10 @@ class HelperApp extends StatelessWidget {
   const HelperApp({
     Key key,
     @required this.authenticationRepository,
-    @required this.userRepository,
   })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
-  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,6 @@ class HelperApp extends StatelessWidget {
       child: BlocProvider(
         create: (_) => AuthenticationBloc(
           authenticationRepository: authenticationRepository,
-          userRepository: userRepository,
         ),
         child: AppView(),
       ),

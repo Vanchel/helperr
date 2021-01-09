@@ -15,15 +15,9 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Builder(
-              builder: (context) {
-                final userId = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user.id,
-                );
-                return Text('UserID: $userId');
-              },
-            ),
+          children: [
+            // TODO: attempt to access user from state causes crash
+            const Text('Glad to c ya'),
             RaisedButton(
               child: const Text('Logout'),
               onPressed: () {

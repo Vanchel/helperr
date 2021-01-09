@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:helperr/data_layer/model/user.dart';
 import 'package:meta/meta.dart';
 
-import '../../data_layer/authentication_repository/authentication_repository.dart';
-import '../../data_layer/user_repository/user_repository.dart';
+import '../../data_layer/repository/authentication_repository.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -14,11 +14,8 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
     @required AuthenticationRepository authenticationRepository,
-    @required UserRepository userRepository,
   })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
         _authenticationRepository = authenticationRepository,
-        _userRepository = userRepository,
         super(const AuthenticationState.unknown()) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) => add(AuthenticationStatusChanged(status)),
@@ -26,7 +23,6 @@ class AuthenticationBloc
   }
 
   final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
   StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
 
   @override
@@ -34,7 +30,7 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AuthenticationStatusChanged) {
-      yield await _mapAuthenticationStatusChangedToState(event);
+      yield _mapAuthenticationStatusChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
       _authenticationRepository.logOut();
     }
@@ -47,28 +43,16 @@ class AuthenticationBloc
     return super.close();
   }
 
-  Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
-    AuthenticationStatusChanged event,
-  ) async {
+  AuthenticationState _mapAuthenticationStatusChangedToState(
+      AuthenticationStatusChanged event) {
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
-        return user != null
-            ? AuthenticationState.authenticated(user)
-            : const AuthenticationState.unauthenticated();
+        return AuthenticationState.authenticated(
+            _authenticationRepository.user);
       default:
         return const AuthenticationState.unknown();
-    }
-  }
-
-  Future<User> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser();
-      return user;
-    } on Exception {
-      return null;
     }
   }
 }

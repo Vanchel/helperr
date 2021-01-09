@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../login.dart';
 import '../../register/view/register_page.dart';
+import '../login.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key key}) : super(key: key);
@@ -23,11 +23,11 @@ class _LoginFormState extends State<LoginForm> {
       controller: usernameController,
       decoration: const InputDecoration(
         icon: const Icon(Icons.mail_rounded),
-        labelText: 'Логин',
+        labelText: 'Email',
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'Логин не указан';
+          return 'Email не указан';
         }
         return null;
       },
@@ -88,20 +88,34 @@ class _LoginFormState extends State<LoginForm> {
       child: const Text('Зарегистрироваться'),
     );
 
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            usernameInput,
-            passwordInput,
-            recoveryButton,
-            loginButton,
-            registerButton,
-          ],
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state.status == LoginStatus.failure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.black54,
+                content: Text('Ошибка входа'),
+              ),
+            );
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              usernameInput,
+              passwordInput,
+              recoveryButton,
+              loginButton,
+              registerButton,
+            ],
+          ),
         ),
       ),
     );

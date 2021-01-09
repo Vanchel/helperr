@@ -1,12 +1,13 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 
-import 'data_layer/authentication_repository/authentication_repository.dart';
-import 'data_layer/user_repository/user_repository.dart';
 import 'app.dart';
+import 'data_layer/repository/authentication_repository.dart';
+import 'debug/bloc_observer.dart';
 
 void main() {
+  Bloc.observer = HelperrObserver();
   runApp(HelperApp(
     authenticationRepository: AuthenticationRepository(),
-    userRepository: UserRepository(),
   ));
 }
