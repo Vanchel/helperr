@@ -23,13 +23,6 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
-  // Stream<AuthenticationStatus> get status async* {
-  //   yield (user != null)
-  //       ? AuthenticationStatus.authenticated
-  //       : AuthenticationStatus.unauthenticated;
-  //   yield* _controller.stream;
-  // }
-
   Future<void> logIn({
     @required String email,
     @required String password,

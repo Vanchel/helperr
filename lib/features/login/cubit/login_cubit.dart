@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import '../../data_layer/repository/authentication_repository.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 
 part 'login_state.dart';
 

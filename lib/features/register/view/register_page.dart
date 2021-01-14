@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data_layer/repository/authentication_repository.dart';
-import '../../widgets/authentication_decorator.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
+import '../../../widgets/authentication_decorator.dart';
 import '../register.dart';
 import 'register_form.dart';
 

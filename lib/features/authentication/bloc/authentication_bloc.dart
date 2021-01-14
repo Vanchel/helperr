@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:helperr/data_layer/model/user.dart';
 import 'package:meta/meta.dart';
 
-import '../../data_layer/repository/authentication_repository.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';

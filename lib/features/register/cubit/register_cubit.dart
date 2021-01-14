@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data_layer/repository/authentication_repository.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 
 part 'register_state.dart';
 

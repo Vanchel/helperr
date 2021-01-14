@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'authentication/authentication.dart';
 import 'data_layer/repository/authentication_repository.dart';
-import 'home/home.dart';
-import 'login/login.dart';
-import 'splash/splash.dart';
+import 'features/authentication/bloc/authentication_bloc.dart';
+import 'features/login/view/login_page.dart';
+import 'features/navigation/view/navigation_page.dart';
+import 'features/splash/view/splash_page.dart';
 
 class HelperApp extends StatelessWidget {
   const HelperApp({
@@ -50,7 +50,7 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  NavigationPage.route(),
                   (route) => false,
                 );
                 break;
