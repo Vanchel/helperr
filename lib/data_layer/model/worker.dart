@@ -77,8 +77,10 @@ class Worker {
   factory Worker.fromJson(Map<String, dynamic> json) => Worker(
         userId: json["user_id"],
         mailing: json["mailing"],
+        // language: List<Language>.from(
+        //     json["language"].map((x) => Language.fromJson(x))),
         language: List<Language>.from(
-            json["language"].map((x) => Language.fromJson(x))),
+            json["language"]?.map((x) => Language.fromJson(x)) ?? []),
         birthday: json["birthday"],
         city: json["city"],
         phone: List<String>.from(json["phone"].map((x) => x)),

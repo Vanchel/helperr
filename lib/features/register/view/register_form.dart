@@ -98,7 +98,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       nameController.text,
                       emailController.text,
                       passwordController.text,
-                      'worker',
+                      'employee',
                     );
               }
             },

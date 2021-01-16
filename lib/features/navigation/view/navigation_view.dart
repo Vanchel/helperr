@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/navigation/navigation.dart';
 import 'package:helperr/features/profile/profile.dart';
 
+import '../../../data_layer/repository/authentication_repository.dart';
+
 class NavigationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,10 @@ class NavigationView extends StatelessWidget {
         builder: (context, state) {
           switch (state.index) {
             case 2:
-              return ProfilePage();
+              return ProfilePage(
+                  RepositoryProvider.of<AuthenticationRepository>(context)
+                      .user
+                      .id);
               break;
             default:
               return Container(
@@ -29,7 +34,6 @@ class NavigationView extends StatelessWidget {
           return BottomNavigationBar(
             currentIndex: state.index,
             onTap: (value) => context.read<NavigationCubit>().selectPage(value),
-            showSelectedLabels: false,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.search_rounded),

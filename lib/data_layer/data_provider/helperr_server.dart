@@ -30,13 +30,32 @@ Future<User> login(String email, String password) async {
 
 Future<User> register(
     String name, String email, String password, String userType) async {
-  final data = {
+  final user = {
     'name': name,
     'email': email,
     'password': password,
     'user_type': userType
   };
-  final body = json.encode(data);
+  final profile = {
+    "user_id": 0,
+    "name": "",
+    "mailing": true,
+    "language": [],
+    "birthday": "",
+    "gender": "",
+    "city": "",
+    "phone": [],
+    "about": "",
+    "social_links": [],
+    "education": [],
+    "exp": [],
+    "cz": "",
+    "profile_link": "",
+    "photo_url": "",
+    "profile_background": ""
+  };
+  final body =
+      '{"user": ${json.encode(user)}, "worker": ${json.encode(profile)}}';
 
   final response = await http.post('$_baseUrl/register', body: body);
 

@@ -14,12 +14,11 @@ class AuthenticationRepository {
   User user;
 
   Stream<AuthenticationStatus> get status async* {
-    final data = await preferences.getLoginData();
-    if (data != null) {
-      logIn(email: data.email, password: data.password);
-    } else {
-      yield AuthenticationStatus.unauthenticated;
-    }
+    // final data = await preferences.getLoginData();
+    // if (data != null) {
+    //   logIn(email: data.email, password: data.password);
+    // } else { }
+    yield AuthenticationStatus.unauthenticated;
     yield* _controller.stream;
   }
 
@@ -32,7 +31,7 @@ class AuthenticationRepository {
 
     user = await server.login(email, password);
 
-    preferences.saveLoginData(email, password);
+    //preferences.saveLoginData(email, password);
     _controller.add(AuthenticationStatus.authenticated);
   }
 
@@ -49,12 +48,12 @@ class AuthenticationRepository {
 
     user = await server.register(name, email, password, userType);
 
-    preferences.saveLoginData(email, password);
+    //preferences.saveLoginData(email, password);
     _controller.add(AuthenticationStatus.authenticated);
   }
 
   void logOut() {
-    preferences.deleteLoginData();
+    //preferences.deleteLoginData();
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 
