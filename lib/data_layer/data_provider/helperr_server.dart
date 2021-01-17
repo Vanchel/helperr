@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../model/models.dart';
 
-final String _baseUrl = 'http://3.22.99.254';
+final String _baseUrl = 'http://job-flow.ru/api';
 
 Future<Worker> fetchWorker(int userId) async {
   final response = await http.get('$_baseUrl/workers/$userId');
@@ -38,7 +38,7 @@ Future<User> register(
   };
   final profile = {
     "user_id": 0,
-    "name": "",
+    "name": name,
     "mailing": true,
     "language": [],
     "birthday": "",
@@ -50,7 +50,8 @@ Future<User> register(
     "education": [],
     "exp": [],
     "cz": "",
-    "profile_link": "",
+    // for web check for Sanya
+    "profile_link": "empty",
     "photo_url": "",
     "profile_background": ""
   };

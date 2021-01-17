@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 
 import '../data_provider/helperr_server.dart' as server;
-import '../data_provider/shared_preferences.dart' as preferences;
+//import '../data_provider/shared_preferences.dart' as preferences;
 import '../model/user.dart';
 
 enum AuthenticationStatus { authenticated, unauthenticated }

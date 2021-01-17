@@ -11,6 +11,7 @@ String workerToJson(Worker data) => json.encode(data.toJson());
 class Worker {
   Worker({
     this.userId,
+    this.name,
     this.mailing,
     this.language,
     this.birthday,
@@ -27,6 +28,7 @@ class Worker {
   });
 
   final int userId;
+  final String name;
   final bool mailing;
   final List<Language> language;
   final String birthday;
@@ -43,6 +45,7 @@ class Worker {
 
   Worker copyWith({
     int userId,
+    String name,
     bool mailing,
     List<Language> language,
     String birthday,
@@ -59,6 +62,7 @@ class Worker {
   }) =>
       Worker(
         userId: userId ?? this.userId,
+        name: name ?? this.name,
         mailing: mailing ?? this.mailing,
         language: language ?? this.language,
         birthday: birthday ?? this.birthday,
@@ -76,9 +80,11 @@ class Worker {
 
   factory Worker.fromJson(Map<String, dynamic> json) => Worker(
         userId: json["user_id"],
+        name: json["name"],
         mailing: json["mailing"],
         // language: List<Language>.from(
         //     json["language"].map((x) => Language.fromJson(x))),
+        // back-end sending null for this particular field :/
         language: List<Language>.from(
             json["language"]?.map((x) => Language.fromJson(x)) ?? []),
         birthday: json["birthday"],
@@ -97,6 +103,7 @@ class Worker {
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
+        "name": name,
         "mailing": mailing,
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
         "birthday": birthday,
