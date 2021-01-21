@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/models.dart';
+import 'package:helperr/data_layer/repository/authentication_repository.dart';
+import 'package:helperr/features/edit_profile/view/edit_profile_page.dart';
 import '../cubit/profile_cubit.dart';
 import '../profile.dart';
 
@@ -11,6 +13,8 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildWorkerProfile(BuildContext context, Worker worker) {
     final themeData = Theme.of(context);
+
+    final profileCubit = BlocProvider.of<ProfileCubit>(context);
 
     final ImageProvider _background = (_isPropValid(worker.profileBackground))
         ? NetworkImage(worker.profileBackground)
@@ -58,84 +62,92 @@ class ProfileView extends StatelessWidget {
       _locationString = const SizedBox.shrink();
     }
 
-    ExpansionPanelList _otherInfo = ExpansionPanelList(
-      children: [
-        ExpansionPanel(
-          headerBuilder: (context, isExpanded) =>
-              const ListTile(title: Text('Образование')),
-          body: ListView.builder(
-            itemCount: worker.education.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(worker.education[index].profession),
-                subtitle: Text(worker.education[index].university), // + years
-              );
-            },
-          ),
-        ),
-        ExpansionPanel(
-          headerBuilder: (context, isExpanded) =>
-              const ListTile(title: Text('Опыт работы')),
-          body: ListView.builder(
-            itemCount: worker.exp.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(worker.exp[index].position), // + company
-                subtitle: Text(worker.exp[index].type), // + years
-              );
-            },
-          ),
-        ),
-      ],
-    );
+    // ExpansionPanelList _otherInfo = ExpansionPanelList(
+    //   children: [
+    //     ExpansionPanel(
+    //       headerBuilder: (context, isExpanded) =>
+    //           const ListTile(title: Text('Образование')),
+    //       body: ListView.builder(
+    //         itemCount: worker.education.length,
+    //         itemBuilder: (context, index) {
+    //           return ListTile(
+    //             title: Text(worker.education[index].profession),
+    //             subtitle: Text(worker.education[index].university), // + years
+    //           );
+    //         },
+    //       ),
+    //     ),
+    //     ExpansionPanel(
+    //       headerBuilder: (context, isExpanded) =>
+    //           const ListTile(title: Text('Опыт работы')),
+    //       body: ListView.builder(
+    //         itemCount: worker.exp.length,
+    //         itemBuilder: (context, index) {
+    //           return ListTile(
+    //             title: Text(worker.exp[index].position), // + company
+    //             subtitle: Text(worker.exp[index].type), // + years
+    //           );
+    //         },
+    //       ),
+    //     ),
+    //   ],
+    // );
 
-    return Column(
-      children: [
-        Card(
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                padding: const EdgeInsets.all(16.0),
-                margin: const EdgeInsets.only(bottom: 8.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: _background,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: CircleAvatar(
-                  radius: 40.0,
-                  backgroundImage: _avatar,
+    return SingleChildScrollView(
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              margin: const EdgeInsets.only(bottom: 8.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: _background,
+                  fit: BoxFit.cover,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  _name,
-                  style: themeData.textTheme.headline6,
-                ),
+              child: CircleAvatar(
+                radius: 40.0,
+                backgroundImage: _avatar,
               ),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: Text('Редактировать профиль'),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                _name,
+                style: themeData.textTheme.headline6,
               ),
-              _aboutText,
-              _dateOfBirthString,
-              _locationString,
-              //_otherInfo,
-            ],
-          ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              width: double.infinity,
+              child: OutlinedButton(
+                child: Text('Редактировать профиль'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<EditProfilePage>(builder: (context) {
+                      return BlocProvider.value(
+                        value: profileCubit,
+                        child: EditProfilePage(worker.userId),
+                      );
+                    }),
+                  );
+                },
+              ),
+            ),
+            _aboutText,
+            _dateOfBirthString,
+            _locationString,
+            //_otherInfo,
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -144,9 +156,9 @@ class ProfileView extends StatelessWidget {
     final onErr = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('Произошла ошибка загрузки'),
+        const Text('Произошла ошибка'),
         TextButton(
-          child: const Text('Повторить'),
+          child: const Text('Повторить попытку'),
           onPressed: () => context.read<ProfileCubit>().loadProfile(),
         ),
       ],

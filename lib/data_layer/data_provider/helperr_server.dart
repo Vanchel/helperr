@@ -15,6 +15,16 @@ Future<Worker> fetchWorker(int userId) async {
   }
 }
 
+Future<void> updateWorker(Worker worker) async {
+  final body = workerToJson(worker);
+
+  final response =
+      await http.put('$_baseUrl/workers/${worker.userId}', body: body);
+
+  if (response.statusCode != 200)
+    throw Exception('failed to update worker profile');
+}
+
 Future<User> login(String email, String password) async {
   final data = {'email': email, 'password': password};
   final body = json.encode(data);
