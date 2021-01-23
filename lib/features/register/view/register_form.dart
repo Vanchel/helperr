@@ -25,7 +25,7 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   bool isValidPassword(String str) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{4,}$';
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(str);
   }
@@ -53,9 +53,9 @@ class _RegisterFormState extends State<RegisterForm> {
         labelText: 'Email',
       ),
       validator: (value) {
-        // if (!isValidEmail(value)) {
-        //   return 'Введите корректный email';
-        // }
+        if (!isValidEmail(value)) {
+          return 'Введите корректный email';
+        }
         return null;
       },
     );
@@ -141,5 +141,14 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
   }
 }

@@ -117,25 +117,6 @@ class ProfileCard extends StatelessWidget {
       locationWidget = const SizedBox.shrink();
     }
 
-    Widget editProfileButton = Container(
-      margin: const EdgeInsets.all(8.0),
-      width: double.infinity,
-      child: OutlinedButton(
-        child: Text('Редактировать профиль'),
-        onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute<EditProfilePage>(builder: (context) {
-          //     return BlocProvider.value(
-          //       value: profileCubit,
-          //       child: EditProfilePage(worker.userId),
-          //     );
-          //   }),
-          // );
-        },
-      ),
-    );
-
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -147,7 +128,6 @@ class ProfileCard extends StatelessWidget {
           descriptionWidget,
           birthdayWidget,
           locationWidget,
-          editProfileButton,
         ],
       ),
     );

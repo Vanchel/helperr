@@ -7,7 +7,7 @@ import 'debug/bloc_observer.dart';
 
 void main() {
   Bloc.observer = HelperrObserver();
-  runApp(HelperApp(
-    authenticationRepository: AuthenticationRepository(),
-  ));
+  runApp(
+    HelperApp(authenticationRepository: AuthenticationRepository()),
+  );
 }
