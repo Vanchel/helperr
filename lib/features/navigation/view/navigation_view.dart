@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/navigation/navigation.dart';
 import 'package:helperr/features/profile/profile.dart';
 
-import '../../../data_layer/repository/authentication_repository.dart';
-
 class NavigationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,10 +12,7 @@ class NavigationView extends StatelessWidget {
         builder: (context, state) {
           switch (state.index) {
             case 2:
-              return ProfilePage(
-                  RepositoryProvider.of<AuthenticationRepository>(context)
-                      .user
-                      .id);
+              return ProfilePage();
               break;
             default:
               return Container(

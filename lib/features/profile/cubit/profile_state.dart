@@ -7,16 +7,10 @@ abstract class ProfileState extends Equatable {
   List<Object> get props => [];
 }
 
-class ProfileInitial extends ProfileState {
-  const ProfileInitial();
-}
+class ProfileLoadInProgress extends ProfileState {}
 
-class ProfileLoading extends ProfileState {
-  const ProfileLoading();
-}
-
-class ProfileLoaded extends ProfileState {
-  const ProfileLoaded(this.worker);
+class ProfileLoadSuccess extends ProfileState {
+  ProfileLoadSuccess(this.worker);
 
   final Worker worker;
 
@@ -24,6 +18,4 @@ class ProfileLoaded extends ProfileState {
   List<Object> get props => [worker];
 }
 
-class ProfileFailedLoading extends ProfileState {
-  const ProfileFailedLoading();
-}
+class ProfileLoadFailure extends ProfileState {}
