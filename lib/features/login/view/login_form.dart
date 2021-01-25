@@ -21,6 +21,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     final usernameInput = TextFormField(
       controller: usernameController,
+      keyboardType: TextInputType.name,
       decoration: const InputDecoration(
         icon: const Icon(Icons.mail_rounded),
         labelText: 'Email',
@@ -35,6 +36,7 @@ class _LoginFormState extends State<LoginForm> {
 
     final passwordInput = TextFormField(
       controller: passwordController,
+      keyboardType: TextInputType.visiblePassword,
       decoration: const InputDecoration(
         icon: Icon(Icons.lock_rounded),
         labelText: 'Пароль',

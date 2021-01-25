@@ -34,6 +34,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     final nameInput = TextFormField(
       controller: nameController,
+      keyboardType: TextInputType.name,
       decoration: const InputDecoration(
         icon: const Icon(Icons.person_rounded),
         labelText: 'Имя пользователя',
@@ -48,6 +49,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
     final emailInput = TextFormField(
       controller: emailController,
+      keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
         icon: const Icon(Icons.mail_rounded),
         labelText: 'Email',
@@ -62,6 +64,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
     final passwordInput = TextFormField(
       controller: passwordController,
+      keyboardType: TextInputType.visiblePassword,
       decoration: const InputDecoration(
         icon: Icon(Icons.lock_rounded),
         labelText: 'Пароль',
@@ -93,7 +96,6 @@ class _RegisterFormState extends State<RegisterForm> {
           return ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                // повторить то, что будет сделано в login
                 context.read<RegisterCubit>().submitRegister(
                       nameController.text,
                       emailController.text,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_widget.dart';
 
 import '../../data_layer/model/worker.dart';
 import 'package:helperr/data_layer/data_provider/helperr_server.dart' as server;
@@ -31,6 +32,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     final nameInput = TextFormField(
       initialValue: widget.worker.name,
+      keyboardType: TextInputType.name,
       decoration: const InputDecoration(
         labelText: 'Имя',
         hintText: 'Полное имя',
@@ -41,6 +43,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     final aboutInput = TextFormField(
       initialValue: widget.worker.about,
+      keyboardType: TextInputType.multiline,
       maxLength: 255,
       minLines: 2,
       maxLines: 4,
@@ -51,15 +54,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
       onSaved: (newValue) => _about = newValue,
     );
 
-    final birthdayInput = InputDatePickerFormField(
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      fieldLabelText: 'Дата рождения',
-      //fieldHintText: 'дд.мм.гггг',
-    );
+    // final birthdayInput = InputDatePickerFormField(
+    //   firstDate: DateTime(1900),
+    //   lastDate: DateTime.now(),
+    //   fieldLabelText: 'Дата рождения',
+    //   //fieldHintText: 'дд.мм.гггг',
+    // );
 
     final cityInput = TextFormField(
       initialValue: widget.worker.city,
+      keyboardType: TextInputType.text,
       decoration: const InputDecoration(
         labelText: 'Город',
         hintText: 'Город проживания',
@@ -69,6 +73,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     final citizenshipInput = TextFormField(
       initialValue: widget.worker.cz,
+      keyboardType: TextInputType.text,
       decoration: const InputDecoration(
         labelText: 'Страна',
         hintText: 'Страна проживания',
@@ -76,84 +81,55 @@ class _EditProfilePageState extends State<EditProfilePage> {
       onSaved: (newValue) => _cz = newValue,
     );
 
-    final phoneNumbersHeader = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text('Номера телефона', style: themeData.textTheme.subtitle1),
-        OutlinedButton(
-          child: const Text('Добавить'),
-          onPressed: () {},
-        ),
-      ],
+    final phoneNumbersList = PhoneNumbers(numbers: widget.worker.phone);
+
+    final backButton = IconButton(
+      icon: const Icon(Icons.arrow_back_rounded),
+      splashRadius: 24.0,
+      onPressed: () => Navigator.pop(context),
     );
 
-    final phoneNumbersList = ListView.builder(
-      itemCount: widget.worker.phone.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return Card(
-          child: ListTile(
-            title: Text(widget.worker.phone[index]),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit_rounded),
-                  // open phone adding screen here
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete_rounded),
-                  // rebuild too
-                  onPressed: () => {}, //worker.phone.removeAt(index),
-                ),
-              ],
-            ),
-          ),
-        );
+    final submitButton = IconButton(
+      icon: const Icon(Icons.check_rounded),
+      splashRadius: 24.0,
+      onPressed: () async {
+        if (_formKey.currentState.validate()) {
+          _formKey.currentState.save();
+          final editedWorker = widget.worker.copyWith(
+            name: _name,
+            about: _about,
+            city: _city,
+            cz: _cz,
+          );
+          // TODO: start from here
+          await server.updateWorker(editedWorker);
+
+          widget.onSave();
+          Navigator.pop(context);
+        }
       },
     );
 
     return Scaffold(
       appBar: AppBar(
+        leading: backButton,
         title: const Text('Изменить профиль'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.check_rounded),
-            splashRadius: 24.0,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                final editedWorker = widget.worker.copyWith(
-                  name: _name,
-                  about: _about,
-                  city: _city,
-                  cz: _cz,
-                );
-                // TODO: start from here
-                await server.updateWorker(editedWorker);
-
-                widget.onSave();
-                Navigator.pop(context);
-              }
-            },
-          ),
+          submitButton,
         ],
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               nameInput,
               aboutInput,
-              birthdayInput,
+              //birthdayInput,
               cityInput,
               citizenshipInput,
-              phoneNumbersHeader,
               phoneNumbersList,
             ],
           ),
