@@ -28,8 +28,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     final nameInput = TextFormField(
       initialValue: widget.worker.name,
       keyboardType: TextInputType.name,

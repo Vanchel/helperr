@@ -32,16 +32,16 @@ class PhoneNumbersView extends StatelessWidget {
             ),
           ],
         ),
-        BlocBuilder<PhoneNumbersCubit, PhoneNumbersState>(
+        BlocBuilder<PhoneNumbersCubit, List<String>>(
           builder: (context, state) {
             return ListView.builder(
               // bad practice in the context of performance, TODO: think about it
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               // ***
-              itemCount: state.phoneNumbers.length,
+              itemCount: state.length,
               itemBuilder: (context, index) {
-                final number = state.phoneNumbers[index];
+                final number = state[index];
                 return Card(
                   child: ListTile(
                     title: Text(number),

@@ -1,17 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
-part 'phone_numbers_state.dart';
-
-class PhoneNumbersCubit extends Cubit<PhoneNumbersState> {
-  PhoneNumbersCubit([phoneNumbers = const []])
-      : super(PhoneNumbersState(phoneNumbers));
+class PhoneNumbersCubit extends Cubit<List<String>> {
+  PhoneNumbersCubit([phoneNumbers = const []]) : super(phoneNumbers);
 
   addNumber(String phoneNumber) {
-    emit(PhoneNumbersState(state.phoneNumbers..add(phoneNumber)));
+    emit(List.of(state)..add(phoneNumber));
   }
 
   deleteNumber(String phoneNumber) {
-    emit(PhoneNumbersState(state.phoneNumbers..remove(phoneNumber)));
+    emit(List.of(state)..remove(phoneNumber));
   }
 }
