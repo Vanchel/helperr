@@ -17,14 +17,14 @@ class _RegisterFormState extends State<RegisterForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool isValidEmail(String str) {
+  bool _isValidEmail(String str) {
     String pattern =
         r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$';
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(str);
   }
 
-  bool isValidPassword(String str) {
+  bool _isValidPassword(String str) {
     String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(str);
@@ -55,7 +55,7 @@ class _RegisterFormState extends State<RegisterForm> {
         labelText: 'Email',
       ),
       validator: (value) {
-        if (!isValidEmail(value)) {
+        if (!_isValidEmail(value)) {
           return 'Введите корректный email';
         }
         return null;
@@ -71,7 +71,7 @@ class _RegisterFormState extends State<RegisterForm> {
         errorMaxLines: 5,
       ),
       validator: (value) {
-        if (!isValidPassword(value)) {
+        if (!_isValidPassword(value)) {
           return 'Пароль должен быть длиной не менее 6 символов, содержать '
               'исключительно буквы латинского алфавита или цифры, иметь по '
               'меньшей мере одну заглавную букву и одну строчную букву, а '

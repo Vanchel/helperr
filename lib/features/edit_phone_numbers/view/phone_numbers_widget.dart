@@ -4,15 +4,17 @@ import 'package:helperr/features/edit_phone_numbers/cubit/phone_numbers_cubit.da
 import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_view.dart';
 
 class PhoneNumbers extends StatelessWidget {
-  const PhoneNumbers({Key key, this.numbers = const []}) : super(key: key);
+  const PhoneNumbers({Key key, this.initialValue = const [], this.onChanged})
+      : super(key: key);
 
-  final List<String> numbers;
+  final List<String> initialValue;
+  final Function(List<String> newValue) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PhoneNumbersCubit(numbers),
-      child: PhoneNumbersView(),
+      create: (context) => PhoneNumbersCubit(initialValue),
+      child: PhoneNumbersView(onChanged: onChanged),
     );
   }
 }

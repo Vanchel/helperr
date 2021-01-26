@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/features/edit_profile/edit_profile_page.dart';
+import 'package:helperr/features/edit_profile/view/edit_profile_page.dart';
 import 'package:helperr/widgets/error_screen.dart';
 import 'package:helperr/widgets/loading_screen.dart';
 import 'package:helperr/widgets/profile_card.dart';
@@ -38,12 +38,9 @@ class ProfileView extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute<EditProfilePage>(builder: (context) {
-                  return BlocProvider.value(
-                    value: profileCubit,
-                    child: EditProfilePage(
-                      worker: state.worker.copyWith(),
-                      onSave: () => profileCubit.loadProfile(),
-                    ),
+                  return EditProfilePage(
+                    worker: state.worker.copyWith(),
+                    onSave: () => profileCubit.loadProfile(),
                   );
                 }),
               );

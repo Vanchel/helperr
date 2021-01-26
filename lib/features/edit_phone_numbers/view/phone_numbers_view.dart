@@ -4,7 +4,39 @@ import 'package:helperr/features/edit_phone_numbers/cubit/phone_numbers_cubit.da
 import 'package:helperr/features/edit_phone_numbers/view/edit_phone_number_page.dart';
 
 class PhoneNumbersView extends StatelessWidget {
-  PhoneNumbersView({Key key}) : super(key: key);
+  PhoneNumbersView({Key key, @required this.onChanged}) : super(key: key);
+
+  final Function(List<String>) onChanged;
+
+  Widget _buildNumberCard(BuildContext context, String number) {
+    return Card(
+      child: ListTile(
+        title: Text(number),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete_rounded),
+          splashRadius: 24.0,
+          onPressed: () {
+            context.read<PhoneNumbersCubit>().deleteNumber(number);
+            // use as a separate widget
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text(
+                  'Номер телефона удален',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                action: SnackBarAction(
+                  label: 'отменить',
+                  onPressed: () =>
+                      context.read<PhoneNumbersCubit>().addNumber(number),
+                ),
+              ));
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,45 +66,14 @@ class PhoneNumbersView extends StatelessWidget {
         ),
         BlocBuilder<PhoneNumbersCubit, List<String>>(
           builder: (context, state) {
-            return ListView.builder(
-              // bad practice in the context of performance, TODO: think about it
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              // ***
-              itemCount: state.length,
-              itemBuilder: (context, index) {
-                final number = state[index];
-                return Card(
-                  child: ListTile(
-                    title: Text(number),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete_rounded),
-                      splashRadius: 24.0,
-                      onPressed: () {
-                        context.read<PhoneNumbersCubit>().deleteNumber(number);
+            if (onChanged != null) {
+              onChanged(state);
+            }
 
-                        // TODO: extract to a separate widget
-                        // this also causes bug at the moment
-                        // ScaffoldMessenger.of(context)
-                        //   ..hideCurrentSnackBar()
-                        //   ..showSnackBar(SnackBar(
-                        //     content: Text(
-                        //       'Номер телефона удален',
-                        //       maxLines: 1,
-                        //       overflow: TextOverflow.ellipsis,
-                        //     ),
-                        //     action: SnackBarAction(
-                        //       label: 'отменить',
-                        //       onPressed: () => context
-                        //           .read<PhoneNumbersCubit>()
-                        //           .addNumber(number),
-                        //     ),
-                        //   ));
-                      },
-                    ),
-                  ),
-                );
-              },
+            return Column(
+              children: [
+                for (final number in state) _buildNumberCard(context, number)
+              ],
             );
           },
         ),

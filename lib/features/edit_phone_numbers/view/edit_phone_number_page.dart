@@ -14,6 +14,12 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
 
   String _phone;
 
+  bool _isValidPhoneNumber(String str) {
+    String pattern = r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$';
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(str);
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -54,6 +60,12 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
                   hintText: 'Добавьте номер телефона',
                 ),
                 onSaved: (newValue) => _phone = newValue,
+                validator: (value) {
+                  if (!_isValidPhoneNumber(value)) {
+                    return 'Укажите корректный номер телефона';
+                  }
+                  return null;
+                },
               ),
               Container(
                 margin: const EdgeInsets.only(top: 4.0),
