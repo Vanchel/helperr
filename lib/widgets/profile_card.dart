@@ -72,7 +72,7 @@ class ProfileCard extends StatelessWidget {
     }
 
     Widget descriptionWidget;
-    if (description != null) {
+    if (description?.isNotEmpty ?? false) {
       descriptionWidget = Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Text(
@@ -86,7 +86,7 @@ class ProfileCard extends StatelessWidget {
     }
 
     Widget birthdayWidget;
-    if (dateOfBirth != null) {
+    if (dateOfBirth?.isNotEmpty ?? false) {
       birthdayWidget = Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
@@ -101,14 +101,14 @@ class ProfileCard extends StatelessWidget {
     }
 
     Widget locationWidget;
-    if (region != null || country != null) {
+    if ((region?.isNotEmpty ?? false) || (country.isNotEmpty ?? false)) {
       locationWidget = Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             const Icon(Icons.apartment_rounded),
             Text('${region ?? ""}'
-                '${(region != null && country != null) ? ", " : ""}'
+                '${((region?.isNotEmpty ?? false) && (country?.isNotEmpty ?? false)) ? ", " : ""}'
                 '${country ?? ""}'),
           ],
         ),

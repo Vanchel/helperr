@@ -52,19 +52,22 @@ class PhoneNumbersView extends StatelessWidget {
                         context.read<PhoneNumbersCubit>().deleteNumber(number);
 
                         // TODO: extract to a separate widget
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                            'Номер телефона удален',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          action: SnackBarAction(
-                            label: 'отменить',
-                            onPressed: () => context
-                                .read<PhoneNumbersCubit>()
-                                .addNumber(number),
-                          ),
-                        ));
+                        // this also causes bug at the moment
+                        // ScaffoldMessenger.of(context)
+                        //   ..hideCurrentSnackBar()
+                        //   ..showSnackBar(SnackBar(
+                        //     content: Text(
+                        //       'Номер телефона удален',
+                        //       maxLines: 1,
+                        //       overflow: TextOverflow.ellipsis,
+                        //     ),
+                        //     action: SnackBarAction(
+                        //       label: 'отменить',
+                        //       onPressed: () => context
+                        //           .read<PhoneNumbersCubit>()
+                        //           .addNumber(number),
+                        //     ),
+                        //   ));
                       },
                     ),
                   ),

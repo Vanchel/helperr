@@ -41,7 +41,7 @@ class ProfileView extends StatelessWidget {
                   return BlocProvider.value(
                     value: profileCubit,
                     child: EditProfilePage(
-                      worker: state.worker,
+                      worker: state.worker.copyWith(),
                       onSave: () => profileCubit.loadProfile(),
                     ),
                   );
