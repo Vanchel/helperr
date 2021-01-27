@@ -126,7 +126,7 @@ class _RegisterFormState extends State<RegisterForm> {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(

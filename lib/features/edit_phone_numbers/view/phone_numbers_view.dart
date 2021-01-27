@@ -4,7 +4,7 @@ import 'package:helperr/features/edit_phone_numbers/cubit/phone_numbers_cubit.da
 import 'package:helperr/features/edit_phone_numbers/view/edit_phone_number_page.dart';
 
 class PhoneNumbersView extends StatelessWidget {
-  PhoneNumbersView({Key key, @required this.onChanged}) : super(key: key);
+  const PhoneNumbersView({Key key, @required this.onChanged}) : super(key: key);
 
   final Function(List<String>) onChanged;
 

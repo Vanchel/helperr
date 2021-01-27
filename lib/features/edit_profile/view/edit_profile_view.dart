@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_widget.dart';
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
+import 'package:helperr/features/edit_sex/view/edit_sex_widget.dart';
 
 import '../../../data_layer/model/worker.dart';
 
@@ -22,6 +23,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   String _name;
   String _about;
+  Gender _gender;
   String _city;
   String _cz;
   List<String> _phoneNumbers;
@@ -59,6 +61,11 @@ class _EditProfileViewState extends State<EditProfileView> {
     //   //fieldHintText: 'дд.мм.гггг',
     // );
 
+    final genderInput = EditSex(
+      initialValue: widget.worker.gender,
+      onChanged: (value) => _gender = value,
+    );
+
     final cityInput = TextFormField(
       initialValue: widget.worker.city,
       keyboardType: TextInputType.text,
@@ -90,36 +97,28 @@ class _EditProfileViewState extends State<EditProfileView> {
       onPressed: () => Navigator.pop(context),
     );
 
+    final onSubmitPressed = () {
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        final editedWorker = widget.worker.copyWith(
+          name: _name,
+          about: _about,
+          gender: _gender,
+          city: _city,
+          cz: _cz,
+          phone: _phoneNumbers,
+        );
+        context.read<EditProfileCubit>().saveProfile(editedWorker);
+      }
+    };
+
     final submitButton = BlocBuilder<EditProfileCubit, EditProfileState>(
       builder: (context, state) {
-        if (state is ProfileSaveInProgress) {
-          return Container(
-            margin: const EdgeInsets.only(right: 8.0),
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(
-              //backgroundColor: Colors.white,
-              valueColor: const AlwaysStoppedAnimation(Colors.white),
-            ),
-          );
-        } else {
-          return IconButton(
-            icon: const Icon(Icons.check_rounded),
-            splashRadius: 24.0,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                final editedWorker = widget.worker.copyWith(
-                  name: _name,
-                  about: _about,
-                  city: _city,
-                  cz: _cz,
-                  phone: _phoneNumbers,
-                );
-                context.read<EditProfileCubit>().saveProfile(editedWorker);
-              }
-            },
-          );
-        }
+        return IconButton(
+          icon: const Icon(Icons.check_rounded),
+          splashRadius: 24.0,
+          onPressed: !(state is ProfileSaveInProgress) ? onSubmitPressed : null,
+        );
       },
     );
 
@@ -143,9 +142,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         appBar: AppBar(
           leading: backButton,
           title: const Text('Изменить профиль'),
-          actions: [
-            submitButton,
-          ],
+          actions: [submitButton],
         ),
         body: Form(
           key: _formKey,
@@ -157,6 +154,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 nameInput,
                 aboutInput,
                 //birthdayInput,
+                genderInput,
                 cityInput,
                 citizenshipInput,
                 phoneNumbersList,

@@ -24,59 +24,60 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
+    final backButton = IconButton(
+      icon: const Icon(Icons.arrow_back_rounded),
+      splashRadius: 24.0,
+      onPressed: () => Navigator.pop(context),
+    );
+
+    final saveButton = IconButton(
+      icon: const Icon(Icons.check_rounded),
+      splashRadius: 24.0,
+      onPressed: () {
+        if (_formKey.currentState.validate()) {
+          _formKey.currentState.save();
+          widget.onSave(_phone);
+          Navigator.pop(context);
+        }
+      },
+    );
+
+    final phoneInput = TextFormField(
+      maxLines: 1,
+      keyboardType: TextInputType.phone,
+      decoration: const InputDecoration(
+        labelText: 'Номер телефона',
+        hintText: 'Добавьте номер телефона',
+      ),
+      onSaved: (newValue) => _phone = newValue,
+      validator: (value) {
+        if (!_isValidPhoneNumber(value)) {
+          return 'Укажите корректный номер телефона';
+        }
+        return null;
+      },
+    );
+
+    final commonPrompt = Container(
+      margin: const EdgeInsets.only(top: 4.0),
+      child: Text(
+        'Вы можете указать несколько контанктных номеров телефона,'
+        ' с помощью которых работодатель сможет связаться с Вами.',
+        style: themeData.textTheme.caption,
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          splashRadius: 24.0,
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: backButton,
         title: const Text('Добавить номер телефона'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check_rounded),
-            splashRadius: 24.0,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                widget.onSave(_phone);
-                Navigator.pop(context);
-              }
-            },
-          )
-        ],
+        actions: [saveButton],
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              TextFormField(
-                maxLines: 1,
-                keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  labelText: 'Номер телефона',
-                  hintText: 'Добавьте номер телефона',
-                ),
-                onSaved: (newValue) => _phone = newValue,
-                validator: (value) {
-                  if (!_isValidPhoneNumber(value)) {
-                    return 'Укажите корректный номер телефона';
-                  }
-                  return null;
-                },
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                  'Вы можете указать несколько контанктных номеров телефона,'
-                  ' с помощью которых работодатель сможет связаться с Вами.',
-                  style: themeData.textTheme.caption,
-                ),
-              ),
-            ],
-          ),
+          child: Column(children: [phoneInput, commonPrompt]),
         ),
       ),
     );

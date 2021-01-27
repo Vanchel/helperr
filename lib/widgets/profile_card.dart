@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/data_layer/model/models.dart';
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
@@ -8,6 +9,7 @@ class ProfileCard extends StatelessWidget {
     this.backgroundUrl,
     this.avatarUrl,
     this.dateOfBirth,
+    this.sex,
     this.region,
     this.country,
   }) : super(key: key);
@@ -17,6 +19,7 @@ class ProfileCard extends StatelessWidget {
   final String backgroundUrl;
   final String avatarUrl;
   final String dateOfBirth;
+  final Gender sex;
   final String region;
   final String country;
 
@@ -100,6 +103,23 @@ class ProfileCard extends StatelessWidget {
       birthdayWidget = const SizedBox.shrink();
     }
 
+    Widget sexWidget;
+    if (sex != null && sex != Gender.unknown) {
+      final String str = (sex == Gender.male) ? 'Мужчина' : 'Женщина';
+
+      sexWidget = Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          children: [
+            const Icon(Icons.wc_rounded),
+            Text(str),
+          ],
+        ),
+      );
+    } else {
+      sexWidget = const SizedBox.shrink();
+    }
+
     Widget locationWidget;
     if ((region?.isNotEmpty ?? false) || (country.isNotEmpty ?? false)) {
       locationWidget = Container(
@@ -127,6 +147,7 @@ class ProfileCard extends StatelessWidget {
           nameWidget,
           descriptionWidget,
           birthdayWidget,
+          sexWidget,
           locationWidget,
         ],
       ),

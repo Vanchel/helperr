@@ -26,6 +26,7 @@ class ProfileView extends StatelessWidget {
           backgroundUrl: state.worker.profileBackground,
           avatarUrl: state.worker.photoUrl,
           dateOfBirth: state.worker.birthday,
+          sex: state.worker.gender,
           region: state.worker.city,
           country: state.worker.cz,
         );

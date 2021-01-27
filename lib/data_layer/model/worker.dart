@@ -4,6 +4,36 @@
 
 import 'dart:convert';
 
+enum Gender { male, female, unknown }
+
+Gender genderFromJson(String str) {
+  Gender gender;
+
+  if (str == "male") {
+    gender = Gender.male;
+  } else if (str == "female") {
+    gender = Gender.female;
+  } else {
+    gender = Gender.unknown;
+  }
+
+  return gender;
+}
+
+String genderToJson(Gender gender) {
+  String str;
+
+  if (gender == Gender.male) {
+    str = "male";
+  } else if (gender == Gender.female) {
+    str = "female";
+  } else {
+    str = "";
+  }
+
+  return str;
+}
+
 Worker workerFromJson(String str) => Worker.fromJson(json.decode(str));
 
 String workerToJson(Worker data) => json.encode(data.toJson());
@@ -15,6 +45,7 @@ class Worker {
     this.mailing,
     this.language,
     this.birthday,
+    this.gender,
     this.city,
     this.phone,
     this.about,
@@ -32,6 +63,7 @@ class Worker {
   final bool mailing;
   final List<Language> language;
   final String birthday;
+  final Gender gender;
   final String city;
   final List<String> phone;
   final String about;
@@ -49,6 +81,7 @@ class Worker {
     bool mailing,
     List<Language> language,
     String birthday,
+    Gender gender,
     String city,
     List<String> phone,
     String about,
@@ -66,6 +99,7 @@ class Worker {
         mailing: mailing ?? this.mailing,
         language: language ?? this.language,
         birthday: birthday ?? this.birthday,
+        gender: gender ?? this.gender,
         city: city ?? this.city,
         phone: phone ?? this.phone,
         about: about ?? this.about,
@@ -88,6 +122,7 @@ class Worker {
         language: List<Language>.from(
             json["language"]?.map((x) => Language.fromJson(x)) ?? []),
         birthday: json["birthday"],
+        gender: genderFromJson(json["gender"]),
         city: json["city"],
         phone: List<String>.from(json["phone"].map((x) => x)),
         about: json["about"],
@@ -107,6 +142,7 @@ class Worker {
         "mailing": mailing,
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
         "birthday": birthday,
+        "gender": genderToJson(gender),
         "city": city,
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
