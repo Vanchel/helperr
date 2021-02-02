@@ -55,9 +55,9 @@ class _RegisterFormState extends State<RegisterForm> {
         labelText: 'Email',
       ),
       validator: (value) {
-        if (!_isValidEmail(value)) {
-          return 'Введите корректный email';
-        }
+        // if (!_isValidEmail(value)) {
+        //   return 'Введите корректный email';
+        // }
         return null;
       },
     );

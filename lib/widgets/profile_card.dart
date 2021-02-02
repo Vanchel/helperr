@@ -18,7 +18,7 @@ class ProfileCard extends StatelessWidget {
   final String description;
   final String backgroundUrl;
   final String avatarUrl;
-  final String dateOfBirth;
+  final DateTime dateOfBirth;
   final Gender sex;
   final String region;
   final String country;
@@ -89,13 +89,13 @@ class ProfileCard extends StatelessWidget {
     }
 
     Widget birthdayWidget;
-    if (dateOfBirth?.isNotEmpty ?? false) {
+    if (dateOfBirth != null) {
       birthdayWidget = Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             const Icon(Icons.cake_rounded),
-            Text(dateOfBirth),
+            Text('${dateOfBirth.day}.${dateOfBirth.month}.${dateOfBirth.year}'),
           ],
         ),
       );

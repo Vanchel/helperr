@@ -52,7 +52,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       onSaved: (newValue) => _phone = newValue,
       validator: (value) {
         if (!_isValidPhoneNumber(value)) {
-          return 'Укажите корректный номер телефона';
+          return 'Укажите корректный номер телефона.';
         }
         return null;
       },

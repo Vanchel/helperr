@@ -8,7 +8,7 @@ class PhoneNumbersView extends StatelessWidget {
 
   final Function(List<String>) onChanged;
 
-  Widget _buildNumberCard(BuildContext context, String number) {
+  Widget _buildNumberCard(BuildContext context, String number, int index) {
     return Card(
       child: ListTile(
         title: Text(number),
@@ -16,13 +16,13 @@ class PhoneNumbersView extends StatelessWidget {
           icon: const Icon(Icons.delete_rounded),
           splashRadius: 24.0,
           onPressed: () {
-            context.read<PhoneNumbersCubit>().deleteNumber(number);
+            context.read<PhoneNumbersCubit>().deleteNumber(index);
             // use as a separate widget
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
                 content: Text(
-                  'Номер телефона удален',
+                  'Элемент удален',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -43,24 +43,26 @@ class PhoneNumbersView extends StatelessWidget {
     final themeData = Theme.of(context);
     final phoneNumberCubit = BlocProvider.of<PhoneNumbersCubit>(context);
 
+    final onAdd = () {
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) {
+          return EditPhoneNumberPage(
+            onSave: (phoneNumber) => phoneNumberCubit.addNumber(phoneNumber),
+          );
+        },
+      ));
+    };
+
     return Column(
       children: [
+        // extract to a separate widget
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Номера телефона', style: themeData.textTheme.subtitle1),
             OutlinedButton(
               child: const Text('Добавить'),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return EditPhoneNumberPage(
-                      onSave: (phoneNumber) =>
-                          phoneNumberCubit.addNumber(phoneNumber),
-                    );
-                  },
-                ));
-              },
+              onPressed: onAdd,
             ),
           ],
         ),
@@ -71,9 +73,10 @@ class PhoneNumbersView extends StatelessWidget {
             }
 
             return Column(
-              children: [
-                for (final number in state) _buildNumberCard(context, number)
-              ],
+              children: List.generate(
+                state.length,
+                (index) => _buildNumberCard(context, state[index], index),
+              ).toList(),
             );
           },
         ),

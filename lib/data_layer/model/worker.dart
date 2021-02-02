@@ -1,8 +1,7 @@
-// To parse this JSON data, do
-//
-//     final user = userFromJson(jsonString);
-
 import 'dart:convert';
+
+import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 enum Gender { male, female, unknown }
 
@@ -34,11 +33,27 @@ String genderToJson(Gender gender) {
   return str;
 }
 
+DateTime dateFromJson(String str) {
+  try {
+    return DateTime.parse(str);
+  } catch (_) {
+    return null;
+  }
+}
+
+String dateToJson(DateTime date) {
+  if (date != null) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(date);
+  }
+  return '';
+}
+
 Worker workerFromJson(String str) => Worker.fromJson(json.decode(str));
 
 String workerToJson(Worker data) => json.encode(data.toJson());
 
-class Worker {
+class Worker extends Equatable {
   Worker({
     this.userId,
     this.name,
@@ -62,7 +77,7 @@ class Worker {
   final String name;
   final bool mailing;
   final List<Language> language;
-  final String birthday;
+  final DateTime birthday;
   final Gender gender;
   final String city;
   final List<String> phone;
@@ -80,7 +95,7 @@ class Worker {
     String name,
     bool mailing,
     List<Language> language,
-    String birthday,
+    DateTime birthday,
     Gender gender,
     String city,
     List<String> phone,
@@ -121,7 +136,7 @@ class Worker {
         // back-end sending null for this particular field :/
         language: List<Language>.from(
             json["language"]?.map((x) => Language.fromJson(x)) ?? []),
-        birthday: json["birthday"],
+        birthday: dateFromJson(json["birthday"]),
         gender: genderFromJson(json["gender"]),
         city: json["city"],
         phone: List<String>.from(json["phone"].map((x) => x)),
@@ -141,7 +156,7 @@ class Worker {
         "name": name,
         "mailing": mailing,
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
-        "birthday": birthday,
+        "birthday": dateToJson(birthday),
         "gender": genderToJson(gender),
         "city": city,
         "phone": List<dynamic>.from(phone.map((x) => x)),
@@ -154,85 +169,217 @@ class Worker {
         "photo_url": photoUrl,
         "profile_background": profileBackground,
       };
+
+  @override
+  List<Object> get props => [
+        this.userId,
+        this.name,
+        this.mailing,
+        this.language,
+        this.birthday,
+        this.gender,
+        this.city,
+        this.phone,
+        this.about,
+        this.socialLinks,
+        this.education,
+        this.exp,
+        this.cz,
+        this.profileLink,
+        this.photoUrl,
+        this.profileBackground,
+      ];
 }
 
-class Education {
+enum EducationType {
+  course,
+  primary,
+  basic,
+  secondary,
+  postSecondary,
+  bachelor,
+  specialist,
+  magister,
+  phdAsp,
+  phdDoc
+}
+
+EducationType educationTypeFromJson(String str) {
+  EducationType type;
+
+  if (str == "primary") {
+    type = EducationType.primary;
+  } else if (str == "basic") {
+    type = EducationType.basic;
+  } else if (str == "secondary") {
+    type = EducationType.secondary;
+  } else if (str == "post-secondary") {
+    type = EducationType.postSecondary;
+  } else if (str == "bachelor") {
+    type = EducationType.bachelor;
+  } else if (str == "specialist") {
+    type = EducationType.specialist;
+  } else if (str == "master") {
+    type = EducationType.magister;
+  } else if (str == "PhD-asp") {
+    type = EducationType.phdAsp;
+  } else if (str == "PhD-doc") {
+    type = EducationType.phdDoc;
+  } else {
+    type = EducationType.course;
+  }
+
+  return type;
+}
+
+String educationTypeToJson(EducationType type) {
+  String str;
+
+  if (type == EducationType.primary) {
+    str = "primary";
+  } else if (type == EducationType.basic) {
+    str = "basic";
+  } else if (type == EducationType.secondary) {
+    str = "secondary";
+  } else if (type == EducationType.postSecondary) {
+    str = "post-secondary";
+  } else if (type == EducationType.bachelor) {
+    str = "bachelor";
+  } else if (type == EducationType.magister) {
+    str = "master";
+  } else if (type == EducationType.phdAsp) {
+    str = "PhD-asp";
+  } else if (type == EducationType.phdDoc) {
+    str = "PhD-doc";
+  } else {
+    str = "course";
+  }
+
+  return str;
+}
+
+class Education extends Equatable {
   Education({
-    this.years,
     this.profession,
     this.university,
+    this.type,
+    this.startYear,
+    this.endYear,
   });
 
-  final int years;
   final String profession;
   final String university;
+  final EducationType type;
+  final DateTime startYear;
+  final DateTime endYear;
 
   Education copyWith({
-    int years,
     String profession,
     String university,
+    EducationType type,
+    DateTime startYear,
+    DateTime endYear,
   }) =>
       Education(
-        years: years ?? this.years,
         profession: profession ?? this.profession,
         university: university ?? this.university,
+        type: type ?? this.type,
+        startYear: startYear ?? this.startYear,
+        endYear: endYear ?? this.endYear,
       );
 
+  factory Education.fromRawJson(String str) =>
+      Education.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Education.fromJson(Map<String, dynamic> json) => Education(
-        years: json["years"],
         profession: json["profession"],
         university: json["university"],
+        type: educationTypeFromJson(json["type"]),
+        startYear: dateFromJson(json["start_year"]),
+        endYear: dateFromJson(json["end_year"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "years": years,
         "profession": profession,
         "university": university,
+        "type": educationTypeToJson(type),
+        "start_year": dateToJson(startYear),
+        "end_year": dateToJson(endYear),
       };
+
+  @override
+  List<Object> get props => [
+        this.profession,
+        this.university,
+        this.type,
+        this.startYear,
+        this.endYear,
+      ];
 }
 
-class Exp {
+class Exp extends Equatable {
   Exp({
-    this.years,
     this.position,
     this.company,
     this.type,
+    this.startYear,
+    this.endYear,
   });
 
-  final int years;
   final String position;
   final String company;
   final String type;
+  final String startYear;
+  final String endYear;
 
   Exp copyWith({
-    int years,
     String position,
     String company,
     String type,
+    String startYear,
+    String endYear,
   }) =>
       Exp(
-        years: years ?? this.years,
         position: position ?? this.position,
         company: company ?? this.company,
         type: type ?? this.type,
+        startYear: startYear ?? this.startYear,
+        endYear: endYear ?? this.endYear,
       );
 
+  factory Exp.fromRawJson(String str) => Exp.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Exp.fromJson(Map<String, dynamic> json) => Exp(
-        years: json["years"],
         position: json["position"],
         company: json["company"],
         type: json["type"],
+        startYear: json["start_year"],
+        endYear: json["end_year"],
       );
 
   Map<String, dynamic> toJson() => {
-        "years": years,
         "position": position,
         "company": company,
         "type": type,
+        "start_year": startYear,
+        "end_year": endYear,
       };
+
+  @override
+  List<Object> get props => [
+        this.position,
+        this.company,
+        this.type,
+        this.startYear,
+        this.endYear,
+      ];
 }
 
-class Language {
+class Language extends Equatable {
   Language({
     this.language,
     this.grade,
@@ -250,6 +397,11 @@ class Language {
         grade: grade ?? this.grade,
       );
 
+  factory Language.fromRawJson(String str) =>
+      Language.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Language.fromJson(Map<String, dynamic> json) => Language(
         language: json["language"],
         grade: json["grade"],
@@ -259,4 +411,10 @@ class Language {
         "language": language,
         "grade": grade,
       };
+
+  @override
+  List<Object> get props => [
+        this.language,
+        this.grade,
+      ];
 }

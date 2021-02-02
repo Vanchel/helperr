@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/features/edit_education/view/education_widget.dart';
 
 import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_widget.dart';
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
@@ -24,9 +25,11 @@ class _EditProfileViewState extends State<EditProfileView> {
   String _name;
   String _about;
   Gender _gender;
+  DateTime _dob;
   String _city;
   String _cz;
   List<String> _phoneNumbers;
+  List<Education> _education;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +57,38 @@ class _EditProfileViewState extends State<EditProfileView> {
       onSaved: (newValue) => _about = newValue,
     );
 
-    // final birthdayInput = InputDatePickerFormField(
-    //   firstDate: DateTime(1900),
-    //   lastDate: DateTime.now(),
-    //   fieldLabelText: 'Дата рождения',
-    //   //fieldHintText: 'дд.мм.гггг',
+    // TODO: allow to set empty
+    final dobInput = InputDatePickerFormField(
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      initialDate: widget.worker.birthday,
+      fieldLabelText: 'Дата рождения',
+      fieldHintText: 'мм/дд/гггг',
+      errorInvalidText: 'Указана дата вне допустимого диапазона.',
+      errorFormatText: 'Неверный формат даты.',
+      onDateSaved: (value) => _dob = value,
+    );
+
+    // final dobPicker = IconButton(
+    //   icon: const Icon(Icons.calendar_today_rounded),
+    //   splashRadius: 24.0,
+    //   onPressed: () {
+    //     showDatePicker(
+    //       context: context,
+    //       initialDate: widget.worker.birthday,
+    //       firstDate: DateTime(1900),
+    //       lastDate: DateTime.now(),
+    //     );
+    //   },
+    // );
+
+    // final dobRow = Expanded(
+    //   child: Row(
+    //     children: [
+    //       Expanded(child: dobInput),
+    //       dobPicker,
+    //     ],
+    //   ),
     // );
 
     final genderInput = EditSex(
@@ -91,6 +121,11 @@ class _EditProfileViewState extends State<EditProfileView> {
       onChanged: (newValue) => _phoneNumbers = newValue,
     );
 
+    final educationList = EducationList(
+      initialValue: widget.worker.education,
+      onChanged: (newValue) => _education = newValue,
+    );
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -103,14 +138,24 @@ class _EditProfileViewState extends State<EditProfileView> {
         final editedWorker = widget.worker.copyWith(
           name: _name,
           about: _about,
+          birthday: _dob,
           gender: _gender,
           city: _city,
           cz: _cz,
           phone: _phoneNumbers,
+          education: _education,
         );
         context.read<EditProfileCubit>().saveProfile(editedWorker);
       }
     };
+
+    final progressIndicator = BlocBuilder<EditProfileCubit, EditProfileState>(
+      builder: (context, state) {
+        return (state is ProfileSaveInProgress)
+            ? const LinearProgressIndicator()
+            : const SizedBox.shrink();
+      },
+    );
 
     final submitButton = BlocBuilder<EditProfileCubit, EditProfileState>(
       builder: (context, state) {
@@ -140,9 +185,14 @@ class _EditProfileViewState extends State<EditProfileView> {
       },
       child: Scaffold(
         appBar: AppBar(
+          // TODO: create bottom only when loading indicator is needed
           leading: backButton,
           title: const Text('Изменить профиль'),
           actions: [submitButton],
+          bottom: PreferredSize(
+            child: progressIndicator,
+            preferredSize: const Size.fromHeight(4.0),
+          ),
         ),
         body: Form(
           key: _formKey,
@@ -153,11 +203,12 @@ class _EditProfileViewState extends State<EditProfileView> {
               children: [
                 nameInput,
                 aboutInput,
-                //birthdayInput,
+                dobInput,
                 genderInput,
                 cityInput,
                 citizenshipInput,
                 phoneNumbersList,
+                educationList,
               ],
             ),
           ),

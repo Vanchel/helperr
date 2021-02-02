@@ -7,7 +7,7 @@ class PhoneNumbersCubit extends Cubit<List<String>> {
     emit(List.of(state)..add(phoneNumber));
   }
 
-  void deleteNumber(String phoneNumber) {
-    emit(List.of(state)..remove(phoneNumber));
+  void deleteNumber(int phoneNumberIndex) {
+    emit(List.of(state)..removeAt(phoneNumberIndex));
   }
 }
