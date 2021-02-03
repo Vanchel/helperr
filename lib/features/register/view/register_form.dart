@@ -41,7 +41,7 @@ class _RegisterFormState extends State<RegisterForm> {
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'Имя пользователя не указано';
+          return 'Имя пользователя не указано.';
         }
         return null;
       },
@@ -56,7 +56,7 @@ class _RegisterFormState extends State<RegisterForm> {
       ),
       validator: (value) {
         // if (!_isValidEmail(value)) {
-        //   return 'Введите корректный email';
+        //   return 'Введите корректный email.';
         // }
         return null;
       },
@@ -65,17 +65,14 @@ class _RegisterFormState extends State<RegisterForm> {
     final passwordInput = TextFormField(
       controller: passwordController,
       keyboardType: TextInputType.visiblePassword,
+      scrollPadding: const EdgeInsets.only(bottom: 32.0),
       decoration: const InputDecoration(
         icon: Icon(Icons.lock_rounded),
         labelText: 'Пароль',
-        errorMaxLines: 5,
       ),
       validator: (value) {
         if (!_isValidPassword(value)) {
-          return 'Пароль должен быть длиной не менее 6 символов, содержать '
-              'исключительно буквы латинского алфавита или цифры, иметь по '
-              'меньшей мере одну заглавную букву и одну строчную букву, а '
-              'также как минмум одну цифру.';
+          return 'Пароль не соответствует критериям.';
         }
         return null;
       },

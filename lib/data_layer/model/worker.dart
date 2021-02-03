@@ -319,6 +319,55 @@ class Education extends Equatable {
       ];
 }
 
+enum ExperienceType {
+  internship,
+  junior,
+  middle,
+  senior,
+  director,
+  seniorDirector
+}
+
+ExperienceType experienceTypeFromJson(String str) {
+  ExperienceType type;
+
+  if (str == "junior") {
+    type = ExperienceType.junior;
+  } else if (str == "middle") {
+    type = ExperienceType.middle;
+  } else if (str == "senior") {
+    type = ExperienceType.senior;
+  } else if (str == "director") {
+    type = ExperienceType.director;
+  } else if (str == "senior-director") {
+    type = ExperienceType.seniorDirector;
+  } else {
+    type = ExperienceType.internship;
+  }
+
+  return type;
+}
+
+String experienceTypeToJson(ExperienceType type) {
+  String str;
+
+  if (type == ExperienceType.junior) {
+    str = "junior";
+  } else if (type == ExperienceType.middle) {
+    str = "middle";
+  } else if (type == ExperienceType.senior) {
+    str = "senior";
+  } else if (type == ExperienceType.director) {
+    str = "director";
+  } else if (type == ExperienceType.seniorDirector) {
+    str = "senior-director";
+  } else {
+    str = "internship";
+  }
+
+  return str;
+}
+
 class Exp extends Equatable {
   Exp({
     this.position,
@@ -330,16 +379,16 @@ class Exp extends Equatable {
 
   final String position;
   final String company;
-  final String type;
-  final String startYear;
-  final String endYear;
+  final ExperienceType type;
+  final DateTime startYear;
+  final DateTime endYear;
 
   Exp copyWith({
     String position,
     String company,
-    String type,
-    String startYear,
-    String endYear,
+    ExperienceType type,
+    DateTime startYear,
+    DateTime endYear,
   }) =>
       Exp(
         position: position ?? this.position,
@@ -356,17 +405,17 @@ class Exp extends Equatable {
   factory Exp.fromJson(Map<String, dynamic> json) => Exp(
         position: json["position"],
         company: json["company"],
-        type: json["type"],
-        startYear: json["start_year"],
-        endYear: json["end_year"],
+        type: experienceTypeFromJson(json["type"]),
+        startYear: dateFromJson(json["start_year"]),
+        endYear: dateFromJson(json["end_year"]),
       );
 
   Map<String, dynamic> toJson() => {
         "position": position,
         "company": company,
-        "type": type,
-        "start_year": startYear,
-        "end_year": endYear,
+        "type": experienceTypeToJson(type),
+        "start_year": dateToJson(startYear),
+        "end_year": dateToJson(endYear),
       };
 
   @override
@@ -379,6 +428,48 @@ class Exp extends Equatable {
       ];
 }
 
+enum LanguageProficiency { a1, a2, b1, b2, c1, c2 }
+
+LanguageProficiency languageProficiencyFromJson(String str) {
+  LanguageProficiency proficiency;
+
+  if (str == "A2") {
+    proficiency = LanguageProficiency.a2;
+  } else if (str == "B1") {
+    proficiency = LanguageProficiency.b1;
+  } else if (str == "B2") {
+    proficiency = LanguageProficiency.b2;
+  } else if (str == "C1") {
+    proficiency = LanguageProficiency.c1;
+  } else if (str == "C2") {
+    proficiency = LanguageProficiency.c2;
+  } else {
+    proficiency = LanguageProficiency.a1;
+  }
+
+  return proficiency;
+}
+
+String languageProficiencyToJson(LanguageProficiency proficiency) {
+  String str;
+
+  if (proficiency == LanguageProficiency.a2) {
+    str = "A2";
+  } else if (proficiency == LanguageProficiency.b1) {
+    str = "B1";
+  } else if (proficiency == LanguageProficiency.b2) {
+    str = "B2";
+  } else if (proficiency == LanguageProficiency.c1) {
+    str = "C1";
+  } else if (proficiency == LanguageProficiency.c2) {
+    str = "C2";
+  } else {
+    str = "A1";
+  }
+
+  return str;
+}
+
 class Language extends Equatable {
   Language({
     this.language,
@@ -386,11 +477,11 @@ class Language extends Equatable {
   });
 
   final String language;
-  final String grade;
+  final LanguageProficiency grade;
 
   Language copyWith({
     String language,
-    String grade,
+    LanguageProficiency grade,
   }) =>
       Language(
         language: language ?? this.language,
@@ -404,12 +495,12 @@ class Language extends Equatable {
 
   factory Language.fromJson(Map<String, dynamic> json) => Language(
         language: json["language"],
-        grade: json["grade"],
+        grade: languageProficiencyFromJson(json["grade"]),
       );
 
   Map<String, dynamic> toJson() => {
         "language": language,
-        "grade": grade,
+        "grade": languageProficiencyToJson(grade),
       };
 
   @override

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_education/view/education_widget.dart';
+import 'package:helperr/features/edit_experience/view/experience_widget.dart';
+import 'package:helperr/features/edit_languages/view/languages_widget.dart';
 
 import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_widget.dart';
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/features/edit_sex/view/edit_sex_widget.dart';
+import 'package:helperr/features/edit_social_links/view/social_links_widget.dart';
 
 import '../../../data_layer/model/worker.dart';
 
@@ -30,6 +33,9 @@ class _EditProfileViewState extends State<EditProfileView> {
   String _cz;
   List<String> _phoneNumbers;
   List<Education> _education;
+  List<Exp> _experience;
+  List<Language> _languages;
+  List<String> _socialLinks;
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +132,21 @@ class _EditProfileViewState extends State<EditProfileView> {
       onChanged: (newValue) => _education = newValue,
     );
 
+    final experienceList = ExperienceList(
+      initialValue: widget.worker.exp,
+      onChanged: (newValue) => _experience = newValue,
+    );
+
+    final languagesList = LanguagesList(
+      initialValue: widget.worker.language,
+      onChanged: (newValue) => _languages = newValue,
+    );
+
+    final socialLinksList = SocialLinksList(
+      initialValue: widget.worker.socialLinks,
+      onChanged: (newValue) => _socialLinks = newValue,
+    );
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -144,6 +165,9 @@ class _EditProfileViewState extends State<EditProfileView> {
           cz: _cz,
           phone: _phoneNumbers,
           education: _education,
+          exp: _experience,
+          language: _languages,
+          socialLinks: _socialLinks,
         );
         context.read<EditProfileCubit>().saveProfile(editedWorker);
       }
@@ -209,6 +233,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                 citizenshipInput,
                 phoneNumbersList,
                 educationList,
+                experienceList,
+                languagesList,
+                socialLinksList,
               ],
             ),
           ),
