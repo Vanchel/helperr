@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/features/edit_education/cubit/education_cubit.dart';
 import 'package:helperr/features/edit_education/view/education_page.dart';
+import 'package:helperr/widgets/list_action_header.dart';
 
 class EducationView extends StatelessWidget {
   const EducationView({Key key, @required this.onChanged}) : super(key: key);
@@ -87,16 +88,7 @@ class EducationView extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Образование', style: themeData.textTheme.subtitle1),
-            OutlinedButton(
-              child: const Text('Добавить'),
-              onPressed: onAdd,
-            ),
-          ],
-        ),
+        ListActionHeader('Образование', actionLabel: 'Добавить', action: onAdd),
         BlocBuilder<EducationCubit, List<Education>>(
           builder: (context, state) {
             if (onChanged != null) {

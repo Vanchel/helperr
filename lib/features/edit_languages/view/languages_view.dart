@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/worker.dart';
 import 'package:helperr/features/edit_languages/cubit/languages_cubit.dart';
 import 'package:helperr/features/edit_languages/view/language_page.dart';
+import 'package:helperr/widgets/list_action_header.dart';
 
 class LanguagesView extends StatelessWidget {
   const LanguagesView({Key key, @required this.onChanged}) : super(key: key);
@@ -86,16 +87,8 @@ class LanguagesView extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Владение языками', style: themeData.textTheme.subtitle1),
-            OutlinedButton(
-              child: const Text('Добавить'),
-              onPressed: onAdd,
-            ),
-          ],
-        ),
+        ListActionHeader('Владение языками',
+            actionLabel: 'Добавить', action: onAdd),
         BlocBuilder<LanguagesCubit, List<Language>>(
           builder: (context, state) {
             if (onChanged != null) {

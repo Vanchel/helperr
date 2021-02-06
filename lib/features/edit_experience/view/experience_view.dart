@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/worker.dart';
 import 'package:helperr/features/edit_experience/cubit/experience_cubit.dart';
 import 'package:helperr/features/edit_experience/view/experience_page.dart';
+import 'package:helperr/widgets/list_action_header.dart';
 
 class ExperienceView extends StatelessWidget {
   const ExperienceView({Key key, @required this.onChanged}) : super(key: key);
@@ -86,16 +87,7 @@ class ExperienceView extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Опыт работы', style: themeData.textTheme.subtitle1),
-            OutlinedButton(
-              child: const Text('Добавить'),
-              onPressed: onAdd,
-            ),
-          ],
-        ),
+        ListActionHeader('Опыт работы', actionLabel: 'Добавить', action: onAdd),
         BlocBuilder<ExperienceCubit, List<Exp>>(
           builder: (context, state) {
             if (onChanged != null) {

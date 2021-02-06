@@ -10,73 +10,42 @@ class SexRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
+    return BlocBuilder<EditSexCubit, Gender>(
+      builder: (context, state) {
+        if (onChanged != null) {
+          onChanged(state);
+        }
 
-    return BlocBuilder<EditSexCubit, Gender>(builder: (context, state) {
-      if (onChanged != null) {
-        onChanged(state);
-      }
-
-      // return Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     const Text('Пол'),
-      //     RadioListTile(
-      //       title: const Text('Мужчина'),
-      //       value: Gender.male,
-      //       groupValue: state,
-      //       onChanged: (value) => context.read<EditSexCubit>().changeSex(value),
-      //     ),
-      //     RadioListTile(
-      //       title: const Text('Женщина'),
-      //       value: Gender.female,
-      //       groupValue: state,
-      //       onChanged: (value) => context.read<EditSexCubit>().changeSex(value),
-      //     ),
-      //     RadioListTile(
-      //       title: const Text('Не важно'),
-      //       value: Gender.unknown,
-      //       groupValue: state,
-      //       onChanged: (value) => context.read<EditSexCubit>().changeSex(value),
-      //     ),
-      //   ],
-      // );
-
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Пол', style: themeData.textTheme.subtitle1),
-          Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RadioListTile(
-                  title: const Text('Мужчина'),
-                  value: Gender.male,
-                  groupValue: state,
-                  onChanged: (value) =>
-                      context.read<EditSexCubit>().changeSex(value),
-                ),
-                RadioListTile(
-                  title: const Text('Женщина'),
-                  value: Gender.female,
-                  groupValue: state,
-                  onChanged: (value) =>
-                      context.read<EditSexCubit>().changeSex(value),
-                ),
-                RadioListTile(
-                  title: const Text('Не важно'),
-                  value: Gender.unknown,
-                  groupValue: state,
-                  onChanged: (value) =>
-                      context.read<EditSexCubit>().changeSex(value),
-                ),
-              ],
-            ),
+        return Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RadioListTile(
+                title: const Text('Мужчина'),
+                value: Gender.male,
+                groupValue: state,
+                onChanged: (value) =>
+                    context.read<EditSexCubit>().changeSex(value),
+              ),
+              RadioListTile(
+                title: const Text('Женщина'),
+                value: Gender.female,
+                groupValue: state,
+                onChanged: (value) =>
+                    context.read<EditSexCubit>().changeSex(value),
+              ),
+              RadioListTile(
+                title: const Text('Не важно'),
+                value: Gender.unknown,
+                groupValue: state,
+                onChanged: (value) =>
+                    context.read<EditSexCubit>().changeSex(value),
+              ),
+            ],
           ),
-        ],
-      );
-    });
+        );
+      },
+    );
   }
 }

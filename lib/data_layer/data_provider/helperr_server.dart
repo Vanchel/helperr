@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'dart:convert' show utf8;
 import '../model/models.dart';
 
 final String _baseUrl = 'http://job-flow.ru/api';
@@ -9,14 +10,14 @@ Future<Worker> fetchWorker(int userId) async {
   final response = await http.get('$_baseUrl/workers/$userId');
 
   if (response.statusCode == 200) {
-    return workerFromJson(response.body);
+    return workerFromJson(utf8.decode(response.body.runes.toList()));
   } else {
     throw Exception('failed to load user');
   }
 }
 
 Future<void> updateWorker(Worker worker) async {
-  final body = workerToJson(worker);
+  final body = utf8.encode(workerToJson(worker));
 
   final response =
       await http.put('$_baseUrl/workers/${worker.userId}', body: body);
@@ -27,17 +28,18 @@ Future<void> updateWorker(Worker worker) async {
 
 Future<User> login(String email, String password) async {
   final data = {'email': email, 'password': password};
-  final body = json.encode(data);
+  final body = utf8.encode(json.encode(data));
 
   final response = await http.post('$_baseUrl/login', body: body);
 
   if (response.statusCode == 200) {
-    return userFromJson(response.body);
+    return userFromJson(utf8.decode(response.body.runes.toList()));
   } else {
     throw Exception('failed to login');
   }
 }
 
+// for some reason, the request cannot be completed when sending encoded UTF8
 Future<User> register(
     String name, String email, String password, String userType) async {
   final user = {
@@ -60,11 +62,11 @@ Future<User> register(
     "education": [],
     "exp": [],
     "cz": "",
-    // for web check for Sanya
-    "profile_link": "empty",
+    "profile_link": "",
     "photo_url": "",
     "profile_background": ""
   };
+
   final body =
       '{"user": ${json.encode(user)}, "worker": ${json.encode(profile)}}';
 

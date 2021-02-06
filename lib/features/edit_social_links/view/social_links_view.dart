@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_social_links/cubit/social_links_cubit.dart';
 import 'package:helperr/features/edit_social_links/view/social_link_page.dart';
+import 'package:helperr/widgets/list_action_header.dart';
 
 class SocialLinksView extends StatelessWidget {
   const SocialLinksView({Key key, @required this.onChanged}) : super(key: key);
@@ -54,16 +55,8 @@ class SocialLinksView extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Ссылки на соц. сети', style: themeData.textTheme.subtitle1),
-            OutlinedButton(
-              child: const Text('Добавить'),
-              onPressed: onAdd,
-            ),
-          ],
-        ),
+        ListActionHeader('Ссылки на соц. сети',
+            actionLabel: 'Добавить', action: onAdd),
         BlocBuilder<SocialLinksCubit, List<String>>(
           builder: (context, state) {
             if (onChanged != null) {

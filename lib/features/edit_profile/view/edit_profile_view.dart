@@ -8,6 +8,7 @@ import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_widget.da
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/features/edit_sex/view/edit_sex_widget.dart';
 import 'package:helperr/features/edit_social_links/view/social_links_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data_layer/model/worker.dart';
 
@@ -39,112 +40,183 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final nameInput = TextFormField(
-      initialValue: widget.worker.name,
-      keyboardType: TextInputType.name,
-      decoration: const InputDecoration(
-        labelText: 'Имя',
-        hintText: 'Полное имя',
+    final themeData = Theme.of(context);
+
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
+    final nameInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        initialValue: widget.worker.name,
+        keyboardType: TextInputType.name,
+        decoration: const InputDecoration(
+          labelText: 'Имя',
+          hintText: 'Иван Петров',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        validator: (value) => value.isEmpty ? 'Имя должно быть указано' : null,
+        onSaved: (newValue) => _name = newValue,
       ),
-      validator: (value) => value.isEmpty ? 'Имя должно быть указано' : null,
-      onSaved: (newValue) => _name = newValue,
     );
 
-    final aboutInput = TextFormField(
-      initialValue: widget.worker.about,
-      keyboardType: TextInputType.multiline,
-      maxLength: 255,
-      minLines: 2,
-      maxLines: 4,
-      decoration: const InputDecoration(
-        labelText: 'О себе',
-        hintText: 'Расскажите немного о себе...',
+    final aboutInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        initialValue: widget.worker.about,
+        keyboardType: TextInputType.multiline,
+        maxLength: 80,
+        decoration: const InputDecoration(
+          labelText: 'О себе',
+          hintText: 'Любитель ракет и сладких конфет ^^,',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _about = newValue,
       ),
-      onSaved: (newValue) => _about = newValue,
     );
 
-    // TODO: allow to set empty
-    final dobInput = InputDatePickerFormField(
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      initialDate: widget.worker.birthday,
-      fieldLabelText: 'Дата рождения',
-      fieldHintText: 'мм/дд/гггг',
-      errorInvalidText: 'Указана дата вне допустимого диапазона.',
-      errorFormatText: 'Неверный формат даты.',
-      onDateSaved: (value) => _dob = value,
-    );
-
-    // final dobPicker = IconButton(
-    //   icon: const Icon(Icons.calendar_today_rounded),
-    //   splashRadius: 24.0,
-    //   onPressed: () {
-    //     showDatePicker(
-    //       context: context,
-    //       initialDate: widget.worker.birthday,
-    //       firstDate: DateTime(1900),
-    //       lastDate: DateTime.now(),
-    //     );
-    //   },
+    // // TODO: allow to set empty
+    // final dobInput = InputDatePickerFormField(
+    //   firstDate: DateTime(1900),
+    //   lastDate: DateTime.now(),
+    //   initialDate: widget.worker.birthday,
+    //   fieldLabelText: 'Дата рождения',
+    //   fieldHintText: 'мм/дд/гггг',
+    //   errorInvalidText: 'Указана дата вне допустимого диапазона.',
+    //   errorFormatText: 'Неверный формат даты.',
+    //   onDateSaved: (value) => _dob = value,
     // );
 
-    // final dobRow = Expanded(
-    //   child: Row(
-    //     children: [
-    //       Expanded(child: dobInput),
-    //       dobPicker,
-    //     ],
-    //   ),
-    // );
-
-    final genderInput = EditSex(
-      initialValue: widget.worker.gender,
-      onChanged: (value) => _gender = value,
-    );
-
-    final cityInput = TextFormField(
-      initialValue: widget.worker.city,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Город',
-        hintText: 'Город проживания',
+    // start from creating datepicker input widget
+    final dobPicker = Container(
+      margin: const EdgeInsets.only(right: 6.0),
+      child: IconButton(
+        icon: const Icon(Icons.calendar_today_rounded),
+        splashRadius: 24.0,
+        onPressed: () {
+          showDatePicker(
+            context: context,
+            initialDate: widget.worker.birthday,
+            firstDate: DateTime(1900),
+            lastDate: DateTime.now(),
+          );
+        },
       ),
-      onSaved: (newValue) => _city = newValue,
     );
 
-    final citizenshipInput = TextFormField(
-      initialValue: widget.worker.cz,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Страна',
-        hintText: 'Страна проживания',
+    final dobInput = Container(
+      margin: const EdgeInsets.only(bottom: 12.0),
+      child: TextFormField(
+        initialValue: DateFormat('dd.MM.yyyy').format(widget.worker.birthday),
+        keyboardType: TextInputType.datetime,
+        decoration: InputDecoration(
+          labelText: 'Дата рождения',
+          hintText: 'дд.мм.гггг',
+          helperText: '',
+          border: textInputBorder,
+          suffixIcon: dobPicker,
+        ),
+        validator: (value) {
+          try {
+            if (value == '') {
+              _dob = null;
+              return null;
+            }
+
+            final val = value.split('.').reversed.join();
+            _dob = DateTime.parse(val);
+            return null;
+          } catch (_) {
+            return 'Неверный формат даты.';
+          }
+        },
       ),
-      onSaved: (newValue) => _cz = newValue,
     );
 
-    final phoneNumbersList = PhoneNumbers(
-      initialValue: widget.worker.phone,
-      onChanged: (newValue) => _phoneNumbers = newValue,
+    final genderInput = Container(
+      margin: const EdgeInsets.only(bottom: 18.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Пол', style: themeData.textTheme.bodyText1),
+          EditSex(
+            initialValue: widget.worker.gender,
+            onChanged: (value) => _gender = value,
+          ),
+        ],
+      ),
     );
 
-    final educationList = EducationList(
-      initialValue: widget.worker.education,
-      onChanged: (newValue) => _education = newValue,
+    final cityInput = Container(
+      margin: const EdgeInsets.symmetric(vertical: 16.0),
+      child: TextFormField(
+        initialValue: widget.worker.city,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Город',
+          hintText: 'Москва',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _city = newValue,
+      ),
     );
 
-    final experienceList = ExperienceList(
-      initialValue: widget.worker.exp,
-      onChanged: (newValue) => _experience = newValue,
+    final citizenshipInput = Container(
+      margin: const EdgeInsets.only(bottom: 10.0),
+      child: TextFormField(
+        initialValue: widget.worker.cz,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Страна',
+          hintText: 'Россия',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _cz = newValue,
+      ),
     );
 
-    final languagesList = LanguagesList(
-      initialValue: widget.worker.language,
-      onChanged: (newValue) => _languages = newValue,
+    final phoneNumbersList = Container(
+      margin: const EdgeInsets.only(bottom: 6.0),
+      child: PhoneNumbers(
+        initialValue: widget.worker.phone,
+        onChanged: (newValue) => _phoneNumbers = newValue,
+      ),
     );
 
-    final socialLinksList = SocialLinksList(
-      initialValue: widget.worker.socialLinks,
-      onChanged: (newValue) => _socialLinks = newValue,
+    final educationList = Container(
+      margin: const EdgeInsets.only(bottom: 6.0),
+      child: EducationList(
+        initialValue: widget.worker.education,
+        onChanged: (newValue) => _education = newValue,
+      ),
+    );
+
+    final experienceList = Container(
+      margin: const EdgeInsets.only(bottom: 6.0),
+      child: ExperienceList(
+        initialValue: widget.worker.exp,
+        onChanged: (newValue) => _experience = newValue,
+      ),
+    );
+
+    final languagesList = Container(
+      margin: const EdgeInsets.only(bottom: 6.0),
+      child: LanguagesList(
+        initialValue: widget.worker.language,
+        onChanged: (newValue) => _languages = newValue,
+      ),
+    );
+
+    final socialLinksList = Container(
+      margin: const EdgeInsets.only(bottom: 6.0),
+      child: SocialLinksList(
+        initialValue: widget.worker.socialLinks,
+        onChanged: (newValue) => _socialLinks = newValue,
+      ),
     );
 
     final backButton = IconButton(
@@ -209,7 +281,6 @@ class _EditProfileViewState extends State<EditProfileView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          // TODO: create bottom only when loading indicator is needed
           leading: backButton,
           title: const Text('Изменить профиль'),
           actions: [submitButton],
@@ -221,7 +292,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         body: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
