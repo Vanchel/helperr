@@ -2,24 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/navigation/navigation.dart';
 import 'package:helperr/features/profile/profile.dart';
+import 'package:helperr/features/settings/view/settings_page.dart';
 
 class NavigationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final profileViewAppBar = AppBar(
+      title: const Text('Профиль'),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.settings_rounded),
+          splashRadius: 24.0,
+          onPressed: () => Navigator.push(context, SettingsPage.route()),
+        ),
+      ],
+    );
+
     return Scaffold(
+      appBar: PreferredSize(
+        // not the ideal solution but lets think of it later
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: BlocBuilder<NavigationCubit, NavigationState>(
+          buildWhen: (previous, current) => previous.index != current.index,
+          builder: (context, state) {
+            if (state.index == 2) {
+              return profileViewAppBar;
+            } else {
+              return AppBar(title: const Text('В процессе разработки'));
+            }
+          },
+        ),
+      ),
       body: BlocBuilder<NavigationCubit, NavigationState>(
         buildWhen: (previous, current) => previous.index != current.index,
         builder: (context, state) {
-          switch (state.index) {
-            case 2:
-              return ProfilePage();
-              break;
-            default:
-              return Container(
-                child: const Center(
-                  child: Text('В процессе разработки'),
-                ),
-              );
+          if (state.index == 2) {
+            return ProfilePage();
+          } else {
+            return Container(
+              child: const Center(
+                child: Text('В процессе разработки'),
+              ),
+            );
           }
         },
       ),

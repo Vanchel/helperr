@@ -67,6 +67,12 @@ class _AppViewState extends State<AppView> {
         ),
       ),
     ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+    ),
   );
 
   @override
