@@ -17,7 +17,6 @@ dependencies:
   equatable: ^1.2.5
   meta: ^1.1.8
   uuid: ^2.2.2
-  shared_preferences: ^0.5.12+4
   crypto: ^2.1.5
   intl: ^0.16.1
 

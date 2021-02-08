@@ -71,7 +71,6 @@ class LanguagesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final languagesCubit = BlocProvider.of<LanguagesCubit>(context);
 
     final onAdd = () {

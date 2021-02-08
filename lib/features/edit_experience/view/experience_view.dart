@@ -71,7 +71,6 @@ class ExperienceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final experienceCubit = BlocProvider.of<ExperienceCubit>(context);
 
     final onAdd = () {

@@ -72,7 +72,6 @@ class EducationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final educationCubit = BlocProvider.of<EducationCubit>(context);
 
     final onAdd = () {

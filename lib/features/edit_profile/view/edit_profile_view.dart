@@ -77,7 +77,6 @@ class _EditProfileViewState extends State<EditProfileView> {
       ),
     );
 
-    // // TODO: allow to set empty
     // final dobInput = InputDatePickerFormField(
     //   firstDate: DateTime(1900),
     //   lastDate: DateTime.now(),

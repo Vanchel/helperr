@@ -41,7 +41,6 @@ class PhoneNumbersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final phoneNumberCubit = BlocProvider.of<PhoneNumbersCubit>(context);
 
     final onAdd = () {

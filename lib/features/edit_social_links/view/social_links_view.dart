@@ -40,7 +40,6 @@ class SocialLinksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final socialLinksCubit = BlocProvider.of<SocialLinksCubit>(context);
 
     final onAdd = () {
