@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_profile/view/edit_profile_page.dart';
+import 'package:helperr/features/edit_resume/view/resumes_list.dart';
 import 'package:helperr/widgets/error_screen.dart';
 import 'package:helperr/widgets/loading_screen.dart';
 import 'package:helperr/widgets/profile_card.dart';
@@ -49,7 +50,10 @@ class ProfileView extends StatelessWidget {
           ),
         );
 
-        final resumesList = const Text('уже совсем скоро тут будут резюме');
+        final resumesList = ResumesList(
+          state.workerInfo.resumes,
+          onChanged: () => profileCubit.loadProfile(),
+        );
 
         return SingleChildScrollView(
           child: Column(

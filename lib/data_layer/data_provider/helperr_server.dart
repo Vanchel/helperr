@@ -23,7 +23,7 @@ Future<void> updateWorker(Worker worker) async {
       await http.put('$_baseUrl/workers/${worker.userId}', body: body);
 
   if (response.statusCode != 200)
-    throw Exception('failed to update worker profile');
+    throw Exception('Failed to update worker profile');
 }
 
 Future<List<Resume>> fetchResumes(int userId) async {
@@ -31,12 +31,41 @@ Future<List<Resume>> fetchResumes(int userId) async {
 
   if (response.statusCode == 200) {
     final decodedResponse = utf8.decode(response.body.runes.toList());
-    final List<String> resumeStrings =
-        json.decode(decodedResponse).cast<String>();
-
-    return resumeStrings.map((str) => resumeFromJson(str)).toList();
+    final resumesList = (json.decode(decodedResponse) as List)
+        .map((str) => Resume.fromJson(str))
+        .toList();
+    return resumesList;
   } else {
     throw Exception('Failed to fetch resumes');
+  }
+}
+
+// not yet tested
+Future<void> addResume(Resume resume) async {
+  final body = utf8.encode(resumeToJson(resume));
+  final response = await http.post('$_baseUrl/cv', body: body);
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to add resume');
+  }
+}
+
+// not yet tested
+Future<void> updateResume(Resume resume) async {
+  final body = utf8.encode(resumeToJson(resume));
+  final response = await http.put('$_baseUrl/cv/${resume.id}', body: body);
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update resume');
+  }
+}
+
+// not yet tested
+Future<void> deleteResume(int resumeId) async {
+  final response = await http.delete('$_baseUrl/cv/$resumeId');
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to delete resume');
   }
 }
 

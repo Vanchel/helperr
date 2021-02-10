@@ -37,7 +37,7 @@ class Resume extends Equatable {
   final List<String> tags;
   final String about;
   final String bgHeaderColor;
-  final String pubDate;
+  final DateTime pubDate;
   final List<Portfolio> portfolio;
 
   Resume copyWith({
@@ -51,7 +51,7 @@ class Resume extends Equatable {
     List<String> tags,
     String about,
     String bgHeaderColor,
-    String pubDate,
+    DateTime pubDate,
     List<Portfolio> portfolio,
   }) =>
       Resume(
@@ -84,7 +84,7 @@ class Resume extends Equatable {
         tags: List<String>.from(json["tags"].map((x) => x)),
         about: json["about"],
         bgHeaderColor: json["bg_header_color"],
-        pubDate: json["pub_date"],
+        pubDate: dateFromJson(json["pub_date"]),
         portfolio: List<Portfolio>.from(
             json["portfolio"].map((x) => Portfolio.fromJson(x))),
       );
@@ -100,7 +100,7 @@ class Resume extends Equatable {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "about": about,
         "bg_header_color": bgHeaderColor,
-        "pub_date": pubDate,
+        "pub_date": dateToJson(pubDate),
         "portfolio": List<dynamic>.from(portfolio.map((x) => x.toJson())),
       };
 

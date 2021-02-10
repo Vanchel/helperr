@@ -89,6 +89,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     // );
 
     // start from creating datepicker input widget
+    
     final dobPicker = Container(
       margin: const EdgeInsets.only(right: 6.0),
       child: IconButton(
@@ -105,10 +106,17 @@ class _EditProfileViewState extends State<EditProfileView> {
       ),
     );
 
+    String initDate;
+    if (initDate != null) {
+      initDate = DateFormat('dd.MM.yyyy').format(widget.worker.birthday);
+    } else {
+      initDate = '';
+    }
+
     final dobInput = Container(
       margin: const EdgeInsets.only(bottom: 12.0),
       child: TextFormField(
-        initialValue: DateFormat('dd.MM.yyyy').format(widget.worker.birthday),
+        initialValue: initDate,
         keyboardType: TextInputType.datetime,
         decoration: InputDecoration(
           labelText: 'Дата рождения',
