@@ -10,12 +10,12 @@ abstract class ProfileState extends Equatable {
 class ProfileLoadInProgress extends ProfileState {}
 
 class ProfileLoadSuccess extends ProfileState {
-  ProfileLoadSuccess(this.worker);
+  ProfileLoadSuccess(this.workerInfo);
 
-  final Worker worker;
+  final WorkerInfo workerInfo;
 
   @override
-  List<Object> get props => [worker];
+  List<Object> get props => [workerInfo];
 }
 
 class ProfileLoadFailure extends ProfileState {}

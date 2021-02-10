@@ -12,7 +12,7 @@ Future<Worker> fetchWorker(int userId) async {
   if (response.statusCode == 200) {
     return workerFromJson(utf8.decode(response.body.runes.toList()));
   } else {
-    throw Exception('failed to load user');
+    throw Exception('failed to fetch worker');
   }
 }
 
@@ -24,6 +24,20 @@ Future<void> updateWorker(Worker worker) async {
 
   if (response.statusCode != 200)
     throw Exception('failed to update worker profile');
+}
+
+Future<List<Resume>> fetchResumes(int userId) async {
+  final response = await http.get('$_baseUrl/cv/$userId');
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    final List<String> resumeStrings =
+        json.decode(decodedResponse).cast<String>();
+
+    return resumeStrings.map((str) => resumeFromJson(str)).toList();
+  } else {
+    throw Exception('Failed to fetch resumes');
+  }
 }
 
 Future<User> login(String email, String password) async {

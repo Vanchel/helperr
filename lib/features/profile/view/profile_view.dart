@@ -15,20 +15,20 @@ class ProfileView extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
       if (state is ProfileLoadInProgress) {
         return const LoadingScreen();
-      }
-      if (state is ProfileLoadFailure) {
+      } else if (state is ProfileLoadFailure) {
         return ErrorScreen(onRetry: () => profileCubit.loadProfile());
-      }
-      if (state is ProfileLoadSuccess) {
+      } else if (state is ProfileLoadSuccess) {
+        final profile = state.workerInfo.worker;
+
         final profileCard = ProfileCard(
-          name: state.worker.name,
-          description: state.worker.about,
-          backgroundUrl: state.worker.profileBackground,
-          avatarUrl: state.worker.photoUrl,
-          dateOfBirth: state.worker.birthday,
-          sex: state.worker.gender,
-          region: state.worker.city,
-          country: state.worker.cz,
+          name: profile.name,
+          description: profile.about,
+          backgroundUrl: profile.profileBackground,
+          avatarUrl: profile.photoUrl,
+          dateOfBirth: profile.birthday,
+          sex: profile.gender,
+          region: profile.city,
+          country: profile.cz,
         );
 
         final editButton = Container(
@@ -40,7 +40,7 @@ class ProfileView extends StatelessWidget {
                 context,
                 MaterialPageRoute<EditProfilePage>(builder: (context) {
                   return EditProfilePage(
-                    worker: state.worker.copyWith(),
+                    worker: profile.copyWith(),
                     onSave: () => profileCubit.loadProfile(),
                   );
                 }),
@@ -49,17 +49,21 @@ class ProfileView extends StatelessWidget {
           ),
         );
 
+        final resumesList = const Text('уже совсем скоро тут будут резюме');
+
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               profileCard,
               editButton,
+              resumesList,
             ],
           ),
         );
+      } else {
+        return Container();
       }
-      return Container();
     });
   }
 }
