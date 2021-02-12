@@ -45,7 +45,7 @@ class Resume extends Equatable {
     int userId,
     String vacancyName,
     String industry,
-    String grade,
+    ExperienceType grade,
     int salary,
     List<String> workType,
     List<String> tags,

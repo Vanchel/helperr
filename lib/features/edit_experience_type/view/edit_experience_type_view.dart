@@ -24,39 +24,52 @@ class ExperienceDropdownButton extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Тип', style: themeData.textTheme.subtitle1),
-            DropdownButton<ExperienceType>(
-              value: dropdownValue,
-              isExpanded: true,
-              onChanged: (value) => context
-                  .read<EditExperienceTypeCubit>()
-                  .changeExperienceType(value),
-              items: const [
-                DropdownMenuItem<ExperienceType>(
-                  value: ExperienceType.internship,
-                  child: Text('Стажировка'),
+            Text('Степень опытности', style: themeData.textTheme.bodyText1),
+            const SizedBox(height: 8.0),
+            Container(
+              padding: const EdgeInsets.fromLTRB(11.0, 4.0, 17.0, 4.0),
+              decoration: BoxDecoration(
+                color: themeData.canvasColor,
+                border: const Border.fromBorderSide(
+                  BorderSide(color: Colors.black38),
                 ),
-                DropdownMenuItem<ExperienceType>(
-                  value: ExperienceType.junior,
-                  child: Text('Младший специалист'),
+                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<ExperienceType>(
+                  value: dropdownValue,
+                  isExpanded: true,
+                  onChanged: (value) => context
+                      .read<EditExperienceTypeCubit>()
+                      .changeExperienceType(value),
+                  items: const [
+                    DropdownMenuItem<ExperienceType>(
+                      value: ExperienceType.internship,
+                      child: Text('Стажер'),
+                    ),
+                    DropdownMenuItem<ExperienceType>(
+                      value: ExperienceType.junior,
+                      child: Text('Младший специалист'),
+                    ),
+                    DropdownMenuItem<ExperienceType>(
+                      value: ExperienceType.middle,
+                      child: Text('Средний специалист'),
+                    ),
+                    DropdownMenuItem<ExperienceType>(
+                      value: ExperienceType.senior,
+                      child: Text('Старший специалист'),
+                    ),
+                    DropdownMenuItem<ExperienceType>(
+                      value: ExperienceType.director,
+                      child: Text('Руководитель'),
+                    ),
+                    DropdownMenuItem<ExperienceType>(
+                      value: ExperienceType.seniorDirector,
+                      child: Text('Старший руководитель'),
+                    ),
+                  ],
                 ),
-                DropdownMenuItem<ExperienceType>(
-                  value: ExperienceType.middle,
-                  child: Text('Средний специалист'),
-                ),
-                DropdownMenuItem<ExperienceType>(
-                  value: ExperienceType.senior,
-                  child: Text('Старший специалист'),
-                ),
-                DropdownMenuItem<ExperienceType>(
-                  value: ExperienceType.director,
-                  child: Text('Руководитель'),
-                ),
-                DropdownMenuItem<ExperienceType>(
-                  value: ExperienceType.seniorDirector,
-                  child: Text('Старший руководитель'),
-                ),
-              ],
+              ),
             ),
           ],
         );

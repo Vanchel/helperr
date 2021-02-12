@@ -40,7 +40,6 @@ Future<List<Resume>> fetchResumes(int userId) async {
   }
 }
 
-// not yet tested
 Future<void> addResume(Resume resume) async {
   final body = utf8.encode(resumeToJson(resume));
   final response = await http.post('$_baseUrl/cv', body: body);
@@ -50,7 +49,6 @@ Future<void> addResume(Resume resume) async {
   }
 }
 
-// not yet tested
 Future<void> updateResume(Resume resume) async {
   final body = utf8.encode(resumeToJson(resume));
   final response = await http.put('$_baseUrl/cv/${resume.id}', body: body);
@@ -60,7 +58,6 @@ Future<void> updateResume(Resume resume) async {
   }
 }
 
-// not yet tested
 Future<void> deleteResume(int resumeId) async {
   final response = await http.delete('$_baseUrl/cv/$resumeId');
 

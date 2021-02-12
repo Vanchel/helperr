@@ -67,6 +67,8 @@ class _EditProfileViewState extends State<EditProfileView> {
         initialValue: widget.worker.about,
         keyboardType: TextInputType.multiline,
         maxLength: 80,
+        minLines: 1,
+        maxLines: 4,
         decoration: const InputDecoration(
           labelText: 'О себе',
           hintText: 'Любитель ракет и сладких конфет ^^,',
@@ -89,7 +91,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     // );
 
     // start from creating datepicker input widget
-    
+
     final dobPicker = Container(
       margin: const EdgeInsets.only(right: 6.0),
       child: IconButton(
