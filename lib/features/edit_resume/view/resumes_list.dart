@@ -11,7 +11,6 @@ class ResumesList extends StatelessWidget {
         super(key: key);
 
   final List<Resume> resumes;
-  // вызвать перезегрузку профиля с сервера
   final VoidCallback onChanged;
 
   String _mapExpTypeToString(ExperienceType type) {

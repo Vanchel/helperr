@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "543987464647",
+    "project_id": "diploma-55e3f",
+    "storage_bucket": "diploma-55e3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543987464647:android:ce7166723d93f0c8f181e2",
+        "android_client_info": {
+          "package_name": "com.vanchel.helperr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543987464647-imi3lfa2tgcccrnan43prnjrndui39eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpRZ-JSIWiC9Bf56q3Sap4fREmbPvgbgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543987464647-imi3lfa2tgcccrnan43prnjrndui39eo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
