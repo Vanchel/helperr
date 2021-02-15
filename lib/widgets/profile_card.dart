@@ -27,25 +27,13 @@ class ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
 
-    ImageProvider backgroundImage;
-    try {
-      // plug
-      if (backgroundUrl == "") throw Exception();
-      //
-      backgroundImage = NetworkImage(backgroundUrl);
-    } catch (_) {
-      backgroundImage = const AssetImage('assets/background.png');
-    }
+    final ImageProvider backgroundImage = backgroundUrl.isNotEmpty
+        ? NetworkImage(backgroundUrl)
+        : const AssetImage('assets/background.png');
 
-    ImageProvider avatarImage;
-    try {
-      // plug
-      if (avatarUrl == "") throw Exception();
-      //
-      avatarImage = NetworkImage(backgroundUrl);
-    } catch (_) {
-      avatarImage = const AssetImage('assets/avatar.jpg');
-    }
+    final ImageProvider avatarImage = avatarUrl.isNotEmpty
+        ? NetworkImage(avatarUrl)
+        : const AssetImage('assets/avatar.jpg');
 
     final Widget headWidget = Container(
       alignment: Alignment.centerLeft,

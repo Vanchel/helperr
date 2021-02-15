@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/theme.dart';
 
 import 'data_layer/repository/authentication_repository.dart';
 import 'features/authentication/bloc/authentication_bloc.dart';
@@ -40,71 +41,31 @@ class _AppViewState extends State<AppView> {
 
   NavigatorState get _navigator => _navigatorKey.currentState;
 
-  final _theme = ThemeData(
-    cardTheme: const CardTheme(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        ),
-      ),
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        ),
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        ),
-      ),
-    ),
-    snackBarTheme: const SnackBarThemeData(
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       //debugShowMaterialGrid: true,
-      theme: _theme,
+      theme: theme,
+      onGenerateRoute: (_) => SplashPage.route(),
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
+          child: child,
           listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  NavigationPage.route(),
-                  (route) => false,
-                );
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
-                break;
-              default:
-                break;
+            if (state.status == AuthenticationStatus.authenticated) {
+              _navigator.pushAndRemoveUntil<void>(
+                NavigationPage.route(),
+                (route) => false,
+              );
+            } else if (state.status == AuthenticationStatus.unauthenticated) {
+              _navigator.pushAndRemoveUntil<void>(
+                LoginPage.route(),
+                (route) => false,
+              );
             }
           },
-          child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
     );
   }
 }

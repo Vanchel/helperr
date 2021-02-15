@@ -53,10 +53,10 @@ class ResumesList extends StatelessWidget {
         (resume.salary != null) ? '${resume.salary} руб.' : 'з/п не указана';
 
     String dateFormatted;
-    if (dateFormatted != null) {
+    if (resume.pubDate != null) {
       dateFormatted = DateFormat('dd.MM.yyyy').format(resume.pubDate);
     } else {
-      dateFormatted = 'Дата?';
+      dateFormatted = 'Ошибка загрузки даты';
     }
 
     String workTypeFormatted =

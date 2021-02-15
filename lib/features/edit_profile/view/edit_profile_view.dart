@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/features/edit_education/view/education_widget.dart';
-import 'package:helperr/features/edit_experience/view/experience_widget.dart';
-import 'package:helperr/features/edit_languages/view/languages_widget.dart';
+import 'package:helperr/features/edit_list/views/education/education_list.dart';
+import 'package:helperr/features/edit_list/views/experience/experience_list.dart';
+import 'package:helperr/features/edit_list/views/language/language_list.dart';
+import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
+import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:intl/intl.dart';
 
-import 'package:helperr/features/edit_phone_numbers/view/phone_numbers_widget.dart';
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/features/edit_sex/view/edit_sex_widget.dart';
-import 'package:helperr/features/edit_social_links/view/social_links_widget.dart';
-import 'package:intl/intl.dart';
 
 import '../../../data_layer/model/worker.dart';
 
@@ -190,7 +190,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
     final phoneNumbersList = Container(
       margin: const EdgeInsets.only(bottom: 6.0),
-      child: PhoneNumbers(
+      child: PhoneNumberList(
         initialValue: widget.worker.phone,
         onChanged: (newValue) => _phoneNumbers = newValue,
       ),
@@ -214,7 +214,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
     final languagesList = Container(
       margin: const EdgeInsets.only(bottom: 6.0),
-      child: LanguagesList(
+      child: LanguageList(
         initialValue: widget.worker.language,
         onChanged: (newValue) => _languages = newValue,
       ),
@@ -222,7 +222,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
     final socialLinksList = Container(
       margin: const EdgeInsets.only(bottom: 6.0),
-      child: SocialLinksList(
+      child: SocialLinkList(
         initialValue: widget.worker.socialLinks,
         onChanged: (newValue) => _socialLinks = newValue,
       ),

@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/resume.dart';
 import 'package:helperr/data_layer/model/worker.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
-import 'package:helperr/features/chip_input/view/chip_input_widget.dart';
 import 'package:helperr/features/edit_experience_type/view/edit_experience_type_widget.dart';
-import 'package:helperr/features/edit_portfolio/view/portfolio_widget.dart';
+import 'package:helperr/features/edit_list/views/portfolio/portfolio_list.dart';
 import 'package:helperr/features/edit_resume/cubit/edit_resume_cubit.dart';
+import 'package:helperr/widgets/chip_input/view/chip_input_widget.dart';
 
 class EditResumeView extends StatefulWidget {
   EditResumeView({

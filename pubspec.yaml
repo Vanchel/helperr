@@ -19,6 +19,7 @@ dependencies:
   firebase_auth: ^0.20.0+1
   firebase_storage: ^7.0.0
   meta: ^1.1.8
+  google_fonts: ^1.1.2
   uuid: ^2.2.2
   crypto: ^2.1.5
   intl: ^0.16.1
