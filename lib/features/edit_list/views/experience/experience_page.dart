@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_experience_type/view/edit_experience_type_widget.dart';
+
+import '../../../edit_single_value/views/experience_type/edit_experience_type.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class EditExperiencePage extends StatefulWidget {
   EditExperiencePage({

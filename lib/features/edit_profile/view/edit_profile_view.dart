@@ -5,10 +5,10 @@ import 'package:helperr/features/edit_list/views/experience/experience_list.dart
 import 'package:helperr/features/edit_list/views/language/language_list.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dart';
 import 'package:intl/intl.dart';
 
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
-import 'package:helperr/features/edit_sex/view/edit_sex_widget.dart';
 
 import '../../../data_layer/model/worker.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_language_proficiency/view/edit_language_proficiency_widget.dart';
+
+import '../../../edit_single_value/views/language_proficiency/edit_language_proficiency.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class EditLanguagePage extends StatefulWidget {
   EditLanguagePage({

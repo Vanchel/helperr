@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'phone_number_page.dart';
-import '../../cubit/edit_cubit.dart';
+import '../../cubit/edit_list_cubit.dart';
 import '../../../../widgets/list_action_header.dart';
 
 class PhoneNumberView extends StatelessWidget {

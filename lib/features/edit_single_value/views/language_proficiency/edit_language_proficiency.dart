@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_language_proficiency/cubit/edit_language_proficiency_cubit.dart';
-import 'package:helperr/features/edit_language_proficiency/view/edit_language_proficiency_view.dart';
+
+import 'edit_language_proficiency_view.dart';
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class EditLanguageProficiency extends StatelessWidget {
   const EditLanguageProficiency(
@@ -15,7 +16,8 @@ class EditLanguageProficiency extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditLanguageProficiencyCubit(initialValue),
+      create: (context) =>
+          EditSingleValueCubit<LanguageProficiency>(initialValue),
       child: LanguageProficiencyDropdownButton(onChanged: onChanged),
     );
   }

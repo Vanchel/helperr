@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/resume.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/data_layer/repository/authentication_repository.dart';
-import 'package:helperr/features/edit_experience_type/view/edit_experience_type_widget.dart';
+
 import 'package:helperr/features/edit_list/views/portfolio/portfolio_list.dart';
 import 'package:helperr/features/edit_resume/cubit/edit_resume_cubit.dart';
+import 'package:helperr/features/edit_single_value/views/experience_type/edit_experience_type.dart';
 import 'package:helperr/widgets/chip_input/view/chip_input_widget.dart';
+import '../../../data_layer/model/worker.dart';
+import '../../../data_layer/model/resume.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 
 class EditResumeView extends StatefulWidget {
   EditResumeView({

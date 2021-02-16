@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_sex/cubit/edit_sex_cubit.dart';
+
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class SexRadioGroup extends StatelessWidget {
   const SexRadioGroup({Key key, @required this.onChanged}) : super(key: key);
@@ -10,11 +11,15 @@ class SexRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EditSexCubit, Gender>(
+    return BlocBuilder<EditSingleValueCubit<Gender>, Gender>(
       builder: (context, state) {
         if (onChanged != null) {
           onChanged(state);
         }
+
+        final onChangedValue = (Gender value) {
+          context.read<EditSingleValueCubit<Gender>>().changeValue(value);
+        };
 
         return Card(
           clipBehavior: Clip.antiAlias,
@@ -25,22 +30,19 @@ class SexRadioGroup extends StatelessWidget {
                 title: const Text('Мужчина'),
                 value: Gender.male,
                 groupValue: state,
-                onChanged: (value) =>
-                    context.read<EditSexCubit>().changeSex(value),
+                onChanged: onChangedValue,
               ),
               RadioListTile(
                 title: const Text('Женщина'),
                 value: Gender.female,
                 groupValue: state,
-                onChanged: (value) =>
-                    context.read<EditSexCubit>().changeSex(value),
+                onChanged: onChangedValue,
               ),
               RadioListTile(
                 title: const Text('Не важно'),
                 value: Gender.unknown,
                 groupValue: state,
-                onChanged: (value) =>
-                    context.read<EditSexCubit>().changeSex(value),
+                onChanged: onChangedValue,
               ),
             ],
           ),

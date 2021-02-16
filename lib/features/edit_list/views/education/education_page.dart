@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/models.dart';
-import 'package:helperr/features/edit_education_type/view/edit_education_type_widget.dart';
+
+import '../../../edit_single_value/views/education_type/edit_education_type.dart';
+import '../../../../data_layer/model/models.dart';
 
 class EditEducationPage extends StatefulWidget {
   EditEducationPage({

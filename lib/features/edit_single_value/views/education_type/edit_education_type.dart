@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_education_type/cubit/edit_education_type_cubit.dart';
-import 'package:helperr/features/edit_education_type/view/edit_education_type_view.dart';
+
+import 'edit_education_type_view.dart';
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class EditEducationType extends StatelessWidget {
   const EditEducationType(
@@ -15,7 +16,7 @@ class EditEducationType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditEducationTypeCubit(initialValue),
+      create: (context) => EditSingleValueCubit<EducationType>(initialValue),
       child: EducationDropdownButton(onChanged: onChanged),
     );
   }

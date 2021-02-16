@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'language_page.dart';
-import '../../cubit/edit_cubit.dart';
+import '../../cubit/edit_list_cubit.dart';
 import '../../../../data_layer/model/worker.dart';
 import '../../../../widgets/list_action_header.dart';
 

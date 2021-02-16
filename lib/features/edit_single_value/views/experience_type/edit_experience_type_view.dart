@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_experience_type/cubit/edit_experience_type_cubit.dart';
+
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class ExperienceDropdownButton extends StatelessWidget {
   const ExperienceDropdownButton({Key key, @required this.onChanged})
@@ -13,7 +14,7 @@ class ExperienceDropdownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
-    return BlocBuilder<EditExperienceTypeCubit, ExperienceType>(
+    return BlocBuilder<EditSingleValueCubit<ExperienceType>, ExperienceType>(
       builder: (context, state) {
         if (onChanged != null) {
           onChanged(state);
@@ -39,9 +40,11 @@ class ExperienceDropdownButton extends StatelessWidget {
                 child: DropdownButton<ExperienceType>(
                   value: dropdownValue,
                   isExpanded: true,
-                  onChanged: (value) => context
-                      .read<EditExperienceTypeCubit>()
-                      .changeExperienceType(value),
+                  onChanged: (value) {
+                    context
+                        .read<EditSingleValueCubit<ExperienceType>>()
+                        .changeValue(value);
+                  },
                   items: const [
                     DropdownMenuItem<ExperienceType>(
                       value: ExperienceType.internship,

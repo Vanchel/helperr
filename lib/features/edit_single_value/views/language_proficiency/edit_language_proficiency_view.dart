@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/worker.dart';
-import 'package:helperr/features/edit_language_proficiency/cubit/edit_language_proficiency_cubit.dart';
+
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/worker.dart';
 
 class LanguageProficiencyDropdownButton extends StatelessWidget {
   const LanguageProficiencyDropdownButton({Key key, @required this.onChanged})
@@ -13,7 +14,8 @@ class LanguageProficiencyDropdownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
-    return BlocBuilder<EditLanguageProficiencyCubit, LanguageProficiency>(
+    return BlocBuilder<EditSingleValueCubit<LanguageProficiency>,
+        LanguageProficiency>(
       builder: (context, state) {
         if (onChanged != null) {
           onChanged(state);
@@ -29,8 +31,8 @@ class LanguageProficiencyDropdownButton extends StatelessWidget {
               value: dropdownValue,
               isExpanded: true,
               onChanged: (value) => context
-                  .read<EditLanguageProficiencyCubit>()
-                  .changeLanguageProficiency(value),
+                  .read<EditSingleValueCubit<LanguageProficiency>>()
+                  .changeValue(value),
               items: const [
                 DropdownMenuItem<LanguageProficiency>(
                   value: LanguageProficiency.a1,
