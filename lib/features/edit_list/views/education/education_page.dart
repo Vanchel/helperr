@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../edit_single_value/views/education_type/edit_education_type.dart';
+import '../../../../widgets/date_input.dart';
 import '../../../../data_layer/model/models.dart';
 
 class EditEducationPage extends StatefulWidget {
@@ -116,28 +117,18 @@ class _EditEducationPageState extends State<EditEducationPage> {
 
     final startDateInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
-      child: InputDatePickerFormField(
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now(),
-        initialDate: widget.isEditing ? widget.education.startYear : null,
-        fieldLabelText: 'Дата начала обучения',
-        fieldHintText: 'мм/дд/гггг',
-        errorInvalidText: 'Указана дата вне допустимого диапазона.',
-        errorFormatText: 'Неверный формат даты.',
-        onDateSaved: (value) => _startDate = value,
+      child: DateInput(
+        initialValue: widget.isEditing ? widget.education.startYear : null,
+        labelText: 'Дата начала обучения',
+        onValidate: (newValue) => _startDate = newValue,
       ),
     );
 
     final endDateInput = Container(
-      child: InputDatePickerFormField(
-        firstDate: DateTime(1900),
-        lastDate: DateTime(DateTime.now().year + 15),
-        initialDate: widget.isEditing ? widget.education.endYear : null,
-        fieldLabelText: 'Дата окончания обучения',
-        fieldHintText: 'мм/дд/гггг',
-        errorInvalidText: 'Указана дата вне допустимого диапазона.',
-        errorFormatText: 'Неверный формат даты.',
-        onDateSaved: (value) => _endDate = value,
+      child: DateInput(
+        initialValue: widget.isEditing ? widget.education.endYear : null,
+        labelText: 'Дата окончания обучения',
+        onValidate: (newValue) => _endDate = newValue,
       ),
     );
 

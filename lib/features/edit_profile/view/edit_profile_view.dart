@@ -5,8 +5,8 @@ import 'package:helperr/features/edit_list/views/experience/experience_list.dart
 import 'package:helperr/features/edit_list/views/language/language_list.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:helperr/widgets/date_input.dart';
 import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dart';
-import 'package:intl/intl.dart';
 
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
 
@@ -79,68 +79,12 @@ class _EditProfileViewState extends State<EditProfileView> {
       ),
     );
 
-    // final dobInput = InputDatePickerFormField(
-    //   firstDate: DateTime(1900),
-    //   lastDate: DateTime.now(),
-    //   initialDate: widget.worker.birthday,
-    //   fieldLabelText: 'Дата рождения',
-    //   fieldHintText: 'мм/дд/гггг',
-    //   errorInvalidText: 'Указана дата вне допустимого диапазона.',
-    //   errorFormatText: 'Неверный формат даты.',
-    //   onDateSaved: (value) => _dob = value,
-    // );
-
-    // start from creating datepicker input widget
-
-    final dobPicker = Container(
-      margin: const EdgeInsets.only(right: 6.0),
-      child: IconButton(
-        icon: const Icon(Icons.calendar_today_rounded),
-        splashRadius: 24.0,
-        onPressed: () {
-          showDatePicker(
-            context: context,
-            initialDate: widget.worker.birthday,
-            firstDate: DateTime(1900),
-            lastDate: DateTime.now(),
-          );
-        },
-      ),
-    );
-
-    String initDate;
-    if (initDate != null) {
-      initDate = DateFormat('dd.MM.yyyy').format(widget.worker.birthday);
-    } else {
-      initDate = '';
-    }
-
     final dobInput = Container(
-      margin: const EdgeInsets.only(bottom: 12.0),
-      child: TextFormField(
-        initialValue: initDate,
-        keyboardType: TextInputType.datetime,
-        decoration: InputDecoration(
-          labelText: 'Дата рождения',
-          hintText: 'дд.мм.гггг',
-          helperText: '',
-          border: textInputBorder,
-          suffixIcon: dobPicker,
-        ),
-        validator: (value) {
-          try {
-            if (value == '') {
-              _dob = null;
-              return null;
-            }
-
-            final val = value.split('.').reversed.join();
-            _dob = DateTime.parse(val);
-            return null;
-          } catch (_) {
-            return 'Неверный формат даты.';
-          }
-        },
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: DateInput(
+        initialValue: widget.worker.birthday,
+        onValidate: (newValue) => _dob = newValue,
+        labelText: 'Дата рождения',
       ),
     );
 

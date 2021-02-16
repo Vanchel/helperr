@@ -60,8 +60,7 @@ class Resume extends Equatable {
         vacancyName: vacancyName ?? this.vacancyName,
         industry: industry ?? this.industry,
         grade: grade ?? this.grade,
-        // looks wierd
-        salary: salary,
+        salary: salary ?? this.salary,
         workType: workType ?? this.workType,
         tags: tags ?? this.tags,
         about: about ?? this.about,

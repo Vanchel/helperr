@@ -62,53 +62,6 @@ class ProfileCard extends StatelessWidget {
       descriptionWidget = const SizedBox.shrink();
     }
 
-    // Widget birthdayWidget;
-    // if (dateOfBirth != null) {
-    //   birthdayWidget = Container(
-    //     child: Row(
-    //       children: [
-    //         const Icon(Icons.cake_rounded),
-    //         Text(
-    //             'Дата рождения: ${dateOfBirth.day}.${dateOfBirth.month}.${dateOfBirth.year}'),
-    //       ],
-    //     ),
-    //   );
-    // } else {
-    //   birthdayWidget = const SizedBox.shrink();
-    // }
-
-    // Widget sexWidget;
-    // if (sex != null && sex != Gender.unknown) {
-    //   final String str = (sex == Gender.male) ? 'Мужчина' : 'Женщина';
-
-    //   sexWidget = Container(
-    //     child: Row(
-    //       children: [
-    //         const Icon(Icons.wc_rounded),
-    //         Text(str),
-    //       ],
-    //     ),
-    //   );
-    // } else {
-    //   sexWidget = const SizedBox.shrink();
-    // }
-
-    // Widget locationWidget;
-    // if ((region?.isNotEmpty ?? false) || (country.isNotEmpty ?? false)) {
-    //   locationWidget = Container(
-    //     child: Row(
-    //       children: [
-    //         const Icon(Icons.apartment_rounded),
-    //         Text('Местоположение: ${region ?? ""}'
-    //             '${((region?.isNotEmpty ?? false) && (country?.isNotEmpty ?? false)) ? ", " : ""}'
-    //             '${country ?? ""}'),
-    //       ],
-    //     ),
-    //   );
-    // } else {
-    //   locationWidget = const SizedBox.shrink();
-    // }
-
     return Card(
       clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.all(0.0),
@@ -125,9 +78,6 @@ class ProfileCard extends StatelessWidget {
               children: [
                 nameWidget,
                 descriptionWidget,
-                //birthdayWidget,
-                //sexWidget,
-                //locationWidget,
               ],
             ),
           ),

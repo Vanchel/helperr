@@ -3,7 +3,6 @@ import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/resume.dart';
 import 'package:helperr/features/edit_resume/view/edit_resume_page.dart';
 import 'package:helperr/widgets/list_action_header.dart';
-import 'package:intl/intl.dart';
 
 class ResumesList extends StatelessWidget {
   const ResumesList(this.resumes, {Key key, @required this.onChanged})
@@ -13,25 +12,25 @@ class ResumesList extends StatelessWidget {
   final List<Resume> resumes;
   final VoidCallback onChanged;
 
-  String _mapExpTypeToString(ExperienceType type) {
-    String str;
+  // String _mapExpTypeToString(ExperienceType type) {
+  //   String str;
 
-    if (type == ExperienceType.junior) {
-      str = "начинающий специалист";
-    } else if (type == ExperienceType.middle) {
-      str = "специалист";
-    } else if (type == ExperienceType.senior) {
-      str = "старший специалист";
-    } else if (type == ExperienceType.director) {
-      str = "руководитель";
-    } else if (type == ExperienceType.seniorDirector) {
-      str = "старший руководитель";
-    } else {
-      str = "стажёр";
-    }
+  //   if (type == ExperienceType.junior) {
+  //     str = "начинающий специалист";
+  //   } else if (type == ExperienceType.middle) {
+  //     str = "специалист";
+  //   } else if (type == ExperienceType.senior) {
+  //     str = "старший специалист";
+  //   } else if (type == ExperienceType.director) {
+  //     str = "руководитель";
+  //   } else if (type == ExperienceType.seniorDirector) {
+  //     str = "старший руководитель";
+  //   } else {
+  //     str = "стажёр";
+  //   }
 
-    return str;
-  }
+  //   return str;
+  // }
 
   Widget _buildResumeCard(BuildContext context, Resume resume) {
     final themeData = Theme.of(context);
@@ -52,12 +51,12 @@ class ResumesList extends StatelessWidget {
     final String salaryText =
         (resume.salary != null) ? '${resume.salary} руб.' : 'з/п не указана';
 
-    String dateFormatted;
-    if (resume.pubDate != null) {
-      dateFormatted = DateFormat('dd.MM.yyyy').format(resume.pubDate);
-    } else {
-      dateFormatted = 'Ошибка загрузки даты';
-    }
+    // String dateFormatted;
+    // if (resume.pubDate != null) {
+    //   dateFormatted = DateFormat('dd.MM.yyyy').format(resume.pubDate);
+    // } else {
+    //   dateFormatted = 'Ошибка загрузки даты';
+    // }
 
     // String workTypeFormatted =
     //     List.generate(resume.workType.length, (index) => resume.workType[index])
