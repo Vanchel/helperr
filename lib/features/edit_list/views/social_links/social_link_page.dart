@@ -25,6 +25,9 @@ class _EditSocialLinkState extends State<EditSocialLinkPage> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -43,24 +46,29 @@ class _EditSocialLinkState extends State<EditSocialLinkPage> {
       },
     );
 
-    final linkInput = TextFormField(
-      maxLines: 1,
-      keyboardType: TextInputType.url,
-      decoration: const InputDecoration(
-        labelText: 'URL',
-        hintText: 'https://example.com/profile_name',
+    final linkInput = Container(
+      child: TextFormField(
+        maxLines: 1,
+        keyboardType: TextInputType.url,
+        decoration: const InputDecoration(
+          labelText: 'URL',
+          hintText: 'https://example.com/profile_name',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _socialLink = newValue,
+        validator: (value) {
+          if (!_isValidLink(value)) {
+            return 'Укажите корректный URL.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _socialLink = newValue,
-      validator: (value) {
-        if (!_isValidLink(value)) {
-          return 'Укажите корректный URL.';
-        }
-        return null;
-      },
     );
 
+    final divider = const Divider();
+
     final commonPrompt = Container(
-      margin: const EdgeInsets.only(top: 4.0),
       child: Text(
         'Вы можете указать в профиле ссылки на аккаунты в различных '
         'социальных сетях, чтобы с Вами можно было связаться там.',
@@ -77,8 +85,8 @@ class _EditSocialLinkState extends State<EditSocialLinkPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(children: [linkInput, commonPrompt]),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(children: [linkInput, divider, commonPrompt]),
         ),
       ),
     );

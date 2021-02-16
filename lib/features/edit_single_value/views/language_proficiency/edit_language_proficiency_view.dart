@@ -26,39 +26,52 @@ class LanguageProficiencyDropdownButton extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Уровень владения', style: themeData.textTheme.subtitle1),
-            DropdownButton<LanguageProficiency>(
-              value: dropdownValue,
-              isExpanded: true,
-              onChanged: (value) => context
-                  .read<EditSingleValueCubit<LanguageProficiency>>()
-                  .changeValue(value),
-              items: const [
-                DropdownMenuItem<LanguageProficiency>(
-                  value: LanguageProficiency.a1,
-                  child: Text('Начинающий'),
+            Text('Уровень владения', style: themeData.textTheme.bodyText1),
+            const SizedBox(height: 8.0),
+            Container(
+              padding: const EdgeInsets.fromLTRB(11.0, 4.0, 17.0, 4.0),
+              decoration: BoxDecoration(
+                color: themeData.canvasColor,
+                border: const Border.fromBorderSide(
+                  BorderSide(color: Colors.black38),
                 ),
-                DropdownMenuItem<LanguageProficiency>(
-                  value: LanguageProficiency.a2,
-                  child: Text('Предпродвинутый'),
+                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<LanguageProficiency>(
+                  value: dropdownValue,
+                  isExpanded: true,
+                  onChanged: (value) => context
+                      .read<EditSingleValueCubit<LanguageProficiency>>()
+                      .changeValue(value),
+                  items: const [
+                    DropdownMenuItem<LanguageProficiency>(
+                      value: LanguageProficiency.a1,
+                      child: Text('Начинающий'),
+                    ),
+                    DropdownMenuItem<LanguageProficiency>(
+                      value: LanguageProficiency.a2,
+                      child: Text('Предпродвинутый'),
+                    ),
+                    DropdownMenuItem<LanguageProficiency>(
+                      value: LanguageProficiency.b1,
+                      child: Text('Продвинутый'),
+                    ),
+                    DropdownMenuItem<LanguageProficiency>(
+                      value: LanguageProficiency.b2,
+                      child: Text('Предпрофессиональный'),
+                    ),
+                    DropdownMenuItem<LanguageProficiency>(
+                      value: LanguageProficiency.c1,
+                      child: Text('Профессиональный'),
+                    ),
+                    DropdownMenuItem<LanguageProficiency>(
+                      value: LanguageProficiency.c2,
+                      child: Text('Владение в совершенстве'),
+                    ),
+                  ],
                 ),
-                DropdownMenuItem<LanguageProficiency>(
-                  value: LanguageProficiency.b1,
-                  child: Text('Продвинутый'),
-                ),
-                DropdownMenuItem<LanguageProficiency>(
-                  value: LanguageProficiency.b2,
-                  child: Text('Предпрофессиональный'),
-                ),
-                DropdownMenuItem<LanguageProficiency>(
-                  value: LanguageProficiency.c1,
-                  child: Text('Профессиональный'),
-                ),
-                DropdownMenuItem<LanguageProficiency>(
-                  value: LanguageProficiency.c2,
-                  child: Text('Владение в совершенстве'),
-                ),
-              ],
+              ),
             ),
           ],
         );

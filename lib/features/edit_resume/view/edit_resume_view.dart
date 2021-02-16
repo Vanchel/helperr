@@ -83,7 +83,7 @@ class _EditResumeViewState extends State<EditResumeView> {
       child: TextFormField(
         initialValue: widget.isEditing ? widget.resume.about : '',
         keyboardType: TextInputType.multiline,
-        maxLength: 160,
+        maxLength: 400,
         minLines: 1,
         maxLines: 4,
         decoration: const InputDecoration(
@@ -108,7 +108,8 @@ class _EditResumeViewState extends State<EditResumeView> {
     final salaryInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
-        initialValue: widget.isEditing ? widget.resume.salary.toString() : '',
+        initialValue:
+            widget.isEditing ? (widget.resume.salary ?? '').toString() : '',
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           labelText: 'Желаемая зарплата',
@@ -155,7 +156,7 @@ class _EditResumeViewState extends State<EditResumeView> {
     );
 
     final portfolioList = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: 6.0),
       child: PortfolioList(
         initialValue: widget.isEditing ? widget.resume.portfolio : [],
         onChanged: (newValue) => _portfolio = newValue,

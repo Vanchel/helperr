@@ -32,6 +32,9 @@ class _EditEducationPageState extends State<EditEducationPage> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -59,69 +62,88 @@ class _EditEducationPageState extends State<EditEducationPage> {
       },
     );
 
-    final professionInput = TextFormField(
-      initialValue: widget.isEditing ? widget.education.profession : '',
-      autofocus: !widget.isEditing,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Специальность',
-        hintText: 'Укажите специальность',
+    final professionInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        initialValue: widget.isEditing ? widget.education.profession : '',
+        autofocus: !widget.isEditing,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Специальность',
+          hintText: 'Укажите специальность',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _profession = newValue,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Поле не дожно быть пустым.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _profession = newValue,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Поле не дожно быть пустым.';
-        }
-        return null;
-      },
     );
 
-    final universityInput = TextFormField(
-      initialValue: widget.isEditing ? widget.education.university : '',
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Учебное заведение',
-        hintText: 'Укажите учебное заведение',
+    final universityInput = Container(
+      margin: const EdgeInsets.only(bottom: 12.0),
+      child: TextFormField(
+        initialValue: widget.isEditing ? widget.education.university : '',
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Учебное заведение',
+          hintText: 'Укажите учебное заведение',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _university = newValue,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Поле не дожно быть пустым.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _university = newValue,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Поле не дожно быть пустым.';
-        }
-        return null;
-      },
     );
 
-    final typeInput = EditEducationType(
-      initialValue:
-          widget.isEditing ? widget.education.type : EducationType.course,
-      onChanged: (value) => _type = value,
+    final typeInput = Container(
+      margin: const EdgeInsets.only(bottom: 38.0),
+      child: EditEducationType(
+        initialValue:
+            widget.isEditing ? widget.education.type : EducationType.course,
+        onChanged: (value) => _type = value,
+      ),
     );
 
-    final startDateInput = InputDatePickerFormField(
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      initialDate: widget.isEditing ? widget.education.startYear : null,
-      fieldLabelText: 'Дата начала обучения',
-      fieldHintText: 'мм/дд/гггг',
-      errorInvalidText: 'Указана дата вне допустимого диапазона.',
-      errorFormatText: 'Неверный формат даты.',
-      onDateSaved: (value) => _startDate = value,
+    final startDateInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: InputDatePickerFormField(
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+        initialDate: widget.isEditing ? widget.education.startYear : null,
+        fieldLabelText: 'Дата начала обучения',
+        fieldHintText: 'мм/дд/гггг',
+        errorInvalidText: 'Указана дата вне допустимого диапазона.',
+        errorFormatText: 'Неверный формат даты.',
+        onDateSaved: (value) => _startDate = value,
+      ),
     );
 
-    final endDateInput = InputDatePickerFormField(
-      firstDate: DateTime(1900),
-      lastDate: DateTime(DateTime.now().year + 15),
-      initialDate: widget.isEditing ? widget.education.endYear : null,
-      fieldLabelText: 'Дата окончания обучения',
-      fieldHintText: 'мм/дд/гггг',
-      errorInvalidText: 'Указана дата вне допустимого диапазона.',
-      errorFormatText: 'Неверный формат даты.',
-      onDateSaved: (value) => _endDate = value,
+    final endDateInput = Container(
+      child: InputDatePickerFormField(
+        firstDate: DateTime(1900),
+        lastDate: DateTime(DateTime.now().year + 15),
+        initialDate: widget.isEditing ? widget.education.endYear : null,
+        fieldLabelText: 'Дата окончания обучения',
+        fieldHintText: 'мм/дд/гггг',
+        errorInvalidText: 'Указана дата вне допустимого диапазона.',
+        errorFormatText: 'Неверный формат даты.',
+        onDateSaved: (value) => _endDate = value,
+      ),
     );
+
+    final divider = const Divider();
 
     final commonPrompt = Container(
-      margin: const EdgeInsets.only(top: 4.0),
       child: Text(
         'Укажите данные об имеющемся у Вас образовании. Вы '
         'сможете прикрепить эти данные к любому своему резюме.',
@@ -140,7 +162,7 @@ class _EditEducationPageState extends State<EditEducationPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -149,6 +171,7 @@ class _EditEducationPageState extends State<EditEducationPage> {
               typeInput,
               startDateInput,
               endDateInput,
+              divider,
               commonPrompt,
             ],
           ),

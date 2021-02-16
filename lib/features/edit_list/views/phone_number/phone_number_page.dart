@@ -24,6 +24,9 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -42,24 +45,29 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       },
     );
 
-    final phoneInput = TextFormField(
-      maxLines: 1,
-      keyboardType: TextInputType.phone,
-      decoration: const InputDecoration(
-        labelText: 'Номер телефона',
-        hintText: 'Добавьте номер телефона',
+    final phoneInput = Container(
+      child: TextFormField(
+        maxLines: 1,
+        keyboardType: TextInputType.phone,
+        decoration: const InputDecoration(
+          labelText: 'Номер телефона',
+          hintText: 'Добавьте номер телефона',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _phone = newValue,
+        validator: (value) {
+          if (!_isValidPhoneNumber(value)) {
+            return 'Укажите корректный номер телефона.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _phone = newValue,
-      validator: (value) {
-        if (!_isValidPhoneNumber(value)) {
-          return 'Укажите корректный номер телефона.';
-        }
-        return null;
-      },
     );
 
+    final divider = const Divider();
+
     final commonPrompt = Container(
-      margin: const EdgeInsets.only(top: 4.0),
       child: Text(
         'Вы можете указать несколько контанктных номеров телефона,'
         ' с помощью которых работодатель сможет связаться с Вами.',
@@ -76,8 +84,8 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(children: [phoneInput, commonPrompt]),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(children: [phoneInput, divider, commonPrompt]),
         ),
       ),
     );

@@ -29,6 +29,9 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -53,31 +56,40 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
       },
     );
 
-    final languageInput = TextFormField(
-      initialValue: widget.isEditing ? widget.language.language : '',
-      autofocus: !widget.isEditing,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Язык',
-        hintText: 'Укажите язык',
+    final languageInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        initialValue: widget.isEditing ? widget.language.language : '',
+        autofocus: !widget.isEditing,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Язык',
+          hintText: 'Укажите язык',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _language = newValue,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Поле не дожно быть пустым.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _language = newValue,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Поле не дожно быть пустым.';
-        }
-        return null;
-      },
     );
 
-    final proficiencyInput = EditLanguageProficiency(
-      initialValue:
-          widget.isEditing ? widget.language.grade : LanguageProficiency.a1,
-      onChanged: (value) => _proficiency = value,
+    final proficiencyInput = Container(
+      margin: const EdgeInsets.only(bottom: 22.0),
+      child: EditLanguageProficiency(
+        initialValue:
+            widget.isEditing ? widget.language.grade : LanguageProficiency.a1,
+        onChanged: (value) => _proficiency = value,
+      ),
     );
+
+    final divider = const Divider();
 
     final commonPrompt = Container(
-      margin: const EdgeInsets.only(top: 4.0),
       child: Text(
         'Если у Вас есть навык владения каким-либо иностранным языком, вы '
         'можете указать это в своем профиле. Так у Вас появится возможность '
@@ -100,12 +112,13 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               languageInput,
               proficiencyInput,
+              divider,
               commonPrompt,
             ],
           ),

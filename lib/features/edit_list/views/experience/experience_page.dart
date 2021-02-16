@@ -32,6 +32,9 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -59,65 +62,84 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       },
     );
 
-    final positionInput = TextFormField(
-      initialValue: widget.isEditing ? widget.experience.position : '',
-      autofocus: !widget.isEditing,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Должность',
-        hintText: 'Укажите должность',
+    final positionInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        initialValue: widget.isEditing ? widget.experience.position : '',
+        autofocus: !widget.isEditing,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Должность',
+          hintText: 'Укажите должность',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _position = newValue,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Поле не дожно быть пустым.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _position = newValue,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Поле не дожно быть пустым.';
-        }
-        return null;
-      },
     );
 
-    final companyInput = TextFormField(
-      initialValue: widget.isEditing ? widget.experience.company : '',
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        labelText: 'Компания',
-        hintText: 'Укажите название компании',
+    final companyInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        initialValue: widget.isEditing ? widget.experience.company : '',
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          labelText: 'Компания',
+          hintText: 'Укажите название компании',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _company = newValue,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Поле не дожно быть пустым.';
+          }
+          return null;
+        },
       ),
-      onSaved: (newValue) => _company = newValue,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Поле не дожно быть пустым.';
-        }
-        return null;
-      },
     );
 
-    final typeInput = EditExperienceType(
-      initialValue:
-          widget.isEditing ? widget.experience.type : ExperienceType.internship,
-      onChanged: (value) => _type = value,
+    final typeInput = Container(
+      margin: const EdgeInsets.only(bottom: 38.0),
+      child: EditExperienceType(
+        initialValue: widget.isEditing
+            ? widget.experience.type
+            : ExperienceType.internship,
+        onChanged: (value) => _type = value,
+      ),
     );
 
-    final startDateInput = InputDatePickerFormField(
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      initialDate: widget.isEditing ? widget.experience.startYear : null,
-      fieldLabelText: 'Дата начала работы',
-      fieldHintText: 'мм/дд/гггг',
-      errorInvalidText: 'Указана дата вне допустимого диапазона.',
-      errorFormatText: 'Неверный формат даты.',
-      onDateSaved: (value) => _startDate = value,
+    final startDateInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: InputDatePickerFormField(
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+        initialDate: widget.isEditing ? widget.experience.startYear : null,
+        fieldLabelText: 'Дата начала работы',
+        fieldHintText: 'мм/дд/гггг',
+        errorInvalidText: 'Указана дата вне допустимого диапазона.',
+        errorFormatText: 'Неверный формат даты.',
+        onDateSaved: (value) => _startDate = value,
+      ),
     );
 
-    final endDateInput = InputDatePickerFormField(
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      initialDate: widget.isEditing ? widget.experience.endYear : null,
-      fieldLabelText: 'Дата окончания работы',
-      fieldHintText: 'мм/дд/гггг',
-      errorInvalidText: 'Указана дата вне допустимого диапазона.',
-      errorFormatText: 'Неверный формат даты.',
-      onDateSaved: (value) => _endDate = value,
+    final endDateInput = Container(
+      child: InputDatePickerFormField(
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+        initialDate: widget.isEditing ? widget.experience.endYear : null,
+        fieldLabelText: 'Дата окончания работы',
+        fieldHintText: 'мм/дд/гггг',
+        errorInvalidText: 'Указана дата вне допустимого диапазона.',
+        errorFormatText: 'Неверный формат даты.',
+        onDateSaved: (value) => _endDate = value,
+      ),
     );
 
     // final untilNowSwitch = Row(
@@ -131,8 +153,9 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     //   ],
     // );
 
+    final divider = const Divider();
+
     final commonPrompt = Container(
-      margin: const EdgeInsets.only(top: 4.0),
       child: Text(
         'Укажите данные об имеющемся у Вас опыте работы. Вы '
         'сможете прикрепить эти данные к любому своему резюме.',
@@ -151,7 +174,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -161,6 +184,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
               startDateInput,
               //untilNowSwitch,
               endDateInput,
+              divider,
               commonPrompt,
             ],
           ),

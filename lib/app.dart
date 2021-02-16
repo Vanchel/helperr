@@ -46,6 +46,7 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       //debugShowMaterialGrid: true,
+      //showSemanticsDebugger: true,
       theme: theme,
       onGenerateRoute: (_) => SplashPage.route(),
       builder: (context, child) {

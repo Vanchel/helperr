@@ -33,7 +33,6 @@ class ProfileView extends StatelessWidget {
         );
 
         final editButton = Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
           child: OutlinedButton(
             child: const Text('Редактировать профиль'),
             onPressed: () {
@@ -56,6 +55,7 @@ class ProfileView extends StatelessWidget {
         );
 
         return SingleChildScrollView(
+          padding: const EdgeInsets.all(4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

@@ -37,25 +37,16 @@ class ProfileCard extends StatelessWidget {
 
     final Widget headWidget = Container(
       alignment: Alignment.centerLeft,
-      width: double.infinity,
       padding: const EdgeInsets.all(16.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
+      child: CircleAvatar(radius: 40.0, backgroundImage: avatarImage),
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: backgroundImage,
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: CircleAvatar(
-        radius: 40.0,
-        backgroundImage: avatarImage,
+        image: DecorationImage(image: backgroundImage, fit: BoxFit.cover),
       ),
     );
 
     Widget nameWidget;
     if (name != null) {
       nameWidget = Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Text(name, style: themeData.textTheme.headline6),
       );
     } else {
@@ -65,78 +56,81 @@ class ProfileCard extends StatelessWidget {
     Widget descriptionWidget;
     if (description?.isNotEmpty ?? false) {
       descriptionWidget = Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Text(
-          description,
-          maxLines: 5,
-          style: themeData.textTheme.caption,
-        ),
+        child: Text(description, style: themeData.textTheme.caption),
       );
     } else {
       descriptionWidget = const SizedBox.shrink();
     }
 
-    Widget birthdayWidget;
-    if (dateOfBirth != null) {
-      birthdayWidget = Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          children: [
-            const Icon(Icons.cake_rounded),
-            Text('${dateOfBirth.day}.${dateOfBirth.month}.${dateOfBirth.year}'),
-          ],
-        ),
-      );
-    } else {
-      birthdayWidget = const SizedBox.shrink();
-    }
+    // Widget birthdayWidget;
+    // if (dateOfBirth != null) {
+    //   birthdayWidget = Container(
+    //     child: Row(
+    //       children: [
+    //         const Icon(Icons.cake_rounded),
+    //         Text(
+    //             'Дата рождения: ${dateOfBirth.day}.${dateOfBirth.month}.${dateOfBirth.year}'),
+    //       ],
+    //     ),
+    //   );
+    // } else {
+    //   birthdayWidget = const SizedBox.shrink();
+    // }
 
-    Widget sexWidget;
-    if (sex != null && sex != Gender.unknown) {
-      final String str = (sex == Gender.male) ? 'Мужчина' : 'Женщина';
+    // Widget sexWidget;
+    // if (sex != null && sex != Gender.unknown) {
+    //   final String str = (sex == Gender.male) ? 'Мужчина' : 'Женщина';
 
-      sexWidget = Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          children: [
-            const Icon(Icons.wc_rounded),
-            Text(str),
-          ],
-        ),
-      );
-    } else {
-      sexWidget = const SizedBox.shrink();
-    }
+    //   sexWidget = Container(
+    //     child: Row(
+    //       children: [
+    //         const Icon(Icons.wc_rounded),
+    //         Text(str),
+    //       ],
+    //     ),
+    //   );
+    // } else {
+    //   sexWidget = const SizedBox.shrink();
+    // }
 
-    Widget locationWidget;
-    if ((region?.isNotEmpty ?? false) || (country.isNotEmpty ?? false)) {
-      locationWidget = Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          children: [
-            const Icon(Icons.apartment_rounded),
-            Text('${region ?? ""}'
-                '${((region?.isNotEmpty ?? false) && (country?.isNotEmpty ?? false)) ? ", " : ""}'
-                '${country ?? ""}'),
-          ],
-        ),
-      );
-    } else {
-      locationWidget = const SizedBox.shrink();
-    }
+    // Widget locationWidget;
+    // if ((region?.isNotEmpty ?? false) || (country.isNotEmpty ?? false)) {
+    //   locationWidget = Container(
+    //     child: Row(
+    //       children: [
+    //         const Icon(Icons.apartment_rounded),
+    //         Text('Местоположение: ${region ?? ""}'
+    //             '${((region?.isNotEmpty ?? false) && (country?.isNotEmpty ?? false)) ? ", " : ""}'
+    //             '${country ?? ""}'),
+    //       ],
+    //     ),
+    //   );
+    // } else {
+    //   locationWidget = const SizedBox.shrink();
+    // }
 
     return Card(
       clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.all(0.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           headWidget,
-          nameWidget,
-          descriptionWidget,
-          birthdayWidget,
-          sexWidget,
-          locationWidget,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            margin: const EdgeInsets.only(bottom: 12.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                nameWidget,
+                descriptionWidget,
+                //birthdayWidget,
+                //sexWidget,
+                //locationWidget,
+              ],
+            ),
+          ),
         ],
       ),
     );

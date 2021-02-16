@@ -87,7 +87,6 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
     );
 
     final imageLinkInput = Container(
-      //margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
         initialValue: widget.isEditing ? widget.portfolio.imgLink : '',
         autofocus: !widget.isEditing,
@@ -108,8 +107,9 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
       ),
     );
 
+    final divider = const Divider();
+
     final commonPrompt = Container(
-      margin: const EdgeInsets.only(top: 4.0),
       child: Text(
         'Если у Вас есть аккаунт на каком-либо ресурсе, в большей степени '
         'ориентированном на Вашу профессиональную область, можете указать '
@@ -138,6 +138,7 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
             children: [
               sourceLinkInput,
               imageLinkInput,
+              divider,
               commonPrompt,
             ],
           ),

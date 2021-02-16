@@ -228,6 +228,15 @@ class _EditProfileViewState extends State<EditProfileView> {
       ),
     );
 
+    final divider = const Divider();
+
+    final commonPrompt = Text(
+      'Профиль отражает Ваши навыки и умения, а также некоторую общую '
+      'информацию. Потенциальный работодатель может ознакомиться также и с '
+      'Вашим профилем, если его заинтересует резюме.',
+      style: themeData.textTheme.caption,
+    );
+
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
       splashRadius: 24.0,
@@ -316,6 +325,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                 experienceList,
                 languagesList,
                 socialLinksList,
+                divider,
+                commonPrompt,
               ],
             ),
           ),

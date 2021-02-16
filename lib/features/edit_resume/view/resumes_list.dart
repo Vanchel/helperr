@@ -59,12 +59,79 @@ class ResumesList extends StatelessWidget {
       dateFormatted = 'Ошибка загрузки даты';
     }
 
-    String workTypeFormatted =
-        List.generate(resume.workType.length, (index) => resume.workType[index])
-            .toList()
-            .join(', ');
+    // String workTypeFormatted =
+    //     List.generate(resume.workType.length, (index) => resume.workType[index])
+    //         .toList()
+    //         .join(', ');
+
+    // return Card(
+    //   margin: const EdgeInsets.all(0.0),
+    //   clipBehavior: Clip.antiAlias,
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Container(
+    //         color: Colors.blue[700],
+    //         child: ListTile(
+    //           title: Text(
+    //             resume.vacancyName,
+    //             style:
+    //                 themeData.textTheme.headline6.copyWith(color: Colors.white),
+    //           ),
+    //           subtitle: Text(
+    //             _mapExpTypeToString(resume.grade),
+    //             style:
+    //                 themeData.textTheme.bodyText2.copyWith(color: Colors.white),
+    //           ),
+    //           trailing: Column(
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             children: [
+    //               Text(
+    //                 salaryText,
+    //                 style: themeData.textTheme.subtitle1
+    //                     .copyWith(color: Colors.white),
+    //               ),
+    //               Text(
+    //                 dateFormatted,
+    //                 style: themeData.textTheme.subtitle2
+    //                     .copyWith(color: Colors.white),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //       ListTile(
+    //         title: Text(resume.industry),
+    //         subtitle: Text(workTypeFormatted),
+    //         trailing: IconButton(
+    //           icon: const Icon(Icons.edit_rounded),
+    //           splashRadius: 24.0,
+    //           onPressed: onEdit,
+    //         ),
+    //       ),
+    //       Container(
+    //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //           child: Text(resume.about)),
+    //       Container(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Wrap(
+    //           spacing: 4.0,
+    //           children: [
+    //             for (String tag in resume.tags) Chip(label: Text(tag))
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+
+    final List<String> displayedTags = resume.tags.take(3).toList();
+    if (resume.tags.length > 3) {
+      displayedTags.add('...');
+    }
 
     return Card(
+      margin: const EdgeInsets.all(0.0),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,45 +145,35 @@ class ResumesList extends StatelessWidget {
                     themeData.textTheme.headline6.copyWith(color: Colors.white),
               ),
               subtitle: Text(
-                _mapExpTypeToString(resume.grade),
-                style:
-                    themeData.textTheme.bodyText2.copyWith(color: Colors.white),
+                salaryText,
+                style: themeData.textTheme.bodyText2
+                    .copyWith(color: Colors.white70),
               ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    salaryText,
-                    style: themeData.textTheme.subtitle1
-                        .copyWith(color: Colors.white),
-                  ),
-                  Text(
-                    dateFormatted,
-                    style: themeData.textTheme.subtitle2
-                        .copyWith(color: Colors.white),
-                  ),
-                ],
+              trailing: Material(
+                color: Colors.blue[700],
+                child: IconButton(
+                  icon: const Icon(Icons.edit_rounded),
+                  color: Colors.white70,
+                  splashRadius: 24.0,
+                  onPressed: onEdit,
+                ),
               ),
             ),
           ),
-          ListTile(
-            title: Text(resume.industry),
-            subtitle: Text(workTypeFormatted),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit_rounded),
-              splashRadius: 24.0,
-              onPressed: onEdit,
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(resume.about)),
           Container(
             padding: const EdgeInsets.all(8.0),
+            child: Text(
+              resume.about,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Wrap(
               spacing: 4.0,
               children: [
-                for (String tag in resume.tags) Chip(label: Text(tag))
+                for (String tag in displayedTags) Chip(label: Text(tag))
               ],
             ),
           ),
