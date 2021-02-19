@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/chip_input_cubit.dart';
 
-class ChipInputView extends StatelessWidget {
+class ChipInputView extends StatefulWidget {
   const ChipInputView({
     Key key,
     @required this.onChanged,
@@ -15,6 +15,13 @@ class ChipInputView extends StatelessWidget {
   final String labelText;
   final String hintText;
 
+  @override
+  _ChipInputViewState createState() => _ChipInputViewState();
+}
+
+class _ChipInputViewState extends State<ChipInputView> {
+  final controller = TextEditingController();
+
   Widget _buildInputChip(BuildContext context, String text) {
     return InputChip(
       label: Text(text),
@@ -25,9 +32,8 @@ class ChipInputView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
-
-    String _text;
+      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+    );
 
     final _addButton = Container(
       margin: const EdgeInsets.only(right: 6.0),
@@ -35,21 +41,21 @@ class ChipInputView extends StatelessWidget {
         icon: Icon(Icons.add_rounded),
         splashRadius: 24.0,
         onPressed: () {
-          if (_text.isNotEmpty) {
-            context.read<ChipInputCubit>().addChip(_text);
+          if (controller.text.isNotEmpty) {
+            context.read<ChipInputCubit>().addChip(controller.text);
+            controller.text = '';
           }
         },
       ),
     );
 
     final _inputField = Container(
-      //margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
+        controller: controller,
         keyboardType: TextInputType.text,
-        onChanged: (value) => _text = value,
         decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText,
+          labelText: widget.labelText,
+          hintText: widget.hintText,
           helperText: '',
           border: textInputBorder,
           suffixIcon: _addButton,
@@ -59,16 +65,15 @@ class ChipInputView extends StatelessWidget {
 
     final _chipsList = BlocBuilder<ChipInputCubit, List<String>>(
       builder: (context, state) {
-        if (onChanged != null) {
-          onChanged(state);
+        if (widget.onChanged != null) {
+          widget.onChanged(state);
         }
 
         return Wrap(
           spacing: 4.0,
-          children: List.generate(
-            state.length,
-            (index) => _buildInputChip(context, state[index]),
-          ).toList(),
+          children: List.generate(state.length, (index) {
+            return _buildInputChip(context, state[index]);
+          }).toList(),
         );
       },
     );
@@ -80,5 +85,11 @@ class ChipInputView extends StatelessWidget {
         _chipsList,
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

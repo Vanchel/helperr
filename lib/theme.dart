@@ -6,7 +6,7 @@ const _roundedBorder = RoundedRectangleBorder(
 );
 
 final theme = ThemeData(
-  textTheme: GoogleFonts.nunitoTextTheme(),
+  //textTheme: const GoogleFonts.nunitoTextTheme(),
   cardTheme: const CardTheme(shape: _roundedBorder),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(shape: _roundedBorder),
