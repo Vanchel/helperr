@@ -150,6 +150,8 @@ class ResumesList extends StatelessWidget {
               ),
               trailing: Material(
                 color: Colors.blue[700],
+                clipBehavior: Clip.antiAlias,
+                shape: const CircleBorder(),
                 child: IconButton(
                   icon: const Icon(Icons.edit_rounded),
                   color: Colors.white70,

@@ -22,6 +22,7 @@ class ProfileView extends StatelessWidget {
         final profile = state.workerInfo.worker;
 
         final profileCard = ProfileCard(
+          userId: profile.userId,
           name: profile.name,
           description: profile.about,
           backgroundUrl: profile.profileBackground,
@@ -33,6 +34,7 @@ class ProfileView extends StatelessWidget {
         );
 
         final editButton = Container(
+          margin: const EdgeInsets.only(top: 8.0),
           child: OutlinedButton(
             child: const Text('Редактировать профиль'),
             onPressed: () {
@@ -55,7 +57,7 @@ class ProfileView extends StatelessWidget {
         );
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

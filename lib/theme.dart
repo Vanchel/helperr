@@ -21,4 +21,5 @@ final theme = ThemeData(
     behavior: SnackBarBehavior.floating,
     shape: _roundedBorder,
   ),
+  popupMenuTheme: const PopupMenuThemeData(shape: _roundedBorder),
 );

@@ -66,7 +66,7 @@ class _EditProfileViewState extends State<EditProfileView> {
       child: TextFormField(
         initialValue: widget.worker.about,
         keyboardType: TextInputType.multiline,
-        maxLength: 80,
+        maxLength: 150,
         minLines: 1,
         maxLines: 4,
         decoration: const InputDecoration(
