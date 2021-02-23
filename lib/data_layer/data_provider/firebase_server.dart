@@ -2,36 +2,48 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 
-Future<String> getUserProfileAvatarUrl(int userId) async {
+Future<String> getAvatarUrl(int userId) async {
   final ref = FirebaseStorage.instance.ref('user-avatar$userId');
-  final url = await ref.getDownloadURL().catchError((e) => '');
 
-  return url;
+  try {
+    return await ref.getDownloadURL();
+  } catch (e) {
+    return '';
+  }
 }
 
-Future<String> getUserProfileBackgroundUrl(int userId) async {
+Future<String> getBackgroundUrl(int userId) async {
   final ref = FirebaseStorage.instance.ref('user-personal-background$userId');
-  final url = await ref.getDownloadURL().catchError((e) => '');
 
-  return url;
+  try {
+    return await ref.getDownloadURL();
+  } catch (e) {
+    return '';
+  }
 }
 
 Future<void> updateProfileAvatarImage(int userId, String filePath) async {
   final file = File(filePath);
   final ref = FirebaseStorage.instance.ref('user-avatar$userId');
 
-  ref.putFile(file).catchError((e) => print(e));
-
-  // try {
-  //   ref.putFile(file);
-  // } on Exception catch (e) {
-  //   print(e);
-  // }
+  await ref.putFile(file);
 }
 
 Future<void> updateProfileBackgroundImage(int userId, String filePath) async {
   final file = File(filePath);
   final ref = FirebaseStorage.instance.ref('user-personal-background$userId');
 
-  ref.putFile(file).catchError((e) => print(e));
+  await ref.putFile(file);
+}
+
+Future<void> deleteProfileAvatarImage(int userId) async {
+  final ref = FirebaseStorage.instance.ref('user-avatar$userId');
+
+  await ref.delete();
+}
+
+Future<void> deleteProfileBackgroundImage(int userId) async {
+  final ref = FirebaseStorage.instance.ref('user-personal-background$userId');
+
+  await ref.delete();
 }

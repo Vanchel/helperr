@@ -136,7 +136,7 @@ class ResumesList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.blue[700],
+            color: Colors.blue,
             child: ListTile(
               title: Text(
                 resume.vacancyName,
@@ -149,7 +149,7 @@ class ResumesList extends StatelessWidget {
                     .copyWith(color: Colors.white70),
               ),
               trailing: Material(
-                color: Colors.blue[700],
+                color: Colors.transparent,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircleBorder(),
                 child: IconButton(
@@ -162,7 +162,8 @@ class ResumesList extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
               resume.about,
               maxLines: 4,
@@ -170,7 +171,7 @@ class ResumesList extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(
               spacing: 4.0,
               children: [

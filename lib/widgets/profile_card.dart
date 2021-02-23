@@ -14,6 +14,8 @@ class ProfileCard extends StatelessWidget {
     this.sex,
     this.region,
     this.country,
+    this.onEdit,
+    this.onImageChanged,
   }) : super(key: key);
 
   final int userId;
@@ -25,86 +27,27 @@ class ProfileCard extends StatelessWidget {
   final Gender sex;
   final String region;
   final String country;
+  final VoidCallback onEdit;
+  final VoidCallback onImageChanged;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
 
-    // final ImageProvider backgroundImage = backgroundUrl.isNotEmpty
-    //     ? NetworkImage(backgroundUrl)
-    //     : const AssetImage('assets/background.png');
-
-    // final ImageProvider avatarImage = avatarUrl.isNotEmpty
-    //     ? NetworkImage(avatarUrl)
-    //     : const AssetImage('assets/avatar.jpg');
-
-    // Offset _lastTap;
-
-    // final avatarWidget = Container(
-    //   // decoration: const BoxDecoration(
-    //   //   shape: BoxShape.circle,
-    //   //   boxShadow: [
-    //   //     BoxShadow(color: Colors.black26, spreadRadius: 1.0, blurRadius: 2.0),
-    //   //   ],
-    //   // ),
-    //   child: CircleAvatar(
-    //     radius: 40.0,
-    //     backgroundImage: avatarImage,
-    //     child: Material(
-    //       color: Colors.transparent,
-    //       clipBehavior: Clip.antiAlias,
-    //       shape: const CircleBorder(),
-    //       child: InkWell(
-    //         onTapDown: (details) => _lastTap = details.globalPosition,
-    //         onTap: () {
-    //           showImageMenu(context, _lastTap);
-    //         },
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // final Widget headWidget = Material(
-    //   child: Ink.image(
-    //     image: backgroundImage,
-    //     fit: BoxFit.cover,
-    //     child: InkWell(
-    //       onTapDown: (details) => _lastTap = details.globalPosition,
-    //       onTap: () {
-    //         showImageMenu(context, _lastTap);
-    //       },
-    //       child: Container(
-    //         alignment: Alignment.centerLeft,
-    //         padding: const EdgeInsets.all(16.0),
-    //         child: avatarWidget,
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    Widget nameWidget;
-    if (name != null) {
-      nameWidget = Container(
-        child: Text(name, style: themeData.textTheme.headline6),
-      );
-    } else {
-      nameWidget = const SizedBox.shrink();
-    }
-
-    Widget regionWidget;
-    if (region?.isNotEmpty ?? false) {
-      regionWidget = Container(
-        margin: const EdgeInsets.only(top: 4.0),
-        child: Text(region, style: themeData.textTheme.caption),
-      );
-    } else {
-      regionWidget = const SizedBox.shrink();
-    }
+    final headerTile = ListTile(
+      contentPadding: const EdgeInsets.all(0.0),
+      title: Text(name ?? '', style: themeData.textTheme.headline6),
+      subtitle: Text(region ?? ''),
+      trailing: IconButton(
+        icon: Icon(Icons.edit_rounded),
+        onPressed: onEdit,
+        splashRadius: 24.0,
+      ),
+    );
 
     Widget descriptionWidget;
     if (description?.isNotEmpty ?? false) {
       descriptionWidget = Container(
-        margin: const EdgeInsets.only(top: 16.0),
         child: Text(description, style: themeData.textTheme.caption),
       );
     } else {
@@ -117,17 +60,18 @@ class ProfileCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AvatarHeader(userId),
+          AvatarHeader(
+            userId: userId,
+            avatarUrl: avatarUrl,
+            backgroundUrl: backgroundUrl,
+            onChanged: onImageChanged,
+          ),
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                nameWidget,
-                regionWidget,
-                descriptionWidget,
-              ],
+              children: [headerTile, descriptionWidget],
             ),
           ),
         ],
