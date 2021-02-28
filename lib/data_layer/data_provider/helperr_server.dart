@@ -4,30 +4,32 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' show utf8;
 import '../model/models.dart';
 
-final String _baseUrl = 'http://job-flow.ru/api';
+final String _baseUrl = 'job-flow.ru';
 
 Future<Worker> fetchWorker(int userId) async {
-  final response = await http.get('$_baseUrl/workers/$userId');
+  final response = await http.get(Uri.http(_baseUrl, 'api/workers/$userId'));
 
   if (response.statusCode == 200) {
     return workerFromJson(utf8.decode(response.body.runes.toList()));
   } else {
-    throw Exception('failed to fetch worker');
+    throw Exception('Failed to fetch worker');
   }
 }
 
 Future<void> updateWorker(Worker worker) async {
   final body = utf8.encode(workerToJson(worker));
 
-  final response =
-      await http.put('$_baseUrl/workers/${worker.userId}', body: body);
+  final response = await http.put(
+    Uri.http(_baseUrl, 'api/workers/${worker.userId}'),
+    body: body,
+  );
 
   if (response.statusCode != 200)
     throw Exception('Failed to update worker profile');
 }
 
 Future<List<Resume>> fetchResumes(int userId) async {
-  final response = await http.get('$_baseUrl/cv/$userId');
+  final response = await http.get(Uri.http(_baseUrl, 'api/cv/$userId'));
 
   if (response.statusCode == 200) {
     final decodedResponse = utf8.decode(response.body.runes.toList());
@@ -42,7 +44,7 @@ Future<List<Resume>> fetchResumes(int userId) async {
 
 Future<void> addResume(Resume resume) async {
   final body = utf8.encode(resumeToJson(resume));
-  final response = await http.post('$_baseUrl/cv', body: body);
+  final response = await http.post(Uri.http(_baseUrl, 'api/cv'), body: body);
 
   if (response.statusCode != 200) {
     throw Exception('Failed to add resume');
@@ -51,7 +53,10 @@ Future<void> addResume(Resume resume) async {
 
 Future<void> updateResume(Resume resume) async {
   final body = utf8.encode(resumeToJson(resume));
-  final response = await http.put('$_baseUrl/cv/${resume.id}', body: body);
+  final response = await http.put(
+    Uri.http(_baseUrl, 'api/cv/${resume.id}'),
+    body: body,
+  );
 
   if (response.statusCode != 200) {
     throw Exception('Failed to update resume');
@@ -59,7 +64,7 @@ Future<void> updateResume(Resume resume) async {
 }
 
 Future<void> deleteResume(int resumeId) async {
-  final response = await http.delete('$_baseUrl/cv/$resumeId');
+  final response = await http.delete(Uri.http(_baseUrl, 'api/cv/$resumeId'));
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete resume');
@@ -70,18 +75,25 @@ Future<User> login(String email, String password) async {
   final data = {'email': email, 'password': password};
   final body = utf8.encode(json.encode(data));
 
-  final response = await http.post('$_baseUrl/login', body: body);
+  final response = await http.post(
+    Uri.http(_baseUrl, 'api/login'),
+    body: body,
+  );
 
   if (response.statusCode == 200) {
     return userFromJson(utf8.decode(response.body.runes.toList()));
   } else {
-    throw Exception('failed to login');
+    throw Exception('Failed to login');
   }
 }
 
 // for some reason, the request cannot be completed when sending encoded UTF8
 Future<User> register(
-    String name, String email, String password, String userType) async {
+  String name,
+  String email,
+  String password,
+  String userType,
+) async {
   final user = {
     'name': name,
     'email': email,
@@ -110,11 +122,14 @@ Future<User> register(
   final body =
       '{"user": ${json.encode(user)}, "worker": ${json.encode(profile)}}';
 
-  final response = await http.post('$_baseUrl/register', body: body);
+  final response = await http.post(
+    Uri.http(_baseUrl, 'api/register'),
+    body: body,
+  );
 
   if (response.statusCode == 200) {
     return userFromJson(response.body);
   } else {
-    throw Exception('failed to register');
+    throw Exception('Failed to register');
   }
 }

@@ -91,7 +91,7 @@ class _AvatarHeaderState extends State<AvatarHeader> {
               imageErrorBuilder: (context, error, stackTrace) {
                 print(error);
                 return Image.asset(
-                  'assets/avatar.jpg',
+                  'assets/avatar.png',
                   fit: BoxFit.cover,
                   height: _avatarRadius * 2,
                   width: _avatarRadius * 2,

@@ -29,6 +29,13 @@
             {
               "client_id": "543987464647-imi3lfa2tgcccrnan43prnjrndui39eo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "543987464647-vrg4r841vahl9t9v6tsb31f9168kd1dc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vanchel.helperr"
+              }
             }
           ]
         }

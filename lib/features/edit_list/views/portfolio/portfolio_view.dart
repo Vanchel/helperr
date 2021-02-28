@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'portfolio_page.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/resume.dart';
+import '../../../../data_layer/model/portfolio.dart';
 import '../../../../widgets/list_action_header.dart';
 
 class PortfolioView extends StatelessWidget {
@@ -16,7 +16,7 @@ class PortfolioView extends StatelessWidget {
 
     final onDelete = () {
       context.read<EditListCubit<Portfolio>>().deleteValue(index);
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
           content: Text(

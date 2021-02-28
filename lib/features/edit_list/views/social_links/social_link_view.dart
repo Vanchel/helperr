@@ -13,7 +13,7 @@ class SocialLinkView extends StatelessWidget {
   Widget _buildItemView(BuildContext context, String socialLink, int index) {
     final onDelete = () {
       context.read<EditListCubit<String>>().deleteValue(index);
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
           content: Text(

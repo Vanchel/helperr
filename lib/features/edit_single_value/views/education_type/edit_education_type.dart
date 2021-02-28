@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'edit_education_type_view.dart';
 import '../../cubit/edit_single_value_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/education_type.dart';
 
 class EditEducationType extends StatelessWidget {
   const EditEducationType(

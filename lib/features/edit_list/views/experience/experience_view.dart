@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'experience_page.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/models.dart';
 import '../../../../widgets/list_action_header.dart';
 
 class ExperienceView extends StatelessWidget {
@@ -16,7 +16,7 @@ class ExperienceView extends StatelessWidget {
 
     final onDelete = () {
       context.read<EditListCubit<Exp>>().deleteValue(index);
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
           content: Text(

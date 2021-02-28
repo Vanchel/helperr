@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'language_page.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/models.dart';
 import '../../../../widgets/list_action_header.dart';
 
 class LanguageView extends StatelessWidget {
@@ -16,7 +16,7 @@ class LanguageView extends StatelessWidget {
 
     final onDelete = () {
       context.read<EditListCubit<Language>>().deleteValue(index);
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
           content: Text(

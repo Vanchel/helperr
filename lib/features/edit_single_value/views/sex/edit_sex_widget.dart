@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'edit_sex_view.dart';
 import '../../cubit/edit_single_value_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/gender.dart';
 
 class EditSex extends StatelessWidget {
   const EditSex({Key key, this.initialValue = Gender.unknown, this.onChanged})

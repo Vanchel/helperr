@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/models.dart';
+import 'package:helperr/data_layer/model/gender.dart';
 import 'package:helperr/widgets/avatar_header/avatar_header.dart';
 
 class ProfileCard extends StatelessWidget {

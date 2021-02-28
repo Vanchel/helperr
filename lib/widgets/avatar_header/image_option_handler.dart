@@ -70,8 +70,9 @@ Future<PickedFile> _pickImage(ImageSource source) async {
   final _picker = ImagePicker();
   PickedFile image = await _picker.getImage(
     source: source,
-    maxHeight: 800.0,
-    maxWidth: 800.0,
+    maxHeight: 650,
+    maxWidth: 650,
+    imageQuality: 40,
   );
 
   return image;

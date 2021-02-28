@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/resume.dart';
+import 'package:helperr/data_layer/model/portfolio.dart';
 
 class EditPortfolioPage extends StatefulWidget {
   EditPortfolioPage({

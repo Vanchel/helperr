@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'portfolio_view.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/resume.dart';
+import '../../../../data_layer/model/portfolio.dart';
 
 class PortfolioList extends StatelessWidget {
   const PortfolioList({Key key, this.initialValue = const [], this.onChanged})

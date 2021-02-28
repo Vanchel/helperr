@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../../../widgets/date_input.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/models.dart';
 
 class EditExperiencePage extends StatefulWidget {
   EditExperiencePage({

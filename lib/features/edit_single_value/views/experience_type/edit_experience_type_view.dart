@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/edit_single_value_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/experience_type.dart';
 
 class ExperienceDropdownButton extends StatelessWidget {
   const ExperienceDropdownButton({Key key, @required this.onChanged})

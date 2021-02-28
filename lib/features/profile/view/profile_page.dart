@@ -10,8 +10,8 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProfileCubit(
-          user: RepositoryProvider.of<AuthenticationRepository>(context).user)
-        ..loadProfile(),
+        id: RepositoryProvider.of<AuthenticationRepository>(context).user.id,
+      )..loadProfile(),
       child: ProfileView(),
     );
   }

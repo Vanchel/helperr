@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/data_layer/model/gender.dart';
 import 'package:helperr/features/edit_list/views/education/education_list.dart';
 import 'package:helperr/features/edit_list/views/experience/experience_list.dart';
 import 'package:helperr/features/edit_list/views/language/language_list.dart';
@@ -10,7 +11,7 @@ import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dar
 
 import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
 
-import '../../../data_layer/model/worker.dart';
+import '../../../data_layer/model/models.dart';
 
 class EditProfileView extends StatefulWidget {
   EditProfileView({Key key, @required this.onSave, @required this.worker})
@@ -228,7 +229,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     return BlocListener<EditProfileCubit, EditProfileState>(
       listener: (context, state) {
         if (state is ProfileSaveFailure) {
-          ScaffoldMessenger.of(context)
+          Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -254,7 +255,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         body: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

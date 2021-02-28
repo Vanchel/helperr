@@ -1,4 +1,12 @@
 export 'user.dart';
 export 'worker.dart';
+export 'gender.dart';
+export 'education.dart';
+export 'education_type.dart';
+export 'experience.dart';
+export 'experience_type.dart';
+export 'language.dart';
+export 'language_proficiency.dart';
 export 'resume.dart';
+export 'portfolio.dart';
 export 'worker_info.dart';

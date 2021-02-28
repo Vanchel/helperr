@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'language_view.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/language.dart';
 
 class LanguageList extends StatelessWidget {
   const LanguageList({Key key, this.initialValue = const [], this.onChanged})

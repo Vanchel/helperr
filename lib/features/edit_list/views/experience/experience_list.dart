@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'experience_view.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/experience.dart';
 
 class ExperienceList extends StatelessWidget {
   const ExperienceList({Key key, this.initialValue = const [], this.onChanged})

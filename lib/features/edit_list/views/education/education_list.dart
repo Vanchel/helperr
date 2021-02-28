@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'education_view.dart';
 import '../../cubit/edit_list_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/education.dart';
 
 class EducationList extends StatelessWidget {
   const EducationList({Key key, this.initialValue = const [], this.onChanged})

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 const _roundedBorder = RoundedRectangleBorder(
   borderRadius: BorderRadius.all(Radius.circular(16.0)),

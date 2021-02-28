@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'edit_language_proficiency_view.dart';
 import '../../cubit/edit_single_value_cubit.dart';
-import '../../../../data_layer/model/worker.dart';
+import '../../../../data_layer/model/language_proficiency.dart';
 
 class EditLanguageProficiency extends StatelessWidget {
   const EditLanguageProficiency(
