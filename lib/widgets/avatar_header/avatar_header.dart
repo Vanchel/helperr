@@ -30,6 +30,7 @@ class AvatarHeader extends StatefulWidget {
 class _AvatarHeaderState extends State<AvatarHeader> {
   static const _avatarRadius = 40.0;
   static const _padding = 16.0;
+  static const _duration = Duration(milliseconds: 300);
 
   Offset _lastTap;
 
@@ -44,12 +45,14 @@ class _AvatarHeaderState extends State<AvatarHeader> {
         Container(
           height: (_avatarRadius + _padding) * 2,
           width: double.infinity,
-          color: Colors.grey,
+          color: Colors.grey[200],
           child: FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: widget.backgroundUrl,
             fit: BoxFit.cover,
+            fadeInDuration: _duration,
             imageErrorBuilder: (context, error, stackTrace) {
+              print(error);
               return Image.asset('assets/background.png', fit: BoxFit.cover);
             },
           ),
@@ -64,12 +67,8 @@ class _AvatarHeaderState extends State<AvatarHeader> {
                 final isSet = widget.backgroundUrl.isNotEmpty;
                 final option = await showImageMenu(context, isSet);
 
-                mapImageOption(
-                  option,
-                  widget.userId,
-                  ImageType.background,
-                  widget.onChanged,
-                );
+                mapImageOption(option, widget.userId, ImageType.background,
+                    widget.onChanged);
               },
             ),
           ),
@@ -77,7 +76,7 @@ class _AvatarHeaderState extends State<AvatarHeader> {
         Container(
           margin: const EdgeInsets.all(_padding),
           decoration: BoxDecoration(
-            color: Colors.grey[400],
+            color: Colors.grey[300],
             shape: BoxShape.circle,
           ),
           child: ClipRRect(
@@ -88,7 +87,9 @@ class _AvatarHeaderState extends State<AvatarHeader> {
               fit: BoxFit.cover,
               height: _avatarRadius * 2,
               width: _avatarRadius * 2,
+              fadeInDuration: _duration,
               imageErrorBuilder: (context, error, stackTrace) {
+                print(error);
                 return Image.asset(
                   'assets/avatar.jpg',
                   fit: BoxFit.cover,
@@ -116,11 +117,7 @@ class _AvatarHeaderState extends State<AvatarHeader> {
                 final option = await showImageMenu(context, isSet);
 
                 mapImageOption(
-                  option,
-                  widget.userId,
-                  ImageType.avatar,
-                  widget.onChanged,
-                );
+                    option, widget.userId, ImageType.avatar, widget.onChanged);
               },
             ),
           ),
