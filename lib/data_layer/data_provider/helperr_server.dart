@@ -98,7 +98,7 @@ Future<User> register(
     'name': name,
     'email': email,
     'password': password,
-    'user_type': userType
+    'user_type': userTypeToJson(userType)
   };
   final worker = {
     "user_id": 0,
@@ -114,7 +114,7 @@ Future<User> register(
     "education": [],
     "exp": [],
     "cz": "",
-    "profile_link": "",
+    "profile_link": "empty",
     "photo_url": "",
     "profile_background": ""
   };
@@ -126,14 +126,19 @@ Future<User> register(
     "phone": [],
     "about": "",
     "links": [],
-    "profile_link": "",
+    "profile_link": "empty",
     "photo_url": "",
     "profile_background": ""
   };
 
-  final body = '{"user": ${json.encode(user)}, '
-      '"worker": ${json.encode(worker)}, '
-      '"employer: ${json.encode(employer)}"}';
+  String body = "";
+  if (userType == UserType.employee) {
+    body = '{"user": ${json.encode(user)}, '
+        '"worker": ${json.encode(worker)}}';
+  } else if (userType == UserType.employer) {
+    body = '{"user": ${json.encode(user)}, '
+        '"employer": ${json.encode(employer)}}';
+  }
 
   final response = await http.post(
     Uri.http(_baseUrl, 'api/register'),

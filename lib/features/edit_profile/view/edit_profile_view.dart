@@ -203,6 +203,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           exp: _experience,
           language: _languages,
           socialLinks: _socialLinks,
+          profileLink: "",
         );
         context.read<EditProfileCubit>().saveProfile(editedWorker);
       }

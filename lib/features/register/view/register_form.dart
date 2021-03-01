@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/features/edit_single_value/views/user_type_toggle/user_type_toggle_widget.dart';
 
 import '../../../data_layer/model/user_type.dart';
 import '../register.dart';
@@ -13,10 +14,6 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
 
   bool _isValidEmail(String str) {
     String pattern =
@@ -33,13 +30,18 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    String _name;
+    String _email;
+    String _password;
+    UserType _userType;
+
     final nameInput = TextFormField(
-      controller: nameController,
       keyboardType: TextInputType.name,
       decoration: const InputDecoration(
         icon: const Icon(Icons.person_rounded),
         labelText: 'Имя пользователя',
       ),
+      onSaved: (newValue) => _name = newValue,
       validator: (value) {
         if (value.isEmpty) {
           return 'Имя пользователя не указано.';
@@ -49,12 +51,12 @@ class _RegisterFormState extends State<RegisterForm> {
     );
 
     final emailInput = TextFormField(
-      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
         icon: const Icon(Icons.mail_rounded),
         labelText: 'Email',
       ),
+      onSaved: (newValue) => _email = newValue,
       validator: (value) {
         // if (!_isValidEmail(value)) {
         //   return 'Введите корректный email.';
@@ -64,7 +66,6 @@ class _RegisterFormState extends State<RegisterForm> {
     );
 
     final passwordInput = TextFormField(
-      controller: passwordController,
       keyboardType: TextInputType.visiblePassword,
       scrollPadding: const EdgeInsets.only(bottom: 32.0),
       decoration: const InputDecoration(
@@ -77,9 +78,18 @@ class _RegisterFormState extends State<RegisterForm> {
         }
         return null;
       },
+      onSaved: (newValue) => _password = newValue,
       obscureText: true,
       enableSuggestions: false,
       autocorrect: false,
+    );
+
+    final userTypeToggle = Container(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      alignment: Alignment.center,
+      child: UserTypeToggle(
+        onChanged: (newValue) => _userType = newValue,
+      ),
     );
 
     final registerButton = BlocBuilder<RegisterCubit, RegisterState>(
@@ -94,11 +104,12 @@ class _RegisterFormState extends State<RegisterForm> {
           return ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
                 context.read<RegisterCubit>().submitRegister(
-                      nameController.text,
-                      emailController.text,
-                      passwordController.text,
-                      UserType.employee,
+                      _name,
+                      _email,
+                      _password,
+                      _userType,
                     );
               }
             },
@@ -134,6 +145,7 @@ class _RegisterFormState extends State<RegisterForm> {
               nameInput,
               emailInput,
               passwordInput,
+              userTypeToggle,
               registerButton,
               loginButton,
             ],
@@ -141,14 +153,5 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
   }
 }
