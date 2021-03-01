@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data_layer/model/user_type.dart';
 import '../register.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -97,7 +98,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       nameController.text,
                       emailController.text,
                       passwordController.text,
-                      'employee',
+                      UserType.employee,
                     );
               }
             },

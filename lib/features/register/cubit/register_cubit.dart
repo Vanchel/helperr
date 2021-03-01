@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data_layer/repository/authentication_repository.dart';
+import '../../../data_layer/model/user_type.dart';
 
 part 'register_state.dart';
 
@@ -16,7 +17,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   final AuthenticationRepository _authenticationRepository;
 
   Future<void> submitRegister(
-      String name, String email, String password, String userType) async {
+      String name, String email, String password, UserType userType) async {
     emit(const RegisterState(status: RegisterStatus.inProgress));
     try {
       await _authenticationRepository.register(

@@ -92,7 +92,7 @@ Future<User> register(
   String name,
   String email,
   String password,
-  String userType,
+  UserType userType,
 ) async {
   final user = {
     'name': name,
@@ -100,7 +100,7 @@ Future<User> register(
     'password': password,
     'user_type': userType
   };
-  final profile = {
+  final worker = {
     "user_id": 0,
     "name": name,
     "mailing": true,
@@ -118,9 +118,22 @@ Future<User> register(
     "photo_url": "",
     "profile_background": ""
   };
+  final employer = {
+    "user_id": 0,
+    "name": name,
+    "mailing": true,
+    "address": "",
+    "phone": [],
+    "about": "",
+    "links": [],
+    "profile_link": "",
+    "photo_url": "",
+    "profile_background": ""
+  };
 
-  final body =
-      '{"user": ${json.encode(user)}, "worker": ${json.encode(profile)}}';
+  final body = '{"user": ${json.encode(user)}, '
+      '"worker": ${json.encode(worker)}, '
+      '"employer: ${json.encode(employer)}"}';
 
   final response = await http.post(
     Uri.http(_baseUrl, 'api/register'),

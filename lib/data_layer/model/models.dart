@@ -1,4 +1,5 @@
 export 'user.dart';
+export 'user_type.dart';
 export 'worker.dart';
 export 'gender.dart';
 export 'education.dart';

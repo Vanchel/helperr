@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+import 'user_type.dart';
+
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
 String userToJson(User data) => json.encode(data.toJson());
@@ -21,20 +23,20 @@ class User extends Equatable {
   final int id;
   final String name;
   final String email;
-  final String userType;
+  final UserType userType;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
         email: json["email"],
-        userType: json["user_type"],
+        userType: userTypeFromJson(json["user_type"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "email": email,
-        "user_type": userType,
+        "user_type": userTypeToJson(userType),
       };
 
   @override

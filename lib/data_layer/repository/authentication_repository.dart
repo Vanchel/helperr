@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../data_provider/helperr_server.dart' as server;
 import '../model/user.dart';
+import '../model/user_type.dart';
 
 enum AuthenticationStatus { authenticated, unauthenticated }
 
@@ -32,7 +33,7 @@ class AuthenticationRepository {
     @required String name,
     @required String email,
     @required String password,
-    @required String userType,
+    @required UserType userType,
   }) async {
     assert(name != null);
     assert(email != null);
