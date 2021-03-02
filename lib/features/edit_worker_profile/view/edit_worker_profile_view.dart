@@ -6,25 +6,24 @@ import 'package:helperr/features/edit_list/views/experience/experience_list.dart
 import 'package:helperr/features/edit_list/views/language/language_list.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:helperr/features/edit_worker_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/widgets/date_input.dart';
 import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dart';
 
-import 'package:helperr/features/edit_profile/cubit/edit_profile_cubit.dart';
-
 import '../../../data_layer/model/models.dart';
 
-class EditProfileView extends StatefulWidget {
-  EditProfileView({Key key, @required this.onSave, @required this.worker})
+class EditWorkerProfileView extends StatefulWidget {
+  EditWorkerProfileView({Key key, @required this.onSave, @required this.worker})
       : super(key: key);
 
   final VoidCallback onSave;
   final Worker worker;
 
   @override
-  _EditProfileViewState createState() => _EditProfileViewState();
+  _EditWorkerProfileViewState createState() => _EditWorkerProfileViewState();
 }
 
-class _EditProfileViewState extends State<EditProfileView> {
+class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _name;

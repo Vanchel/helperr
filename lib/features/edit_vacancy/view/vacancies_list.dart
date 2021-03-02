@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:helperr/data_layer/model/models.dart';
-import 'package:helperr/data_layer/model/resume.dart';
-import 'package:helperr/features/edit_resume/view/edit_resume_page.dart';
 import 'package:helperr/widgets/list_action_header.dart';
 
-class ResumesList extends StatelessWidget {
-  const ResumesList(this.resumes, {Key key, @required this.onChanged})
-      : assert(resumes != null),
+import 'edit_vacancy_page.dart';
+
+class VacanciesList extends StatelessWidget {
+  const VacanciesList(this.vacancies, {Key key, @required this.onChanged})
+      : assert(vacancies != null),
         super(key: key);
 
-  final List<Resume> resumes;
+  final List<Vacancy> vacancies;
   final VoidCallback onChanged;
 
-  Widget _buildResumeCard(BuildContext context, Resume resume) {
+  Widget _buildVacancyCard(BuildContext context, Vacancy vacancy) {
     final themeData = Theme.of(context);
 
     final onEdit = () {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EditResumePage(
+          builder: (context) => EditVacancyPage(
             onSave: onChanged,
             isEditing: true,
-            resume: resume,
+            vacancy: vacancy,
           ),
         ),
       );
     };
 
     final String salaryText =
-        (resume.salary != null) ? '${resume.salary} руб.' : 'з/п не указана';
+        (vacancy.salary != null) ? '${vacancy.salary} руб.' : 'з/п не указана';
 
-    final List<String> displayedTags = resume.tags.take(3).toList();
-    if (resume.tags.length > 3) {
+    final List<String> displayedTags = vacancy.tags.take(3).toList();
+    if (vacancy.tags.length > 3) {
       displayedTags.add('...');
     }
 
@@ -46,7 +46,7 @@ class ResumesList extends StatelessWidget {
             color: Colors.blue,
             child: ListTile(
               title: Text(
-                resume.vacancyName,
+                vacancy.vacancyName,
                 style:
                     themeData.textTheme.headline6.copyWith(color: Colors.white),
               ),
@@ -72,7 +72,7 @@ class ResumesList extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
-              resume.about,
+              vacancy.leading,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
             ),
@@ -97,7 +97,7 @@ class ResumesList extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EditResumePage(
+          builder: (context) => EditVacancyPage(
             onSave: onChanged,
             isEditing: false,
           ),
@@ -106,15 +106,15 @@ class ResumesList extends StatelessWidget {
     };
 
     final header = ListActionHeader(
-      'Ваши резюме',
-      actionLabel: 'Новое резюме',
+      'Ваши вакансии',
+      actionLabel: 'Новая вакансия',
       action: onAdd,
     );
 
     return Column(
       children: List.generate(
-        resumes.length,
-        (index) => _buildResumeCard(context, resumes[index]),
+        vacancies.length,
+        (index) => _buildVacancyCard(context, vacancies[index]),
       ).toList()
         ..insert(0, header),
     );

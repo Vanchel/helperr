@@ -14,14 +14,14 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    String _name;
+    String _password;
+
     final usernameInput = TextFormField(
-      controller: usernameController,
       keyboardType: TextInputType.name,
+      onSaved: (newValue) => _name = newValue,
       decoration: const InputDecoration(
         icon: const Icon(Icons.mail_rounded),
         labelText: 'Email',
@@ -35,8 +35,8 @@ class _LoginFormState extends State<LoginForm> {
     );
 
     final passwordInput = TextFormField(
-      controller: passwordController,
       keyboardType: TextInputType.visiblePassword,
+      onSaved: (newValue) => _password = newValue,
       decoration: const InputDecoration(
         icon: Icon(Icons.lock_rounded),
         labelText: 'Пароль',
@@ -72,11 +72,8 @@ class _LoginFormState extends State<LoginForm> {
           return ElevatedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                // сохранить данные локально через bloc
-                context.read<LoginCubit>().submitLogin(
-                      usernameController.text,
-                      passwordController.text,
-                    );
+                _formKey.currentState.save();
+                context.read<LoginCubit>().submitLogin(_name, _password);
               }
             },
             child: const Text('Войти'),
@@ -121,13 +118,5 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
   }
 }

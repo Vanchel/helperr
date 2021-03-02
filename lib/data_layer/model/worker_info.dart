@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:helperr/data_layer/model/resume.dart';
 
 import 'worker.dart';
+import 'resume.dart';
 
 class WorkerInfo extends Equatable {
   WorkerInfo(this.worker, this.resumes, this.avatarUrl, this.bgUrl);

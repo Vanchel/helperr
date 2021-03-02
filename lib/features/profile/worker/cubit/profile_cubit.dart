@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:helperr/data_layer/model/worker_info.dart';
-import 'package:helperr/features/profile/repository/worker_profile_repository.dart';
+import 'package:helperr/features/profile/repository/profile_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'profile_state.dart';
@@ -16,7 +16,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> loadProfile() async {
     try {
-      final workerInfo = await WokerProfileRepository.getWorkerInfo(_id);
+      final workerInfo = await ProfileRepository.getWorkerInfo(_id);
       emit(ProfileLoadSuccess(workerInfo));
     } catch (_) {
       emit(ProfileLoadFailure());

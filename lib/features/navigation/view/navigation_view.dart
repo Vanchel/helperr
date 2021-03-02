@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/navigation/navigation.dart';
-import 'package:helperr/features/profile/profile.dart';
+import 'package:helperr/features/profile/profile_page.dart';
 import 'package:helperr/features/settings/view/settings_page.dart';
 
 class NavigationView extends StatelessWidget {

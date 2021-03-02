@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/resume.dart';
+import 'package:helperr/data_layer/model/vacancy.dart';
 
-import '../cubit/edit_resume_cubit.dart';
-import 'edit_resume_view.dart';
+import '../cubit/edit_vacancy_cubit.dart';
+import 'edit_vacancy_view.dart';
 
-class EditResumePage extends StatelessWidget {
-  EditResumePage({
+class EditVacancyPage extends StatelessWidget {
+  EditVacancyPage({
     Key key,
     @required this.onSave,
     @required this.isEditing,
-    this.resume,
+    this.vacancy,
   }) : super(key: key);
 
   final VoidCallback onSave;
   final bool isEditing;
-  final Resume resume;
+  final Vacancy vacancy;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditResumeCubit(),
-      child: EditResumeView(
+      create: (context) => EditVacancyCubit(),
+      child: EditVacancyView(
         onSave: onSave,
         isEditing: isEditing,
-        resume: resume,
+        vacancy: vacancy,
       ),
     );
   }

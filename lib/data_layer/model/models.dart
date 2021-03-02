@@ -11,3 +11,7 @@ export 'language_proficiency.dart';
 export 'resume.dart';
 export 'portfolio.dart';
 export 'worker_info.dart';
+export 'employer.dart';
+export 'vacancy.dart';
+export 'scroll.dart';
+export 'employer_info.dart';

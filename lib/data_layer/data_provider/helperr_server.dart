@@ -24,8 +24,9 @@ Future<void> updateWorker(Worker worker) async {
     body: body,
   );
 
-  if (response.statusCode != 200)
+  if (response.statusCode != 200) {
     throw Exception('Failed to update worker profile');
+  }
 }
 
 Future<List<Resume>> fetchResumes(int userId) async {
@@ -68,6 +69,78 @@ Future<void> deleteResume(int resumeId) async {
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete resume');
+  }
+}
+
+Future<Employer> fetchEmployer(int userId) async {
+  final response = await http.get(Uri.http(_baseUrl, 'api/employers/$userId'));
+
+  if (response.statusCode == 200) {
+    return employerFromJson(utf8.decode(response.body.runes.toList()));
+  } else {
+    throw Exception('Failed to fetch employer');
+  }
+}
+
+Future<void> updateEmployer(Employer employer) async {
+  final body = utf8.encode(employerToJson(employer));
+
+  final response = await http.put(
+    Uri.http(_baseUrl, 'api/employers/${employer.userId}'),
+    body: body,
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update employer profile');
+  }
+}
+
+Future<List<Vacancy>> fetchVacancies(int userId) async {
+  final response = await http.get(Uri.http(_baseUrl, 'api/vacancy/$userId'));
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    final vacanciesList = (json.decode(decodedResponse) as List)
+        .map((str) => Vacancy.fromJson(str))
+        .toList();
+    return vacanciesList;
+  } else {
+    throw Exception('Failed to fetch vacancies');
+  }
+}
+
+Future<void> addVacancy(Vacancy vacancy) async {
+  final body = utf8.encode(vacancyToJson(vacancy));
+  final response = await http.post(
+    Uri.http(_baseUrl, 'api/vacancy'),
+    body: body,
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to add vacancy');
+  }
+}
+
+Future<void> updateVacancy(Vacancy vacancy) async {
+  final body = utf8.encode(vacancyToJson(vacancy));
+  final response = await http.put(
+    Uri.http(_baseUrl, 'api/vacancy/${vacancy.id}'),
+    body: body,
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update vacancy');
+  }
+}
+
+Future<void> deleteVacancy(int vacancyId) async {
+  final response = await http.delete(Uri.http(
+    _baseUrl,
+    'api/vacancy/$vacancyId',
+  ));
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to delete vacancy');
   }
 }
 

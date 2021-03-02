@@ -52,11 +52,11 @@ class _RegisterFormState extends State<RegisterForm> {
 
     final emailInput = TextFormField(
       keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => _email = newValue,
       decoration: const InputDecoration(
         icon: const Icon(Icons.mail_rounded),
         labelText: 'Email',
       ),
-      onSaved: (newValue) => _email = newValue,
       validator: (value) {
         // if (!_isValidEmail(value)) {
         //   return 'Введите корректный email.';
@@ -68,6 +68,7 @@ class _RegisterFormState extends State<RegisterForm> {
     final passwordInput = TextFormField(
       keyboardType: TextInputType.visiblePassword,
       scrollPadding: const EdgeInsets.only(bottom: 32.0),
+      onSaved: (newValue) => _password = newValue,
       decoration: const InputDecoration(
         icon: Icon(Icons.lock_rounded),
         labelText: 'Пароль',
@@ -78,7 +79,6 @@ class _RegisterFormState extends State<RegisterForm> {
         }
         return null;
       },
-      onSaved: (newValue) => _password = newValue,
       obscureText: true,
       enableSuggestions: false,
       autocorrect: false,
@@ -105,12 +105,9 @@ class _RegisterFormState extends State<RegisterForm> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                context.read<RegisterCubit>().submitRegister(
-                      _name,
-                      _email,
-                      _password,
-                      _userType,
-                    );
+                context
+                    .read<RegisterCubit>()
+                    .submitRegister(_name, _email, _password, _userType);
               }
             },
             child: const Text('Зарегистрироваться'),

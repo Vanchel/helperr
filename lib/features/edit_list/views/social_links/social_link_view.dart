@@ -60,7 +60,7 @@ class SocialLinkView extends StatelessWidget {
 
     return Column(
       children: [
-        ListActionHeader('Ссылки на соц. сети',
+        ListActionHeader('Ссылки на сторонние ресурсы',
             actionLabel: 'Добавить', action: onAdd),
         BlocBuilder<EditListCubit<String>, List<String>>(
           builder: (context, state) {
