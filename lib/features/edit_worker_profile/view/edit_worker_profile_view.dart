@@ -226,33 +226,37 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
       },
     );
 
-    return BlocListener<EditProfileCubit, EditProfileState>(
-      listener: (context, state) {
-        if (state is ProfileSaveFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.black54,
-                content: Text('Не удалось обновить профиль'),
-              ),
-            );
-        } else if (state is ProfileSaveSuccess) {
-          widget.onSave();
-          Navigator.pop(context);
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: backButton,
-          title: const Text('Изменить профиль'),
-          actions: [submitButton],
-          bottom: PreferredSize(
-            child: progressIndicator,
-            preferredSize: const Size.fromHeight(4.0),
-          ),
-        ),
-        body: Form(
+    final appBar = AppBar(
+      leading: backButton,
+      title: const Text('Изменить профиль'),
+      actions: [submitButton],
+      bottom: PreferredSize(
+        child: progressIndicator,
+        preferredSize: const Size.fromHeight(4.0),
+      ),
+    );
+
+    final listener = (BuildContext context, EditProfileState state) {
+      if (state is ProfileSaveFailure) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.black54,
+              content: Text('Не удалось обновить профиль'),
+            ),
+          );
+      } else if (state is ProfileSaveSuccess) {
+        widget.onSave();
+        Navigator.pop(context);
+      }
+    };
+
+    return Scaffold(
+      appBar: appBar,
+      body: BlocListener<EditProfileCubit, EditProfileState>(
+        listener: listener,
+        child: Form(
           key: _formKey,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(12.0),

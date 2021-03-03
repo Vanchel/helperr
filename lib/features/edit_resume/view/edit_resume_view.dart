@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/data_layer/model/portfolio.dart';
 
-import 'package:helperr/features/edit_list/views/portfolio/portfolio_list.dart';
-import 'package:helperr/features/edit_resume/cubit/edit_resume_cubit.dart';
-import 'package:helperr/features/edit_single_value/views/experience_type/edit_experience_type.dart';
-import 'package:helperr/widgets/chip_input/view/chip_input_widget.dart';
+import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 import '../../../data_layer/model/experience_type.dart';
 import '../../../data_layer/model/resume.dart';
-import '../../../data_layer/repository/authentication_repository.dart';
+import '../../../data_layer/model/portfolio.dart';
+
+import '../../../widgets/chip_input/view/chip_input_widget.dart';
+import '../../edit_list/views/portfolio/portfolio_list.dart';
+import '../cubit/edit_resume_cubit.dart';
 
 class EditResumeView extends StatefulWidget {
   EditResumeView({
@@ -180,8 +181,9 @@ class _EditResumeViewState extends State<EditResumeView> {
             OutlinedButton(
               child: const Text('Удалить резюме'),
               style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.red)),
+                foregroundColor:
+                    MaterialStateProperty.resolveWith((states) => Colors.red),
+              ),
               onPressed: () {
                 context.read<EditResumeCubit>().deleteResume(widget.resume.id);
               },
@@ -207,7 +209,6 @@ class _EditResumeViewState extends State<EditResumeView> {
         if (widget.isEditing) {
           resume = widget.resume;
         } else {
-          // not sure if that's the proper way of getting userId
           resume = Resume(
             userId: RepositoryProvider.of<AuthenticationRepository>(context)
                 .user
@@ -259,7 +260,7 @@ class _EditResumeViewState extends State<EditResumeView> {
           ..showSnackBar(
             SnackBar(
               backgroundColor: Colors.black54,
-              content: Text('Не удалось внести изменения'),
+              content: Text('Не удалось сохранить резюме'),
             ),
           );
       } else if (state is ResumeChangeSuccess) {
@@ -278,11 +279,11 @@ class _EditResumeViewState extends State<EditResumeView> {
       ),
     );
 
-    return BlocListener<EditResumeCubit, EditResumeState>(
-      listener: listener,
-      child: Scaffold(
-        appBar: appBar,
-        body: Form(
+    return Scaffold(
+      appBar: appBar,
+      body: BlocListener<EditResumeCubit, EditResumeState>(
+        listener: listener,
+        child: Form(
           key: _formKey,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(12.0),

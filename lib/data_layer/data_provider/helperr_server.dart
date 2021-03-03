@@ -117,6 +117,8 @@ Future<void> addVacancy(Vacancy vacancy) async {
   );
 
   if (response.statusCode != 200) {
+    print(response.statusCode);
+    print(response.reasonPhrase);
     throw Exception('Failed to add vacancy');
   }
 }
