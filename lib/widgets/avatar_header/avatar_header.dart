@@ -40,22 +40,51 @@ class _AvatarHeaderState extends State<AvatarHeader> {
 
   @override
   Widget build(BuildContext context) {
+    FadeInImage bgImage;
+    if (widget.backgroundUrl.isNotEmpty) {
+      bgImage = FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: widget.backgroundUrl,
+        fit: BoxFit.cover,
+        fadeInDuration: _duration,
+      );
+    } else {
+      bgImage = FadeInImage(
+        placeholder: MemoryImage(kTransparentImage),
+        image: AssetImage('assets/background.png'),
+        fit: BoxFit.cover,
+        fadeInDuration: _duration,
+      );
+    }
+
+    FadeInImage avatarImage;
+    if (widget.avatarUrl.isNotEmpty) {
+      avatarImage = FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: widget.avatarUrl,
+        fit: BoxFit.cover,
+        height: _avatarRadius * 2,
+        width: _avatarRadius * 2,
+        fadeInDuration: _duration,
+      );
+    } else {
+      avatarImage = FadeInImage(
+        placeholder: MemoryImage(kTransparentImage),
+        image: AssetImage('assets/avatar.png'),
+        fit: BoxFit.cover,
+        height: _avatarRadius * 2,
+        width: _avatarRadius * 2,
+        fadeInDuration: _duration,
+      );
+    }
+
     return Stack(
       children: [
         Container(
           height: (_avatarRadius + _padding) * 2,
           width: double.infinity,
           color: Colors.grey[200],
-          child: FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: widget.backgroundUrl,
-            fit: BoxFit.cover,
-            fadeInDuration: _duration,
-            imageErrorBuilder: (context, error, stackTrace) {
-              print(error);
-              return Image.asset('assets/background.png', fit: BoxFit.cover);
-            },
-          ),
+          child: bgImage,
         ),
         Positioned.fill(
           child: Material(
@@ -81,23 +110,7 @@ class _AvatarHeaderState extends State<AvatarHeader> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(_avatarRadius),
-            child: FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: widget.avatarUrl,
-              fit: BoxFit.cover,
-              height: _avatarRadius * 2,
-              width: _avatarRadius * 2,
-              fadeInDuration: _duration,
-              imageErrorBuilder: (context, error, stackTrace) {
-                print(error);
-                return Image.asset(
-                  'assets/avatar.png',
-                  fit: BoxFit.cover,
-                  height: _avatarRadius * 2,
-                  width: _avatarRadius * 2,
-                );
-              },
-            ),
+            child: avatarImage,
           ),
         ),
         Positioned(
@@ -131,7 +144,6 @@ class _AvatarHeaderState extends State<AvatarHeader> {
 
     const cameraOption = PopupMenuItem(
       value: ImageOption.camera,
-      enabled: !kIsWeb,
       child: ListTile(
         leading: Icon(Icons.photo_camera_rounded),
         title: Text('Сделать фото'),
@@ -140,7 +152,6 @@ class _AvatarHeaderState extends State<AvatarHeader> {
 
     const galleryOption = PopupMenuItem(
       value: ImageOption.gallery,
-      enabled: !kIsWeb,
       child: ListTile(
         leading: Icon(Icons.photo_library_rounded),
         title: Text('Выбрать из галереи'),
