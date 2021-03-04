@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants.dart' as constants;
+
 class EditPhoneNumberPage extends StatefulWidget {
   EditPhoneNumberPage({Key key, @required this.onSave}) : super(key: key);
 
@@ -84,7 +86,8 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:
+              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
           child: Column(children: [phoneInput, divider, commonPrompt]),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../../../widgets/date_input.dart';
 import '../../../../data_layer/model/models.dart';
+import '../../../../constants.dart' as constants;
 
 class EditExperiencePage extends StatefulWidget {
   EditExperiencePage({
@@ -165,7 +166,8 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:
+              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

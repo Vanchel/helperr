@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants.dart' as constants;
+
 class EditSocialLinkPage extends StatefulWidget {
   EditSocialLinkPage({Key key, @required this.onSave}) : super(key: key);
 
@@ -85,7 +87,8 @@ class _EditSocialLinkState extends State<EditSocialLinkPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:
+              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
           child: Column(children: [linkInput, divider, commonPrompt]),
         ),
       ),

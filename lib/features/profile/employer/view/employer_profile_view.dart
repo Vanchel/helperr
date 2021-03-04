@@ -6,6 +6,7 @@ import 'package:helperr/widgets/error_screen.dart';
 import 'package:helperr/widgets/loading_screen.dart';
 import 'package:helperr/widgets/profile_card.dart';
 import '../cubit/profile_cubit.dart';
+import 'package:helperr/constants.dart' as constants;
 
 class EmployerProfileView extends StatelessWidget {
   @override
@@ -52,7 +53,8 @@ class EmployerProfileView extends StatelessWidget {
           );
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [profileCard, vacanciesList],

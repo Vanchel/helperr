@@ -8,8 +8,8 @@ import '../../../data_layer/model/resume.dart';
 import '../../../data_layer/model/portfolio.dart';
 
 import '../cubit/edit_resume_cubit.dart';
+import '../../edit_list/views/chip_input/chip_input_widget.dart';
 import '../../edit_list/views/portfolio/portfolio_list.dart';
-import '../../../widgets/chip_input/view/chip_input_widget.dart';
 import '../../../constants.dart' as constants;
 
 class EditResumeView extends StatefulWidget {
@@ -288,7 +288,8 @@ class _EditResumeViewState extends State<EditResumeView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../edit_single_value/views/language_proficiency/edit_language_proficiency.dart';
 import '../../../../data_layer/model/models.dart';
+import '../../../../constants.dart' as constants;
 
 class EditLanguagePage extends StatefulWidget {
   EditLanguagePage({
@@ -112,7 +113,8 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:
+              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_employer_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:helperr/constants.dart' as constants;
 
 import '../../../data_layer/model/models.dart';
 
@@ -184,7 +185,8 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

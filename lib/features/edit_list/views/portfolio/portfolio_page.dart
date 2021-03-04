@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/portfolio.dart';
+
+import '../../../../data_layer/model/portfolio.dart';
+import '../../../../constants.dart' as constants;
 
 class EditPortfolioPage extends StatefulWidget {
   EditPortfolioPage({
@@ -132,7 +134,8 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:
+              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

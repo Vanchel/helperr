@@ -9,6 +9,7 @@ import 'package:helperr/features/edit_list/views/social_links/social_link_list.d
 import 'package:helperr/features/edit_worker_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/widgets/date_input.dart';
 import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dart';
+import 'package:helperr/constants.dart' as constants;
 
 import '../../../data_layer/model/models.dart';
 
@@ -259,7 +260,8 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

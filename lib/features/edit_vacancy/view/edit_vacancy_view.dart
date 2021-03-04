@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/features/edit_list/views/scroll/scroll_list.dart';
 import 'package:helperr/features/edit_single_value/views/experience_duration/edit_experience_duration.dart';
 
 import '../../../data_layer/repository/authentication_repository.dart';
@@ -9,8 +10,8 @@ import '../../../data_layer/model/vacancy.dart';
 import '../../../data_layer/model/scroll.dart';
 
 import '../cubit/edit_vacancy_cubit.dart';
+import '../../edit_list/views/chip_input/chip_input_widget.dart';
 import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
-import '../../../widgets/chip_input/view/chip_input_widget.dart';
 import '../../../constants.dart' as constants;
 
 class EditVacancyView extends StatefulWidget {
@@ -42,9 +43,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
   int _salary;
   List<String> _workType;
   List<String> _tags;
-  List<Scroll> _scrolls = [
-    Scroll(title: 'Тест', subtitle: 'Тест', points: ['1', '2', '3'])
-  ];
+  List<Scroll> _scrolls;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +207,13 @@ class _EditVacancyViewState extends State<EditVacancyView> {
       ),
     );
 
-    // body
+    final scrollsInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: ScrollsList(
+        initialValue: widget.isEditing ? widget.vacancy.body : [],
+        onChanged: (newValue) => _scrolls = newValue,
+      ),
+    );
 
     Widget deleteBlock;
     if (widget.isEditing) {
@@ -336,7 +341,8 @@ class _EditVacancyViewState extends State<EditVacancyView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -350,7 +356,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
                 salaryInput,
                 workTypesInput,
                 tagsInput,
-                // scrollsInput,
+                scrollsInput,
                 deleteBlock,
               ],
             ),

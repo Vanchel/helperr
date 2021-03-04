@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/chip_input_cubit.dart';
+import '../../cubit/edit_list_cubit.dart';
 
-class ChipInputView extends StatefulWidget {
-  const ChipInputView({
+class PointsInputView extends StatefulWidget {
+  const PointsInputView({
     Key key,
     @required this.onChanged,
     this.labelText,
@@ -16,16 +16,23 @@ class ChipInputView extends StatefulWidget {
   final String hintText;
 
   @override
-  _ChipInputViewState createState() => _ChipInputViewState();
+  _PointsInputViewState createState() => _PointsInputViewState();
 }
 
-class _ChipInputViewState extends State<ChipInputView> {
+class _PointsInputViewState extends State<PointsInputView> {
   final controller = TextEditingController();
 
-  Widget _buildInputChip(BuildContext context, String text) {
-    return InputChip(
-      label: Text(text),
-      onDeleted: () => context.read<ChipInputCubit>().removeChip(text),
+  Widget _buildPointView(BuildContext context, String text, int index) {
+    return Card(
+      child: ListTile(
+        title: Text(text),
+        trailing: IconButton(
+          icon: const Icon(Icons.remove_rounded),
+          splashRadius: 24.0,
+          onPressed: () =>
+              context.read<EditListCubit<String>>().deleteValue(index),
+        ),
+      ),
     );
   }
 
@@ -42,7 +49,7 @@ class _ChipInputViewState extends State<ChipInputView> {
         splashRadius: 24.0,
         onPressed: () {
           if (controller.text.isNotEmpty) {
-            context.read<ChipInputCubit>().addChip(controller.text);
+            context.read<EditListCubit<String>>().addValue(controller.text);
             controller.text = '';
           }
         },
@@ -63,16 +70,15 @@ class _ChipInputViewState extends State<ChipInputView> {
       ),
     );
 
-    final _chipsList = BlocBuilder<ChipInputCubit, List<String>>(
+    final _pointsList = BlocBuilder<EditListCubit<String>, List<String>>(
       builder: (context, state) {
         if (widget.onChanged != null) {
           widget.onChanged(state);
         }
 
-        return Wrap(
-          spacing: 4.0,
+        return Column(
           children: List.generate(state.length, (index) {
-            return _buildInputChip(context, state[index]);
+            return _buildPointView(context, state[index], index);
           }).toList(),
         );
       },
@@ -80,10 +86,7 @@ class _ChipInputViewState extends State<ChipInputView> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _inputField,
-        _chipsList,
-      ],
+      children: [_inputField, _pointsList],
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../edit_single_value/views/education_type/edit_education_type.dart';
 import '../../../../widgets/date_input.dart';
 import '../../../../data_layer/model/models.dart';
+import '../../../../constants.dart' as constants;
 
 class EditEducationPage extends StatefulWidget {
   EditEducationPage({
@@ -136,8 +137,9 @@ class _EditEducationPageState extends State<EditEducationPage> {
 
     final commonPrompt = Container(
       child: Text(
-        'Укажите данные об имеющемся у Вас образовании. Вы '
-        'сможете прикрепить эти данные к любому своему резюме.',
+        'Укажите данные об имеющемся у Вас образовании. Эти сведения могут '
+        'оказаться полезными для работодателя в зависимости от искомой '
+        'должности.',
         style: themeData.textTheme.caption,
       ),
     );
@@ -153,7 +155,8 @@ class _EditEducationPageState extends State<EditEducationPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:
+              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

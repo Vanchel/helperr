@@ -1,1 +1,3 @@
-const SALARY_NOT_SPECIFIED = -1;
+const int SALARY_NOT_SPECIFIED = -1;
+
+const double DEFAULT_SCAFFOLD_BODY_PADDING = 12.0;
