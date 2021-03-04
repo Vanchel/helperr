@@ -1,0 +1,1 @@
+const SALARY_NOT_SPECIFIED = -1;

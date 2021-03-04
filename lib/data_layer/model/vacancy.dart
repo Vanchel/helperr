@@ -69,8 +69,7 @@ class Vacancy extends Equatable {
         vacancyName: vacancyName ?? this.vacancyName,
         industry: industry ?? this.industry,
         grade: grade ?? this.grade,
-        // dunno how to workaround it yet
-        salary: salary,
+        salary: salary ?? this.salary,
         workType: workType ?? this.workType,
         exp: exp ?? this.exp,
         tags: tags ?? this.tags,

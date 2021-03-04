@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/models.dart';
-import 'package:helperr/data_layer/model/resume.dart';
-import 'package:helperr/features/edit_resume/view/edit_resume_page.dart';
-import 'package:helperr/widgets/list_action_header.dart';
+
+import 'edit_resume_page.dart';
+import '../../../data_layer/model/resume.dart';
+import '../../../widgets/list_action_header.dart';
+import '../../../constants.dart' as constants;
 
 class ResumesList extends StatelessWidget {
   const ResumesList(this.resumes, {Key key, @required this.onChanged})
@@ -28,8 +29,9 @@ class ResumesList extends StatelessWidget {
       );
     };
 
-    final String salaryText =
-        (resume.salary != null) ? '${resume.salary} руб.' : 'з/п не указана';
+    final String salaryText = (resume.salary != constants.SALARY_NOT_SPECIFIED)
+        ? '${resume.salary} руб.'
+        : 'з/п не указана';
 
     final List<String> displayedTags = resume.tags.take(3).toList();
     if (resume.tags.length > 3) {

@@ -8,9 +8,10 @@ import '../../../data_layer/model/experience_duration.dart';
 import '../../../data_layer/model/vacancy.dart';
 import '../../../data_layer/model/scroll.dart';
 
-import '../../../widgets/chip_input/view/chip_input_widget.dart';
-import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../cubit/edit_vacancy_cubit.dart';
+import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
+import '../../../widgets/chip_input/view/chip_input_widget.dart';
+import '../../../constants.dart' as constants;
 
 class EditVacancyView extends StatefulWidget {
   EditVacancyView({
@@ -181,8 +182,9 @@ class _EditVacancyViewState extends State<EditVacancyView> {
             return 'Неверный формат целого числа.';
           }
         },
-        onSaved: (newValue) =>
-            _salary = newValue.isEmpty ? null : int.parse(newValue),
+        onSaved: (newValue) => _salary = newValue.isEmpty
+            ? constants.SALARY_NOT_SPECIFIED
+            : int.parse(newValue),
       ),
     );
 

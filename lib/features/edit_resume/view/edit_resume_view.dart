@@ -7,9 +7,10 @@ import '../../../data_layer/model/experience_type.dart';
 import '../../../data_layer/model/resume.dart';
 import '../../../data_layer/model/portfolio.dart';
 
-import '../../../widgets/chip_input/view/chip_input_widget.dart';
-import '../../edit_list/views/portfolio/portfolio_list.dart';
 import '../cubit/edit_resume_cubit.dart';
+import '../../edit_list/views/portfolio/portfolio_list.dart';
+import '../../../widgets/chip_input/view/chip_input_widget.dart';
+import '../../../constants.dart' as constants;
 
 class EditResumeView extends StatefulWidget {
   EditResumeView({
@@ -132,8 +133,9 @@ class _EditResumeViewState extends State<EditResumeView> {
             return 'Неверный формат целого числа.';
           }
         },
-        onSaved: (newValue) =>
-            _salary = newValue.isEmpty ? null : int.parse(newValue),
+        onSaved: (newValue) => _salary = newValue.isEmpty
+            ? constants.SALARY_NOT_SPECIFIED
+            : int.parse(newValue),
       ),
     );
 

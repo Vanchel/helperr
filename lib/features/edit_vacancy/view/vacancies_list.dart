@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/models.dart';
-import 'package:helperr/widgets/list_action_header.dart';
 
 import 'edit_vacancy_page.dart';
+import '../../../data_layer/model/vacancy.dart';
+import '../../../widgets/list_action_header.dart';
+import '../../../constants.dart' as constants;
 
 class VacanciesList extends StatelessWidget {
   const VacanciesList(this.vacancies, {Key key, @required this.onChanged})
@@ -28,8 +29,9 @@ class VacanciesList extends StatelessWidget {
       );
     };
 
-    final String salaryText =
-        (vacancy.salary != null) ? '${vacancy.salary} руб.' : 'з/п не указана';
+    final String salaryText = (vacancy.salary != constants.SALARY_NOT_SPECIFIED)
+        ? '${vacancy.salary} руб.'
+        : 'з/п не указана';
 
     final List<String> displayedTags = vacancy.tags.take(3).toList();
     if (vacancy.tags.length > 3) {
