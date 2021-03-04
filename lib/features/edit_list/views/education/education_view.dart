@@ -16,7 +16,7 @@ class EducationView extends StatelessWidget {
 
     final onDelete = () {
       context.read<EditListCubit<Education>>().deleteValue(index);
-      Scaffold.of(context)
+      ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
           content: Text(

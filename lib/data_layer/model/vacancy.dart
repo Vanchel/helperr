@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 
 import 'util.dart';
 import 'experience_type.dart';
+import 'experience_duration.dart';
 import 'scroll.dart';
 
 Vacancy vacancyFromJson(String str) => Vacancy.fromJson(json.decode(str));
@@ -39,7 +40,7 @@ class Vacancy extends Equatable {
   final ExperienceType grade;
   final int salary;
   final List<String> workType;
-  final String exp;
+  final ExperienceDuration exp;
   final List<String> tags;
   final String address;
   final DateTime pubDate;
@@ -54,7 +55,7 @@ class Vacancy extends Equatable {
     ExperienceType grade,
     int salary,
     List<String> workType,
-    String exp,
+    ExperienceDuration exp,
     List<String> tags,
     String address,
     DateTime pubDate,
@@ -68,7 +69,8 @@ class Vacancy extends Equatable {
         vacancyName: vacancyName ?? this.vacancyName,
         industry: industry ?? this.industry,
         grade: grade ?? this.grade,
-        salary: salary ?? this.salary,
+        // dunno how to workaround it yet
+        salary: salary,
         workType: workType ?? this.workType,
         exp: exp ?? this.exp,
         tags: tags ?? this.tags,
@@ -87,7 +89,7 @@ class Vacancy extends Equatable {
         grade: experienceTypeFromJson(json["grade"]),
         salary: json["salary"],
         workType: List<String>.from(json["work_type"].map((x) => x)),
-        exp: json["exp"],
+        exp: experienceDurationFromJson(json["exp"]),
         tags: List<String>.from(json["tags"].map((x) => x)),
         address: json["address"],
         pubDate: dateFromJson(json["pub_date"]),
@@ -104,7 +106,7 @@ class Vacancy extends Equatable {
         "grade": experienceTypeToJson(grade),
         "salary": salary,
         "work_type": List<dynamic>.from(workType.map((x) => x)),
-        "exp": exp,
+        "exp": experienceDurationToJson(exp),
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "address": address,
         "pub_date": dateToJson(pubDate),

@@ -13,5 +13,6 @@ export 'portfolio.dart';
 export 'worker_info.dart';
 export 'employer.dart';
 export 'vacancy.dart';
+export 'experience_duration.dart';
 export 'scroll.dart';
 export 'employer_info.dart';

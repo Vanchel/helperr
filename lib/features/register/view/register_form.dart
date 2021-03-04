@@ -123,7 +123,7 @@ class _RegisterFormState extends State<RegisterForm> {
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state.status == RegisterStatus.failure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
               backgroundColor: Colors.black54,

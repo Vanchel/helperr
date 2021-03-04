@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/edit_single_value_cubit.dart';
 import '../../../../data_layer/model/experience_type.dart';
 
-class ExperienceDropdownButton extends StatelessWidget {
-  const ExperienceDropdownButton({Key key, @required this.onChanged})
+class ExperienceTypeDropdownButton extends StatelessWidget {
+  const ExperienceTypeDropdownButton({Key key, @required this.onChanged})
       : super(key: key);
 
   final Function(ExperienceType) onChanged;

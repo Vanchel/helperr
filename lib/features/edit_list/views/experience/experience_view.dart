@@ -16,7 +16,7 @@ class ExperienceView extends StatelessWidget {
 
     final onDelete = () {
       context.read<EditListCubit<Exp>>().deleteValue(index);
-      Scaffold.of(context)
+      ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
           content: Text(

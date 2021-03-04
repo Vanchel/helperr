@@ -36,8 +36,8 @@ class ProfileCard extends StatelessWidget {
 
     final headerTile = ListTile(
       contentPadding: const EdgeInsets.all(0.0),
-      title: Text(name ?? '', style: themeData.textTheme.headline6),
-      subtitle: Text(region ?? ''),
+      title: Text(name ?? '?Имя?', style: themeData.textTheme.headline6),
+      subtitle: (region != null) ? Text(region) : null,
       trailing: IconButton(
         icon: Icon(Icons.edit_rounded),
         onPressed: onEdit,

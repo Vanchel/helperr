@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'edit_experience_type_view.dart';
 import '../../cubit/edit_single_value_cubit.dart';
-import '../../../../data_layer/model/models.dart';
+import '../../../../data_layer/model/experience_type.dart';
 
 class EditExperienceType extends StatelessWidget {
-  const EditExperienceType(
-      {Key key, this.initialValue = ExperienceType.internship, this.onChanged})
-      : super(key: key);
+  const EditExperienceType({
+    Key key,
+    this.initialValue = ExperienceType.internship,
+    this.onChanged,
+  }) : super(key: key);
 
   final ExperienceType initialValue;
   final Function(ExperienceType) onChanged;
@@ -17,7 +19,7 @@ class EditExperienceType extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EditSingleValueCubit<ExperienceType>(initialValue),
-      child: ExperienceDropdownButton(onChanged: onChanged),
+      child: ExperienceTypeDropdownButton(onChanged: onChanged),
     );
   }
 }

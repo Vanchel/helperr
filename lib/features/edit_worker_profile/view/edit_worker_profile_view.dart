@@ -238,7 +238,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
 
     final listener = (BuildContext context, EditProfileState state) {
       if (state is ProfileSaveFailure) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
             SnackBar(

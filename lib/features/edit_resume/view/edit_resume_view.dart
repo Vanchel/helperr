@@ -255,7 +255,7 @@ class _EditResumeViewState extends State<EditResumeView> {
 
     final listener = (BuildContext context, EditResumeState state) {
       if (state is ResumeChangeFailure) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
             SnackBar(

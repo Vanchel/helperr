@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/features/edit_single_value/views/experience_duration/edit_experience_duration.dart';
 
-import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../../data_layer/repository/authentication_repository.dart';
 import '../../../data_layer/model/experience_type.dart';
+import '../../../data_layer/model/experience_duration.dart';
 import '../../../data_layer/model/vacancy.dart';
 import '../../../data_layer/model/scroll.dart';
 
 import '../../../widgets/chip_input/view/chip_input_widget.dart';
+import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../cubit/edit_vacancy_cubit.dart';
 
 class EditVacancyView extends StatefulWidget {
@@ -35,7 +37,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
   String _trailing;
   String _address;
   ExperienceType _grade;
-  // ExperienceDuration _experienceDuration;
+  ExperienceDuration _experienceDuration;
   int _salary;
   List<String> _workType;
   List<String> _tags;
@@ -144,7 +146,15 @@ class _EditVacancyViewState extends State<EditVacancyView> {
       ),
     );
 
-    // exp input
+    final expInput = Container(
+      margin: const EdgeInsets.only(bottom: 38.0),
+      child: EditExperienceDuration(
+        initialValue: widget.isEditing
+            ? widget.vacancy.exp
+            : ExperienceDuration.noExperience,
+        onChanged: (value) => _experienceDuration = value,
+      ),
+    );
 
     final salaryInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
@@ -258,7 +268,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
           trailing: _trailing,
           address: _address,
           grade: _grade,
-          //exp: _experienceDuration,
+          exp: _experienceDuration,
           salary: _salary,
           workType: _workType,
           tags: _tags,
@@ -293,7 +303,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
 
     final listener = (BuildContext context, EditVacancyState state) {
       if (state is VacancyChangeFailure) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
             SnackBar(
@@ -334,7 +344,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
                 trailingInput,
                 addressInput,
                 gradeInput,
-                // experienceDurationInput,
+                expInput,
                 salaryInput,
                 workTypesInput,
                 tagsInput,
