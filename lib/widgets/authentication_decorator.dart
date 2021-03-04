@@ -17,7 +17,7 @@ class AuthenticationDecorator extends StatelessWidget {
         child: Center(
           child: Container(
             margin: const EdgeInsets.all(12.0),
-            constraints: const BoxConstraints(maxWidth: 400.0),
+            constraints: const BoxConstraints(maxWidth: 800.0),
             child: Card(
               clipBehavior: Clip.antiAlias,
               child: SingleChildScrollView(child: child),

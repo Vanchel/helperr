@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_single_value/views/user_type_toggle/user_type_toggle_widget.dart';
 
+import '../../../constants.dart' as constants;
 import '../../../data_layer/model/user_type.dart';
 import '../register.dart';
 
@@ -132,7 +133,7 @@ class _RegisterFormState extends State<RegisterForm> {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
         child: Form(
           key: _formKey,
           child: Column(

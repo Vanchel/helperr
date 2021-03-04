@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../constants.dart' as constants;
 import '../../register/view/register_page.dart';
 import '../login.dart';
 
@@ -101,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
         child: Form(
           key: _formKey,
           child: Column(
