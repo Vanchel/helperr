@@ -134,8 +134,7 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding:
-              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+          padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

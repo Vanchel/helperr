@@ -87,8 +87,7 @@ class _EditSocialLinkState extends State<EditSocialLinkPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding:
-              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+          padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
           child: Column(children: [linkInput, divider, commonPrompt]),
         ),
       ),

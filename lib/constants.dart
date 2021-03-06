@@ -1,5 +1,6 @@
-const int SALARY_NOT_SPECIFIED = -1;
+const int salaryNotSpecified = -1;
 
-const double DEFAULT_SCAFFOLD_BODY_PADDING = 12.0;
-
-const DEVICE_SIZE_BREAKPOINT = 700.0;
+const double scaffoldBodyPadding = 12.0;
+const double borderRadius = 16.0;
+const double iconButtonSplashRadius = 24.0;
+const double deviceWidthBreakpoint = 650.0;

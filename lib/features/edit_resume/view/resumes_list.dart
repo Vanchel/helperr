@@ -29,7 +29,7 @@ class ResumesList extends StatelessWidget {
       );
     };
 
-    final String salaryText = (resume.salary != constants.SALARY_NOT_SPECIFIED)
+    final String salaryText = (resume.salary != constants.salaryNotSpecified)
         ? '${resume.salary} руб.'
         : 'з/п не указана';
 
@@ -39,7 +39,7 @@ class ResumesList extends StatelessWidget {
     }
 
     return Card(
-      margin: const EdgeInsets.all(0.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

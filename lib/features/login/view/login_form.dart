@@ -102,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+        padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
         child: Form(
           key: _formKey,
           child: Column(

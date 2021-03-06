@@ -57,8 +57,7 @@ class WorkerProfileView extends StatelessWidget {
           );
 
           return SingleChildScrollView(
-            padding:
-                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [profileCard, resumesList],

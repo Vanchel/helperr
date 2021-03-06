@@ -29,7 +29,7 @@ class VacanciesList extends StatelessWidget {
       );
     };
 
-    final String salaryText = (vacancy.salary != constants.SALARY_NOT_SPECIFIED)
+    final String salaryText = (vacancy.salary != constants.salaryNotSpecified)
         ? '${vacancy.salary} руб.'
         : 'з/п не указана';
 
@@ -38,8 +38,22 @@ class VacanciesList extends StatelessWidget {
       displayedTags.add('...');
     }
 
+    Widget description;
+    if (vacancy.leading.isNotEmpty) {
+      description = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Text(
+          vacancy.leading,
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    } else {
+      description = const SizedBox.shrink();
+    }
+
     return Card(
-      margin: const EdgeInsets.all(0.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,15 +84,7 @@ class VacanciesList extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Text(
-              vacancy.leading,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          description,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(

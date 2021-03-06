@@ -86,8 +86,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding:
-              const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+          padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
           child: Column(children: [phoneInput, divider, commonPrompt]),
         ),
       ),

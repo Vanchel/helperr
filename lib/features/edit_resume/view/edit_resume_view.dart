@@ -134,7 +134,7 @@ class _EditResumeViewState extends State<EditResumeView> {
           }
         },
         onSaved: (newValue) => _salary = newValue.isEmpty
-            ? constants.SALARY_NOT_SPECIFIED
+            ? constants.salaryNotSpecified
             : int.parse(newValue),
       ),
     );
@@ -288,8 +288,7 @@ class _EditResumeViewState extends State<EditResumeView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding:
-                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

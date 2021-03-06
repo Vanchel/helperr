@@ -39,6 +39,7 @@ class EmployerProfileView extends StatelessWidget {
             child: ProfileCard(
               userId: profile.userId,
               name: profile.name,
+              region: profile.address,
               description: profile.about,
               avatarUrl: state.employerInfo.avatarUrl,
               backgroundUrl: state.employerInfo.bgUrl,
@@ -53,8 +54,7 @@ class EmployerProfileView extends StatelessWidget {
           );
 
           return SingleChildScrollView(
-            padding:
-                const EdgeInsets.all(constants.DEFAULT_SCAFFOLD_BODY_PADDING),
+            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [profileCard, vacanciesList],

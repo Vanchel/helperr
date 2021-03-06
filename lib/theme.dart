@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-const _borderRadius = 16.0;
+import 'constants.dart' as constants;
 
 const _roundedBorder = RoundedRectangleBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+  borderRadius: BorderRadius.all(Radius.circular(constants.borderRadius)),
 );
 
 final theme = ThemeData(
@@ -23,7 +23,7 @@ final theme = ThemeData(
     shape: _roundedBorder,
   ),
   toggleButtonsTheme: const ToggleButtonsThemeData(
-    borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+    borderRadius: BorderRadius.all(Radius.circular(constants.borderRadius)),
   ),
   popupMenuTheme: const PopupMenuThemeData(shape: _roundedBorder),
 );
