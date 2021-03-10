@@ -53,7 +53,7 @@ class VacanciesList extends StatelessWidget {
     }
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      margin: const EdgeInsets.symmetric(vertical: 6.0),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,11 +86,17 @@ class VacanciesList extends StatelessWidget {
           ),
           description,
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: Wrap(
-              spacing: 4.0,
+              spacing: 8.0,
+              runSpacing: 8.0,
               children: [
-                for (String tag in displayedTags) Chip(label: Text(tag))
+                for (String tag in displayedTags)
+                  Chip(
+                    label: Text(tag),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  )
               ],
             ),
           ),

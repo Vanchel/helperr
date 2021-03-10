@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
+import '../cubit/edit_resume_cubit.dart';
+
 import '../../../data_layer/repository/authentication_repository.dart';
+
+import '../../../data_layer/model/work_type.dart';
 import '../../../data_layer/model/experience_type.dart';
 import '../../../data_layer/model/resume.dart';
 import '../../../data_layer/model/portfolio.dart';
 
-import '../cubit/edit_resume_cubit.dart';
+import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../edit_list/views/chip_input/chip_input_widget.dart';
+import '../../edit_list/views/work_type_filter/work_type_filter_widget.dart';
 import '../../edit_list/views/portfolio/portfolio_list.dart';
+
 import '../../../constants.dart' as constants;
 
 class EditResumeView extends StatefulWidget {
@@ -36,7 +41,7 @@ class _EditResumeViewState extends State<EditResumeView> {
   String _about;
   ExperienceType _grade;
   int _salary;
-  List<String> _workType;
+  Set<WorkType> _workType;
   List<String> _tags;
   List<Portfolio> _portfolio;
 
@@ -87,8 +92,8 @@ class _EditResumeViewState extends State<EditResumeView> {
         initialValue: widget.isEditing ? widget.resume.about : '',
         keyboardType: TextInputType.multiline,
         maxLength: 400,
-        minLines: 1,
-        maxLines: 4,
+        minLines: 4,
+        maxLines: null,
         decoration: const InputDecoration(
           labelText: 'Описание резюме',
           hintText: 'Стараюсь найти работу по душе.',
@@ -111,8 +116,10 @@ class _EditResumeViewState extends State<EditResumeView> {
     final salaryInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
-        initialValue:
-            widget.isEditing ? (widget.resume.salary ?? '').toString() : '',
+        initialValue: widget.isEditing
+            ? ((widget.resume.salary != -1) ? widget.resume.salary : '')
+                .toString()
+            : '',
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           labelText: 'Желаемая зарплата',
@@ -139,13 +146,24 @@ class _EditResumeViewState extends State<EditResumeView> {
       ),
     );
 
-    final workTypesInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: ChipInput(
-        initialValue: widget.isEditing ? widget.resume.workType : [],
-        onChanged: (newValue) => _workType = newValue,
-        labelText: 'Добавить тип работы',
-        hintText: 'Воздухоплавание',
+    final workTypesFilter = Container(
+      margin: const EdgeInsets.only(bottom: 32.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              'Выберите типы работы',
+              style: themeData.textTheme.bodyText1,
+            ),
+          ),
+          WorkTypeFilter(
+            initialValue: widget.isEditing ? widget.resume.workType : {},
+            onChanged: (newValue) => _workType = newValue,
+          ),
+        ],
       ),
     );
 
@@ -182,10 +200,7 @@ class _EditResumeViewState extends State<EditResumeView> {
             const SizedBox(height: 16.0),
             OutlinedButton(
               child: const Text('Удалить резюме'),
-              style: ButtonStyle(
-                foregroundColor:
-                    MaterialStateProperty.resolveWith((states) => Colors.red),
-              ),
+              style: OutlinedButton.styleFrom(primary: Colors.red),
               onPressed: () {
                 context.read<EditResumeCubit>().deleteResume(widget.resume.id);
               },
@@ -226,6 +241,7 @@ class _EditResumeViewState extends State<EditResumeView> {
           salary: _salary,
           workType: _workType,
           tags: _tags,
+          bgHeaderColor: '',
           portfolio: _portfolio,
         );
 
@@ -297,7 +313,7 @@ class _EditResumeViewState extends State<EditResumeView> {
                 aboutInput,
                 gradeInput,
                 salaryInput,
-                workTypesInput,
+                workTypesFilter,
                 tagsInput,
                 portfolioList,
                 deleteBlock,

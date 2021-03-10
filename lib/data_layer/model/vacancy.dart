@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 
 import 'util.dart';
 import 'experience_type.dart';
+import 'work_type.dart';
 import 'experience_duration.dart';
 import 'scroll.dart';
 
@@ -27,6 +28,7 @@ class Vacancy extends Equatable {
     this.exp,
     this.tags,
     this.address,
+    this.bgHeaderColor,
     this.pubDate,
     this.leading,
     this.trailing,
@@ -39,10 +41,11 @@ class Vacancy extends Equatable {
   final String industry;
   final ExperienceType grade;
   final int salary;
-  final List<String> workType;
+  final Set<WorkType> workType;
   final ExperienceDuration exp;
   final List<String> tags;
   final String address;
+  final String bgHeaderColor;
   final DateTime pubDate;
   final String leading;
   final String trailing;
@@ -54,10 +57,11 @@ class Vacancy extends Equatable {
     String industry,
     ExperienceType grade,
     int salary,
-    List<String> workType,
+    Set<WorkType> workType,
     ExperienceDuration exp,
     List<String> tags,
     String address,
+    String bgHeaderColor,
     DateTime pubDate,
     String leading,
     String trailing,
@@ -74,6 +78,7 @@ class Vacancy extends Equatable {
         exp: exp ?? this.exp,
         tags: tags ?? this.tags,
         address: address ?? this.address,
+        bgHeaderColor: bgHeaderColor ?? this.bgHeaderColor,
         pubDate: pubDate ?? this.pubDate,
         leading: leading ?? this.leading,
         trailing: trailing ?? this.trailing,
@@ -82,19 +87,22 @@ class Vacancy extends Equatable {
 
   factory Vacancy.fromJson(Map<String, dynamic> json) => Vacancy(
         id: json["id"],
-        userId: json["user_id"],
+        userId: json["user"],
         vacancyName: json["vacancy_name"],
         industry: json["industry"],
         grade: experienceTypeFromJson(json["grade"]),
         salary: json["salary"],
-        workType: List<String>.from(json["work_type"].map((x) => x)),
-        exp: experienceDurationFromJson(json["exp"]),
-        tags: List<String>.from(json["tags"].map((x) => x)),
+        workType: Set<WorkType>.from(
+            json["work_type"]?.map((x) => workTypeFromJson(x)) ?? []),
+        exp: experienceDurationFromJson(json["experience"]),
+        tags: List<String>.from(json["tags"]?.map((x) => x) ?? []),
         address: json["address"],
+        bgHeaderColor: json["bg_header_color"],
         pubDate: dateFromJson(json["pub_date"]),
         leading: json["leading"],
         trailing: json["trailing"],
-        body: List<Scroll>.from(json["body"].map((x) => Scroll.fromJson(x))),
+        body: List<Scroll>.from(
+            json["body"]?.map((x) => Scroll.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
@@ -104,10 +112,11 @@ class Vacancy extends Equatable {
         "industry": industry,
         "grade": experienceTypeToJson(grade),
         "salary": salary,
-        "work_type": List<dynamic>.from(workType.map((x) => x)),
-        "exp": experienceDurationToJson(exp),
+        "work_type": List<dynamic>.from(workType.map((x) => workTypeToJson(x))),
+        "experience": experienceDurationToJson(exp),
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "address": address,
+        "bg_header_color": bgHeaderColor,
         "pub_date": dateToJson(pubDate),
         "leading": leading,
         "trailing": trailing,
@@ -126,6 +135,7 @@ class Vacancy extends Equatable {
         this.exp,
         this.tags,
         this.address,
+        this.bgHeaderColor,
         this.pubDate,
         this.leading,
         this.trailing,

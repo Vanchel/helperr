@@ -25,6 +25,8 @@ class _ChipInputViewState extends State<ChipInputView> {
   Widget _buildInputChip(BuildContext context, String text, int index) {
     return InputChip(
       label: Text(text),
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      deleteButtonTooltipMessage: 'Удалить',
       onDeleted: () => context.read<EditListCubit<String>>().deleteValue(index),
     );
   }
@@ -50,6 +52,7 @@ class _ChipInputViewState extends State<ChipInputView> {
     );
 
     final _inputField = Container(
+      //margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
         controller: controller,
         keyboardType: TextInputType.text,
@@ -70,7 +73,8 @@ class _ChipInputViewState extends State<ChipInputView> {
         }
 
         return Wrap(
-          spacing: 4.0,
+          spacing: 8.0,
+          runSpacing: 8.0,
           children: List.generate(state.length, (index) {
             return _buildInputChip(context, state[index], index);
           }).toList(),

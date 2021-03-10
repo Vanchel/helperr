@@ -87,7 +87,7 @@ class Worker extends Equatable {
       );
 
   factory Worker.fromJson(Map<String, dynamic> json) => Worker(
-        userId: json["user_id"],
+        userId: json["user"],
         name: json["name"] ?? '',
         mailing: json["mailing"] ?? false,
         language: List<Language>.from(
@@ -95,14 +95,15 @@ class Worker extends Equatable {
         birthday: dateFromJson(json["birthday"]),
         gender: genderFromJson(json["gender"]),
         city: json["city"] ?? '',
-        phone: List<String>.from(json["phone"].map((x) => x) ?? []),
+        phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"] ?? '',
         socialLinks:
-            List<String>.from(json["social_links"].map((x) => x) ?? []),
+            List<String>.from(json["social_links"]?.map((x) => x) ?? []),
         education: List<Education>.from(
-            json["education"].map((x) => Education.fromJson(x)) ?? []),
-        exp: List<Exp>.from(json["exp"].map((x) => Exp.fromJson(x)) ?? []),
-        cz: json["cz"] ?? '',
+            json["education"]?.map((x) => Education.fromJson(x)) ?? []),
+        exp: List<Exp>.from(
+            json["experience"]?.map((x) => Exp.fromJson(x)) ?? []),
+        cz: json["citizenship"] ?? '',
         profileLink: json["profile_link"] ?? '',
         photoUrl: json["photo_url"] ?? '',
         profileBackground: json["profile_background"] ?? '',
@@ -120,8 +121,8 @@ class Worker extends Equatable {
         "about": about,
         "social_links": List<dynamic>.from(socialLinks.map((x) => x)),
         "education": List<dynamic>.from(education.map((x) => x.toJson())),
-        "exp": List<dynamic>.from(exp.map((x) => x.toJson())),
-        "cz": cz,
+        "experience": List<dynamic>.from(exp.map((x) => x.toJson())),
+        "citizenship": cz,
         "profile_link": profileLink,
         "photo_url": photoUrl,
         "profile_background": profileBackground,

@@ -59,13 +59,13 @@ class Employer {
       );
 
   factory Employer.fromJson(Map<String, dynamic> json) => Employer(
-        userId: json["user_id"],
+        userId: json["user"],
         name: json["name"],
         mailing: json["mailing"],
         address: json["address"],
-        phone: List<String>.from(json["phone"].map((x) => x)),
+        phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"],
-        links: List<String>.from(json["links"].map((x) => x)),
+        links: List<String>.from(json["links"]?.map((x) => x) ?? []),
         profileLink: json["profile_link"],
         photoUrl: json["photo_url"],
         profileBackground: json["profile_background"],

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/features/edit_list/views/scroll/scroll_list.dart';
-import 'package:helperr/features/edit_single_value/views/experience_duration/edit_experience_duration.dart';
+
+import '../cubit/edit_vacancy_cubit.dart';
 
 import '../../../data_layer/repository/authentication_repository.dart';
-import '../../../data_layer/model/experience_type.dart';
+
 import '../../../data_layer/model/experience_duration.dart';
+import '../../../data_layer/model/work_type.dart';
+import '../../../data_layer/model/experience_type.dart';
 import '../../../data_layer/model/vacancy.dart';
 import '../../../data_layer/model/scroll.dart';
 
-import '../cubit/edit_vacancy_cubit.dart';
-import '../../edit_list/views/chip_input/chip_input_widget.dart';
 import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
+import '../../edit_single_value/views/experience_duration/edit_experience_duration.dart';
+import '../../edit_list/views/chip_input/chip_input_widget.dart';
+import '../../edit_list/views/work_type_filter/work_type_filter_widget.dart';
+import '../../edit_list/views/scroll/scroll_list.dart';
+
 import '../../../constants.dart' as constants;
 
 class EditVacancyView extends StatefulWidget {
@@ -41,7 +46,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
   ExperienceType _grade;
   ExperienceDuration _experienceDuration;
   int _salary;
-  List<String> _workType;
+  Set<WorkType> _workType;
   List<String> _tags;
   List<Scroll> _scrolls;
 
@@ -92,8 +97,8 @@ class _EditVacancyViewState extends State<EditVacancyView> {
         initialValue: widget.isEditing ? widget.vacancy.leading : '',
         keyboardType: TextInputType.multiline,
         maxLength: 400,
-        minLines: 1,
-        maxLines: 4,
+        minLines: 4,
+        maxLines: null,
         decoration: const InputDecoration(
           labelText: 'Введение',
           hintText: 'Ищем старательного сотрудника.',
@@ -110,8 +115,8 @@ class _EditVacancyViewState extends State<EditVacancyView> {
         initialValue: widget.isEditing ? widget.vacancy.trailing : '',
         keyboardType: TextInputType.multiline,
         maxLength: 400,
-        minLines: 1,
-        maxLines: 4,
+        minLines: 4,
+        maxLines: null,
         decoration: const InputDecoration(
           labelText: 'Заключение',
           hintText: 'Будем рады Вашему отклику.',
@@ -159,8 +164,10 @@ class _EditVacancyViewState extends State<EditVacancyView> {
     final salaryInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
-        initialValue:
-            widget.isEditing ? (widget.vacancy.salary ?? '').toString() : '',
+        initialValue: widget.isEditing
+            ? ((widget.vacancy.salary != -1) ? widget.vacancy.salary : '')
+                .toString()
+            : '',
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           labelText: 'Предполагаемая зарплата',
@@ -187,13 +194,24 @@ class _EditVacancyViewState extends State<EditVacancyView> {
       ),
     );
 
-    final workTypesInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: ChipInput(
-        initialValue: widget.isEditing ? widget.vacancy.workType : [],
-        onChanged: (newValue) => _workType = newValue,
-        labelText: 'Добавить тип работы',
-        hintText: 'Воздухоплавание',
+    final workTypesFilter = Container(
+      margin: const EdgeInsets.only(bottom: 32.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              'Выберите типы работы',
+              style: themeData.textTheme.bodyText1,
+            ),
+          ),
+          WorkTypeFilter(
+            initialValue: widget.isEditing ? widget.vacancy.workType : {},
+            onChanged: (newValue) => _workType = newValue,
+          ),
+        ],
       ),
     );
 
@@ -230,10 +248,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
             const SizedBox(height: 16.0),
             OutlinedButton(
               child: const Text('Удалить вакансию'),
-              style: ButtonStyle(
-                foregroundColor:
-                    MaterialStateProperty.resolveWith((states) => Colors.red),
-              ),
+              style: OutlinedButton.styleFrom(primary: Colors.red),
               onPressed: () {
                 context
                     .read<EditVacancyCubit>()
@@ -278,6 +293,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
           exp: _experienceDuration,
           salary: _salary,
           workType: _workType,
+          bgHeaderColor: '',
           tags: _tags,
           body: _scrolls,
         );
@@ -353,7 +369,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
                 gradeInput,
                 expInput,
                 salaryInput,
-                workTypesInput,
+                workTypesFilter,
                 tagsInput,
                 scrollsInput,
                 deleteBlock,

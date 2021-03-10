@@ -61,8 +61,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
         initialValue: widget.employer.about,
         keyboardType: TextInputType.multiline,
         maxLength: 150,
-        minLines: 1,
-        maxLines: 4,
+        maxLines: null,
         decoration: const InputDecoration(
           labelText: 'О компании',
           hintText: 'Строим ракеты, едим конфеты >_<',
@@ -128,7 +127,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
           address: _address,
           phone: _phoneNumbers,
           links: _links,
-          profileLink: "",
+          profileLink: '',
         );
         context.read<EditProfileCubit>().saveProfile(editedEmployer);
       }

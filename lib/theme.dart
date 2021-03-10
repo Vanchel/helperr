@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'constants.dart' as constants;
 
@@ -7,7 +8,7 @@ const _roundedBorder = RoundedRectangleBorder(
 );
 
 final theme = ThemeData(
-  //textTheme: const GoogleFonts.nunitoTextTheme(),
+  textTheme: GoogleFonts.nunitoTextTheme(),
   cardTheme: const CardTheme(shape: _roundedBorder),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(shape: _roundedBorder),

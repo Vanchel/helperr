@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 
 import 'util.dart';
 import 'experience_type.dart';
+import 'work_type.dart';
 import 'portfolio.dart';
 
 Resume resumeFromJson(String str) => Resume.fromJson(json.decode(str));
@@ -36,7 +37,7 @@ class Resume extends Equatable {
   final String industry;
   final ExperienceType grade;
   final int salary;
-  final List<String> workType;
+  final Set<WorkType> workType;
   final List<String> tags;
   final String about;
   final String bgHeaderColor;
@@ -50,7 +51,7 @@ class Resume extends Equatable {
     String industry,
     ExperienceType grade,
     int salary,
-    List<String> workType,
+    Set<WorkType> workType,
     List<String> tags,
     String about,
     String bgHeaderColor,
@@ -78,18 +79,19 @@ class Resume extends Equatable {
 
   factory Resume.fromJson(Map<String, dynamic> json) => Resume(
         id: json["id"],
-        userId: json["user_id"],
+        userId: json["user"],
         vacancyName: json["vacancy_name"],
         industry: json["industry"],
         grade: experienceTypeFromJson(json["grade"]),
         salary: json["salary"],
-        workType: List<String>.from(json["work_type"].map((x) => x)),
-        tags: List<String>.from(json["tags"].map((x) => x)),
+        workType: Set<WorkType>.from(
+            json["work_type"]?.map((x) => workTypeFromJson(x)) ?? []),
+        tags: List<String>.from(json["tags"]?.map((x) => x) ?? []),
         about: json["about"],
         bgHeaderColor: json["bg_header_color"],
         pubDate: dateFromJson(json["pub_date"]),
         portfolio: List<Portfolio>.from(
-            json["portfolio"].map((x) => Portfolio.fromJson(x))),
+            json["portfolio"]?.map((x) => Portfolio.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
@@ -99,7 +101,7 @@ class Resume extends Equatable {
         "industry": industry,
         "grade": experienceTypeToJson(grade),
         "salary": salary,
-        "work_type": List<dynamic>.from(workType.map((x) => x)),
+        "work_type": List<dynamic>.from(workType.map((x) => workTypeToJson(x))),
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "about": about,
         "bg_header_color": bgHeaderColor,

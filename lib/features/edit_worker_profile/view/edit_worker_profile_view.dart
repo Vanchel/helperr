@@ -68,8 +68,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
         initialValue: widget.worker.about,
         keyboardType: TextInputType.multiline,
         maxLength: 150,
-        minLines: 1,
-        maxLines: 4,
+        maxLines: null,
         decoration: const InputDecoration(
           labelText: 'О себе',
           hintText: 'Любитель ракет и сладких конфет ^^,',
@@ -203,7 +202,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
           exp: _experience,
           language: _languages,
           socialLinks: _socialLinks,
-          profileLink: "",
+          profileLink: '',
         );
         context.read<EditProfileCubit>().saveProfile(editedWorker);
       }
