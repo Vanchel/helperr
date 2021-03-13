@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/edit_vacancy_cubit.dart';
@@ -14,7 +15,7 @@ import '../../../data_layer/model/scroll.dart';
 import '../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../edit_single_value/views/experience_duration/edit_experience_duration.dart';
 import '../../edit_list/views/chip_input/chip_input_widget.dart';
-import '../../edit_list/views/work_type_filter/work_type_filter_widget.dart';
+import '../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
 import '../../edit_list/views/scroll/scroll_list.dart';
 
 import '../../../constants.dart' as constants;
@@ -169,6 +170,9 @@ class _EditVacancyViewState extends State<EditVacancyView> {
                 .toString()
             : '',
         keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+        ],
         decoration: InputDecoration(
           labelText: 'Предполагаемая зарплата',
           hintText: '15000',
@@ -203,7 +207,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              'Выберите типы работы',
+              'Типы работы',
               style: themeData.textTheme.bodyText1,
             ),
           ),

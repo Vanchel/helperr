@@ -49,23 +49,23 @@ class ExperienceDurationDropdownButton extends StatelessWidget {
                   items: const [
                     DropdownMenuItem<ExperienceDuration>(
                       value: ExperienceDuration.noExperience,
-                      child: Text('Без опыта работы'),
+                      child: Text('без опыта работы'),
                     ),
                     DropdownMenuItem<ExperienceDuration>(
                       value: ExperienceDuration.lessThanYear,
-                      child: Text('< 1 года'),
+                      child: Text('менее года'),
                     ),
                     DropdownMenuItem<ExperienceDuration>(
                       value: ExperienceDuration.oneToThreeYears,
-                      child: Text('1 - 3 года'),
+                      child: Text('1-3 года'),
                     ),
                     DropdownMenuItem<ExperienceDuration>(
                       value: ExperienceDuration.threeToFiveYears,
-                      child: Text('3 - 5 лет'),
+                      child: Text('3-5 лет'),
                     ),
                     DropdownMenuItem<ExperienceDuration>(
                       value: ExperienceDuration.moreThanFiveYears,
-                      child: Text('> 5 лет'),
+                      child: Text('более 5 лет'),
                     ),
                   ],
                 ),

@@ -72,7 +72,6 @@ Future<PickedFile> _pickImage(ImageSource source) async {
     source: source,
     maxHeight: 650,
     maxWidth: 650,
-    imageQuality: 40,
   );
 
   return image;
