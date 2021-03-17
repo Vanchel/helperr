@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'address.dart';
+
 Employer employerFromJson(String str) => Employer.fromJson(json.decode(str));
 
 String employerToJson(Employer data) => json.encode(data.toJson());
@@ -25,7 +27,7 @@ class Employer {
   final int userId;
   final String name;
   final bool mailing;
-  final String address;
+  final Address address;
   final List<String> phone;
   final String about;
   final List<String> links;
@@ -37,7 +39,7 @@ class Employer {
     int userId,
     String name,
     bool mailing,
-    String address,
+    Address address,
     List<String> phone,
     String about,
     List<String> links,
@@ -62,7 +64,7 @@ class Employer {
         userId: json["user"],
         name: json["name"],
         mailing: json["mailing"],
-        address: json["address"],
+        address: Address.fromJson(json["address"]),
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"],
         links: List<String>.from(json["links"]?.map((x) => x) ?? []),
@@ -75,7 +77,7 @@ class Employer {
         "user_id": userId,
         "name": name,
         "mailing": mailing,
-        "address": address,
+        "address": address.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
         "links": List<dynamic>.from(links.map((x) => x)),

@@ -12,7 +12,7 @@ class ProfileCard extends StatelessWidget {
     this.avatarUrl,
     this.dateOfBirth,
     this.sex,
-    this.region,
+    this.address,
     this.country,
     this.onEdit,
     this.onImageChanged,
@@ -25,7 +25,7 @@ class ProfileCard extends StatelessWidget {
   final String avatarUrl;
   final DateTime dateOfBirth;
   final Gender sex;
-  final String region;
+  final String address;
   final String country;
   final VoidCallback onEdit;
   final VoidCallback onImageChanged;
@@ -37,7 +37,7 @@ class ProfileCard extends StatelessWidget {
     final headerTile = ListTile(
       contentPadding: const EdgeInsets.all(0.0),
       title: Text(name ?? '?Имя?', style: themeData.textTheme.headline6),
-      subtitle: (region != null) ? Text(region) : null,
+      subtitle: (address?.isNotEmpty ?? false) ? Text(address) : null,
       trailing: IconButton(
         icon: Icon(Icons.edit_rounded),
         onPressed: onEdit,

@@ -44,7 +44,7 @@ class WorkerProfileView extends StatelessWidget {
               backgroundUrl: state.workerInfo.bgUrl,
               dateOfBirth: profile.birthday,
               sex: profile.gender,
-              region: profile.city,
+              address: profile.address.name,
               country: profile.cz,
               onEdit: onEdit,
               onImageChanged: () => profileCubit.loadProfile(),

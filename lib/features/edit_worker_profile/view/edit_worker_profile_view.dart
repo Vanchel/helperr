@@ -31,7 +31,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
   String _about;
   Gender _gender;
   DateTime _dob;
-  String _city;
+  String _address;
   String _cz;
   List<String> _phoneNumbers;
   List<Education> _education;
@@ -102,18 +102,18 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
       ),
     );
 
-    final cityInput = Container(
+    final addressInput = Container(
       margin: const EdgeInsets.symmetric(vertical: 16.0),
       child: TextFormField(
-        initialValue: widget.worker.city,
+        initialValue: widget.worker.address.name,
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(
-          labelText: 'Город',
+          labelText: 'Место проживания',
           hintText: 'Москва',
           helperText: '',
           border: textInputBorder,
         ),
-        onSaved: (newValue) => _city = newValue,
+        onSaved: (newValue) => _address = newValue,
       ),
     );
 
@@ -195,7 +195,8 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
           about: _about,
           birthday: _dob,
           gender: _gender,
-          city: _city,
+          // TODO: temporary solution
+          address: Address(name: _address, lat: 0.0, lng: 0.0),
           cz: _cz,
           phone: _phoneNumbers,
           education: _education,
@@ -267,7 +268,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
                 aboutInput,
                 dobInput,
                 genderInput,
-                cityInput,
+                addressInput,
                 citizenshipInput,
                 phoneNumbersList,
                 educationList,

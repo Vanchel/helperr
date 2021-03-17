@@ -1,5 +1,6 @@
 const int salaryNotSpecified = -1;
 
+const double coordinateNotSpecified = 0.0;
 const double scaffoldBodyPadding = 12.0;
 const double defaultMargin = 16.0;
 const double borderRadius = 16.0;

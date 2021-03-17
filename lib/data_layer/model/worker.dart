@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'education.dart';
 import 'experience.dart';
 import 'gender.dart';
+import 'address.dart';
 import 'language.dart';
 import 'util.dart';
 
@@ -20,7 +21,7 @@ class Worker extends Equatable {
     this.language,
     this.birthday,
     this.gender,
-    this.city,
+    this.address,
     this.phone,
     this.about,
     this.socialLinks,
@@ -38,7 +39,7 @@ class Worker extends Equatable {
   final List<Language> language;
   final DateTime birthday;
   final Gender gender;
-  final String city;
+  final Address address;
   final List<String> phone;
   final String about;
   final List<String> socialLinks;
@@ -56,7 +57,7 @@ class Worker extends Equatable {
     List<Language> language,
     DateTime birthday,
     Gender gender,
-    String city,
+    Address address,
     List<String> phone,
     String about,
     List<String> socialLinks,
@@ -74,7 +75,7 @@ class Worker extends Equatable {
         language: language ?? this.language,
         birthday: birthday ?? this.birthday,
         gender: gender ?? this.gender,
-        city: city ?? this.city,
+        address: address ?? this.address,
         phone: phone ?? this.phone,
         about: about ?? this.about,
         socialLinks: socialLinks ?? this.socialLinks,
@@ -94,7 +95,7 @@ class Worker extends Equatable {
             json["language"]?.map((x) => Language.fromJson(x)) ?? []),
         birthday: dateFromJson(json["birthday"]),
         gender: genderFromJson(json["gender"]),
-        city: json["city"] ?? '',
+        address: Address.fromJson(json["address"]),
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"] ?? '',
         socialLinks:
@@ -116,7 +117,7 @@ class Worker extends Equatable {
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
         "birthday": dateToJson(birthday),
         "gender": genderToJson(gender),
-        "city": city,
+        "address": address.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
         "social_links": List<dynamic>.from(socialLinks.map((x) => x)),
@@ -136,7 +137,7 @@ class Worker extends Equatable {
         this.language,
         this.birthday,
         this.gender,
-        this.city,
+        this.address,
         this.phone,
         this.about,
         this.socialLinks,

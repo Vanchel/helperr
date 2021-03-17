@@ -8,6 +8,7 @@ import '../../../data_layer/repository/authentication_repository.dart';
 
 import '../../../data_layer/model/experience_duration.dart';
 import '../../../data_layer/model/work_type.dart';
+import '../../../data_layer/model/address.dart';
 import '../../../data_layer/model/experience_type.dart';
 import '../../../data_layer/model/vacancy.dart';
 import '../../../data_layer/model/scroll.dart';
@@ -131,7 +132,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
     final addressInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.address : '',
+        initialValue: widget.isEditing ? widget.vacancy.address.name : '',
         keyboardType: TextInputType.streetAddress,
         decoration: const InputDecoration(
           labelText: 'Адрес',
@@ -292,7 +293,8 @@ class _EditVacancyViewState extends State<EditVacancyView> {
           industry: _industry,
           leading: _leading,
           trailing: _trailing,
-          address: _address,
+          // TODO: temporary solution
+          address: Address(name: _address, lat: 0.0, lng: 0.0),
           grade: _grade,
           exp: _experienceDuration,
           salary: _salary,

@@ -4,7 +4,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' show utf8;
 import '../model/models.dart';
 
-final String _baseUrl = 'job-flow.ru';
+final _baseUrl = 'job-flow.ru';
+final _headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+};
 
 String _accessToken = '';
 String _refreshToken = '';
@@ -12,7 +16,7 @@ String _refreshToken = '';
 Future<Worker> fetchWorker(int userId) async {
   final response = await http.get(
     Uri.http(_baseUrl, 'api/workers/$userId'),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode == 200) {
@@ -30,7 +34,7 @@ Future<void> updateWorker(Worker worker) async {
   final response = await http.put(
     Uri.http(_baseUrl, 'api/workers/${worker.userId}'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 200) {
@@ -43,7 +47,7 @@ Future<void> updateWorker(Worker worker) async {
 Future<List<Resume>> fetchResumes(int userId) async {
   final response = await http.get(
     Uri.http(_baseUrl, 'api/cv/user/$userId'),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode == 200) {
@@ -64,7 +68,7 @@ Future<void> addResume(Resume resume) async {
   final response = await http.post(
     Uri.http(_baseUrl, 'api/cv/'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 201) {
@@ -79,7 +83,7 @@ Future<void> updateResume(Resume resume) async {
   final response = await http.put(
     Uri.http(_baseUrl, 'api/cv/${resume.id}'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 201) {
@@ -92,7 +96,7 @@ Future<void> updateResume(Resume resume) async {
 Future<void> deleteResume(int resumeId) async {
   final response = await http.delete(
     Uri.http(_baseUrl, 'api/cv/$resumeId'),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 200) {
@@ -105,7 +109,7 @@ Future<void> deleteResume(int resumeId) async {
 Future<Employer> fetchEmployer(int userId) async {
   final response = await http.get(
     Uri.http(_baseUrl, 'api/employers/$userId'),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode == 200) {
@@ -123,7 +127,7 @@ Future<void> updateEmployer(Employer employer) async {
   final response = await http.put(
     Uri.http(_baseUrl, 'api/employers/${employer.userId}'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 200) {
@@ -136,7 +140,7 @@ Future<void> updateEmployer(Employer employer) async {
 Future<List<Vacancy>> fetchVacancies(int userId) async {
   final response = await http.get(
     Uri.http(_baseUrl, 'api/vacancy/user/$userId'),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode == 200) {
@@ -157,7 +161,7 @@ Future<void> addVacancy(Vacancy vacancy) async {
   final response = await http.post(
     Uri.http(_baseUrl, 'api/vacancy/'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 201) {
@@ -172,7 +176,7 @@ Future<void> updateVacancy(Vacancy vacancy) async {
   final response = await http.put(
     Uri.http(_baseUrl, 'api/vacancy/${vacancy.id}'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 201) {
@@ -188,7 +192,7 @@ Future<void> deleteVacancy(int vacancyId) async {
       _baseUrl,
       'api/vacancy/$vacancyId',
     ),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode != 200) {
@@ -205,7 +209,7 @@ Future<User> login(String email, String password) async {
   final response = await http.post(
     Uri.http(_baseUrl, 'api/auth/login/'),
     body: body,
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode == 200) {
@@ -242,7 +246,7 @@ Future<User> register(
   final response = await http.post(
     Uri.http(_baseUrl, 'api/register/'),
     body: json.encode(user),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    headers: _headers,
   );
 
   if (response.statusCode == 201) {

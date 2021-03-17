@@ -1,11 +1,7 @@
 import 'package:intl/intl.dart';
 
 DateTime dateFromJson(String str) {
-  try {
-    return DateTime.parse(str);
-  } catch (_) {
-    return null;
-  }
+  return DateTime.tryParse(str);
 }
 
 String dateToJson(DateTime date) {
