@@ -64,7 +64,9 @@ class Employer {
         userId: json["user"],
         name: json["name"],
         mailing: json["mailing"],
-        address: Address.fromJson(json["address"]),
+        address: (json["address"]?.isNotEmpty ?? false)
+            ? Address.fromJson(json["address"])
+            : null,
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"],
         links: List<String>.from(json["links"]?.map((x) => x) ?? []),
@@ -77,7 +79,7 @@ class Employer {
         "user_id": userId,
         "name": name,
         "mailing": mailing,
-        "address": address.toJson(),
+        "address": address?.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
         "links": List<dynamic>.from(links.map((x) => x)),

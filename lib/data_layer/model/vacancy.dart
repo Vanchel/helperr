@@ -97,7 +97,9 @@ class Vacancy extends Equatable {
             json["work_type"]?.map((x) => workTypeFromJson(x)) ?? []),
         exp: experienceDurationFromJson(json["experience"]),
         tags: List<String>.from(json["tags"]?.map((x) => x) ?? []),
-        address: Address.fromJson(json["address"]),
+        address: (json["address"]?.isNotEmpty ?? false)
+            ? Address.fromJson(json["address"])
+            : null,
         bgHeaderColor: json["bg_header_color"],
         pubDate: dateFromJson(json["pub_date"]),
         leading: json["leading"],
@@ -116,7 +118,7 @@ class Vacancy extends Equatable {
         "work_type": List<dynamic>.from(workType.map((x) => workTypeToJson(x))),
         "experience": experienceDurationToJson(exp),
         "tags": List<dynamic>.from(tags.map((x) => x)),
-        "address": address.toJson(),
+        "address": address?.toJson(),
         "bg_header_color": bgHeaderColor,
         "pub_date": dateToJson(pubDate),
         "leading": leading,

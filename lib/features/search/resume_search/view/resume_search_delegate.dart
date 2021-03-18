@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/features/search/vacancy_search/model/resume_search_options.dart';
-import 'package:helperr/features/search/vacancy_search/view/filter/resume_filter_page.dart';
+
+import '../model/resume_search_options.dart';
+import 'resume_filter_page.dart';
 
 class ResumeSearch extends SearchDelegate<Widget> {
   static const List<String> fooSuggestions = [

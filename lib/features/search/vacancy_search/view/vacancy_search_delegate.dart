@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/features/search/vacancy_search/model/vacancy_search_options.dart';
-import 'package:helperr/features/search/vacancy_search/view/filter/vacancy_filter_page.dart';
+
+import '../model/vacancy_search_options.dart';
+import 'vacancy_filter_page.dart';
+import 'vacancies_page.dart';
 
 class VacancySearch extends SearchDelegate<Widget> {
   static const List<String> fooSuggestions = [
@@ -83,28 +85,7 @@ class VacancySearch extends SearchDelegate<Widget> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(12.0),
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12.0),
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: [
-              Container(
-                height: 80,
-                color: Colors.blue,
-              ),
-              ListTile(
-                title: Text('$query $index'),
-                subtitle: Text('Как раз то, что Вы искали'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+    return VacanciesPage();
   }
 
   @override

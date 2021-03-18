@@ -1,11 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/data_layer/model/user_type.dart';
+import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
-import 'package:helperr/features/profile/profile_page.dart';
+import 'package:helperr/features/profile/employer/view/employer_profile_page.dart';
+import 'package:helperr/features/profile/worker/view/worker_profile_page.dart';
+import 'package:helperr/features/search/resume_search/view/resume_search_delegate.dart';
+import 'package:helperr/features/search/resume_search/view/resumes_page.dart';
+import 'package:helperr/features/search/vacancy_search/view/vacancies_page.dart';
 import 'package:helperr/features/search/vacancy_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/settings/view/settings_page.dart';
 
 class NavigationView extends StatelessWidget {
+  // TODO: yet another temporary solution
+  Widget _getUserProfilePage(BuildContext context) {
+    final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
+
+    if (user.userType == UserType.employee) {
+      return WorkerProfilePage(user.id);
+    } else if (user.userType == UserType.employer) {
+      return EmployerProfilePage(user.id);
+    } else {
+      return Container();
+    }
+  }
+
+  // TODO: yet another temporary solution
+  SearchDelegate<Widget> _getSearchDelegate(BuildContext context) {
+    final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
+
+    if (user.userType == UserType.employee) {
+      return VacancySearch();
+    } else if (user.userType == UserType.employer) {
+      return ResumeSearch();
+    } else {
+      return null;
+    }
+  }
+
+  // TODO: yet another temporary solution
+  Widget _getSearchPage(BuildContext context) {
+    final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
+
+    if (user.userType == UserType.employee) {
+      return VacanciesPage();
+    } else if (user.userType == UserType.employer) {
+      return ResumesPage();
+    } else {
+      return Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, int>(
@@ -20,7 +65,11 @@ class NavigationView extends StatelessWidget {
                 icon: const Icon(Icons.search_rounded),
                 splashRadius: 24.0,
                 onPressed: () {
-                  showSearch(context: context, delegate: VacancySearch());
+                  showSearch(
+                    context: context,
+                    // not sure yet
+                    delegate: _getSearchDelegate(context),
+                  );
                 },
               ),
             ],
@@ -44,17 +93,7 @@ class NavigationView extends StatelessWidget {
 
         Widget body;
         if (state == 0) {
-          body = ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  title: Text('Элемент #$index'),
-                  subtitle: Text('Описание тут есть'),
-                ),
-              );
-            },
-          );
+          body = _getSearchPage(context);
         } else if (state == 1) {
           body = Container(
             child: Center(
@@ -62,7 +101,7 @@ class NavigationView extends StatelessWidget {
             ),
           );
         } else if (state == 2) {
-          body = ProfilePage();
+          body = _getUserProfilePage(context);
         }
 
         Widget bottomNavigationBar = BottomNavigationBar(

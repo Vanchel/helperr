@@ -95,7 +95,9 @@ class Worker extends Equatable {
             json["language"]?.map((x) => Language.fromJson(x)) ?? []),
         birthday: dateFromJson(json["birthday"]),
         gender: genderFromJson(json["gender"]),
-        address: Address.fromJson(json["address"]),
+        address: (json["address"]?.isNotEmpty ?? false)
+            ? Address.fromJson(json["address"])
+            : null,
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"] ?? '',
         socialLinks:
@@ -117,7 +119,7 @@ class Worker extends Equatable {
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
         "birthday": dateToJson(birthday),
         "gender": genderToJson(gender),
-        "address": address.toJson(),
+        "address": address?.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
         "social_links": List<dynamic>.from(socialLinks.map((x) => x)),

@@ -34,10 +34,8 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         name: json["name"],
-        lat:
-            double.tryParse(json["lat"].toString()) ?? c.coordinateNotSpecified,
-        lng:
-            double.tryParse(json["lng"].toString()) ?? c.coordinateNotSpecified,
+        lat: json["lat"].toDouble(),
+        lng: json["lng"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
