@@ -13,6 +13,39 @@ final _headers = {
 String _accessToken = '';
 String _refreshToken = '';
 
+Future<List<TruncatedVacancy>> searchVacancies(
+  int page, {
+  VacancySearchOptions options,
+}) async {
+  String optionsString = '';
+
+  final response = await http.get(
+    Uri.http(_baseUrl, 'api/vacancy/search/$optionsString'),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    // TODO: change
+    final tVacanciesList = (json.decode(decodedResponse)['results'] as List)
+        .map((json) => TruncatedVacancy.fromJson(json))
+        .toList();
+    return tVacanciesList;
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch search results for vacancies');
+  }
+}
+
+Future<List<TruncatedVacancy>> searchResumes(
+  int page, {
+  ResumeSearchOptions options,
+}) async {
+  // TODO: implement searchResumes
+  throw UnimplementedError();
+}
+
 Future<Worker> fetchWorker(int userId) async {
   final response = await http.get(
     Uri.http(_baseUrl, 'api/workers/$userId'),

@@ -6,7 +6,7 @@ import '../../../edit_list/views/chip_input/chip_input_widget.dart';
 import '../../../edit_set/views/experience_type_filter/experience_type_filter_widget.dart';
 import '../../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
 
-import '../model/resume_search_options.dart';
+import '../../../../data_layer/model/resume_search_options.dart';
 import '../../../../data_layer/model/experience_type.dart';
 import '../../../../data_layer/model/work_type.dart';
 import '../../../../data_layer/model/publication_age.dart';

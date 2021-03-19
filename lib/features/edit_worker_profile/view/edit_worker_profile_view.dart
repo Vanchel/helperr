@@ -105,7 +105,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     final addressInput = Container(
       margin: const EdgeInsets.symmetric(vertical: 16.0),
       child: TextFormField(
-        initialValue: widget.worker.address.name,
+        initialValue: widget.worker.address?.name,
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(
           labelText: 'Место проживания',

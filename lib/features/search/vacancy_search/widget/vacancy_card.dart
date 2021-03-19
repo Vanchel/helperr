@@ -17,24 +17,6 @@ class TruncatedVacancyCard extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: Colors.orange,
         ),
-        // title: Row(
-        //   textBaseline: TextBaseline.alphabetic,
-        //   crossAxisAlignment: CrossAxisAlignment.baseline,
-        //   children: [
-        //     Expanded(
-        //       child: Text(
-        //         vacancy.vacancyName,
-        //         overflow: TextOverflow.ellipsis,
-        //         maxLines: 1,
-        //         style: const TextStyle(color: Colors.white),
-        //       ),
-        //     ),
-        //     Text(
-        //       '30 000 руб.',
-        //       style: const TextStyle(color: Colors.white70),
-        //     ),
-        //   ],
-        // ),
         title: Text(
           vacancy.vacancyName,
           overflow: TextOverflow.ellipsis,
@@ -48,7 +30,7 @@ class TruncatedVacancyCard extends StatelessWidget {
           style: const TextStyle(color: Colors.white54),
         ),
         trailing: Text(
-          '30 000 руб.',
+          (vacancy.salary != -1) ? '${vacancy.salary} руб.' : 'з/п не указана',
           style: const TextStyle(color: Colors.white70),
         ),
       ),
@@ -77,15 +59,15 @@ class TruncatedVacancyCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           header,
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только',
-              style: themeData.textTheme.caption,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: Text(
+          //     'Это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только',
+          //     style: themeData.textTheme.caption,
+          //     overflow: TextOverflow.ellipsis,
+          //     maxLines: 2,
+          //   ),
+          // ),
           footer,
         ],
       ),

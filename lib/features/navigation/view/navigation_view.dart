@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
@@ -7,6 +8,7 @@ import 'package:helperr/features/profile/employer/view/employer_profile_page.dar
 import 'package:helperr/features/profile/worker/view/worker_profile_page.dart';
 import 'package:helperr/features/search/resume_search/view/resume_search_delegate.dart';
 import 'package:helperr/features/search/resume_search/view/resumes_page.dart';
+import 'package:helperr/features/search/vacancy_search/cubit/search_cubit.dart';
 import 'package:helperr/features/search/vacancy_search/view/vacancies_page.dart';
 import 'package:helperr/features/search/vacancy_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/settings/view/settings_page.dart';
@@ -43,9 +45,15 @@ class NavigationView extends StatelessWidget {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 
     if (user.userType == UserType.employee) {
-      return VacanciesPage();
+      return BlocProvider(
+        create: (context) =>
+            VacancySearchCubit(searchOptions: VacancySearchOptions())
+              ..fetchResults(),
+        child: VacanciesPage(),
+      );
     } else if (user.userType == UserType.employer) {
-      return ResumesPage();
+      //return ResumesPage();
+      return Container();
     } else {
       return Container();
     }

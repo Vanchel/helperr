@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/resume_search_options.dart';
+import '../../../../data_layer/model/resume_search_options.dart';
 import 'resume_filter_page.dart';
 
 class ResumeSearch extends SearchDelegate<Widget> {

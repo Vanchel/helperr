@@ -1,6 +1,6 @@
-import '../../../../data_layer/model/experience_type.dart';
-import '../../../../data_layer/model/work_type.dart';
-import '../../../../data_layer/model/publication_age.dart';
+import 'experience_type.dart';
+import 'work_type.dart';
+import 'publication_age.dart';
 
 class ResumeSearchOptions {
   const ResumeSearchOptions({

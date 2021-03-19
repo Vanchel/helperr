@@ -7,7 +7,7 @@ import '../../../edit_set/views/experience_type_filter/experience_type_filter_wi
 import '../../../edit_set/views/experience_duration_filter/experience_duration_filter_widget.dart';
 import '../../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
 
-import '../model/vacancy_search_options.dart';
+import '../../../../data_layer/model/vacancy_search_options.dart';
 import '../../../../data_layer/model/experience_type.dart';
 import '../../../../data_layer/model/experience_duration.dart';
 import '../../../../data_layer/model/work_type.dart';

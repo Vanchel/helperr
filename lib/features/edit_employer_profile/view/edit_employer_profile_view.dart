@@ -75,7 +75,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
     final addressInput = Container(
       margin: const EdgeInsets.symmetric(vertical: 16.0),
       child: TextFormField(
-        initialValue: widget.employer.address.name,
+        initialValue: widget.employer.address?.name,
         keyboardType: TextInputType.streetAddress,
         decoration: const InputDecoration(
           labelText: 'Адрес',

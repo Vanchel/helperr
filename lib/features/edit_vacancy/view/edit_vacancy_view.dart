@@ -132,7 +132,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
     final addressInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.address.name : '',
+        initialValue: widget.isEditing ? widget.vacancy.address?.name : '',
         keyboardType: TextInputType.streetAddress,
         decoration: const InputDecoration(
           labelText: 'Адрес',
