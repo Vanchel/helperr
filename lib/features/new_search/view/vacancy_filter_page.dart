@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../edit_single_value/views/publication_age/edit_publication_age.dart';
-import '../../../edit_list/views/chip_input/chip_input_widget.dart';
-import '../../../edit_set/views/experience_type_filter/experience_type_filter_widget.dart';
-import '../../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
+import '../../edit_single_value/views/publication_age/edit_publication_age.dart';
+import '../../edit_list/views/chip_input/chip_input_widget.dart';
+import '../../edit_set/views/experience_type_filter/experience_type_filter_widget.dart';
+import '../../edit_set/views/experience_duration_filter/experience_duration_filter_widget.dart';
+import '../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
 
-import '../../../../data_layer/model/resume_search_options.dart';
-import '../../../../data_layer/model/experience_type.dart';
-import '../../../../data_layer/model/work_type.dart';
-import '../../../../data_layer/model/publication_age.dart';
+import '../../../data_layer/model/vacancy_search_options.dart';
+import '../../../data_layer/model/experience_type.dart';
+import '../../../data_layer/model/experience_duration.dart';
+import '../../../data_layer/model/work_type.dart';
+import '../../../data_layer/model/publication_age.dart';
 
-import '../../../../constants.dart' as c;
+import '../../../constants.dart' as c;
 
-class ResumeFilterPage extends StatefulWidget {
-  ResumeFilterPage({
+class VacancyFilterPage extends StatefulWidget {
+  VacancyFilterPage({
     Key key,
     this.query = '',
     @required this.onSave,
   }) : super(key: key);
 
   final String query;
-  final Function(ResumeSearchOptions) onSave;
+  final Function(VacancySearchOptions) onSave;
 
   @override
-  _ResumeFilterPageState createState() => _ResumeFilterPageState();
+  _VacancyFilterPageState createState() => _VacancyFilterPageState();
 }
 
-class _ResumeFilterPageState extends State<ResumeFilterPage> {
+class _VacancyFilterPageState extends State<VacancyFilterPage> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _searchPhrase;
   String _industry;
-  int _maxSalary;
+  int _minSalary;
   Set<ExperienceType> _expTypes;
+  Set<ExperienceDuration> _expDurations;
   Set<WorkType> _workTypes;
   List<String> _tags;
   PublicationAge _pubAge;
@@ -75,7 +78,7 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
       ),
     );
 
-    final maxSalaryInput = Container(
+    final minSalaryInput = Container(
       margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         keyboardType: TextInputType.number,
@@ -83,8 +86,8 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
           FilteringTextInputFormatter.digitsOnly,
         ],
         decoration: InputDecoration(
-          labelText: 'Максимальная зарплата',
-          hintText: '30000',
+          labelText: 'Минимальная зарплата',
+          hintText: '15000',
           helperText: '',
           border: textInputBorder,
           suffix: Container(
@@ -102,7 +105,7 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
           }
         },
         onSaved: (newValue) =>
-            _maxSalary = newValue.isEmpty ? null : int.parse(newValue),
+            _minSalary = newValue.isEmpty ? null : int.parse(newValue),
       ),
     );
 
@@ -120,6 +123,29 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
             ),
           ),
           ExperienceTypeFilter(onChanged: (newValue) => _expTypes = newValue),
+          Container(
+            margin: const EdgeInsets.only(top: 16.0),
+            child: const Divider(),
+          ),
+        ],
+      ),
+    );
+
+    final experienceDurationsFilter = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            child: Text(
+              'Опыт работы',
+              style: themeData.textTheme.subtitle1,
+            ),
+          ),
+          ExperienceDurationFilter(
+              onChanged: (newValue) => _expDurations = newValue),
           Container(
             margin: const EdgeInsets.only(top: 16.0),
             child: const Divider(),
@@ -176,11 +202,12 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
 
-        final editedVacancyOptions = ResumeSearchOptions(
+        final editedVacancyOptions = VacancySearchOptions(
           searchPhrase: _searchPhrase,
           industry: _industry,
-          maxSalary: _maxSalary,
+          minSalary: _minSalary,
           expTypes: _expTypes,
+          expDurations: _expDurations,
           workTypes: _workTypes,
           tags: _tags,
           pubAge: _pubAge,
@@ -210,8 +237,9 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
           children: [
             searchQueryInput,
             industryInput,
-            maxSalaryInput,
+            minSalaryInput,
             experienceTypesFilter,
+            experienceDurationsFilter,
             workTypesFilter,
             tagsInput,
             pubAgeInput,

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/features/search/vacancy_search/cubit/search_cubit.dart';
 
-import '../../../../data_layer/model/vacancy_search_options.dart';
+import '../../../data_layer/model/vacancy_search_options.dart';
 import 'vacancy_filter_page.dart';
-import 'vacancies_page.dart';
+import 'vacancies_search_result_page.dart';
 
-class VacancySearch extends SearchDelegate<Widget> {
+class VacancySearchDelegate extends SearchDelegate<Widget> {
   static const List<String> fooSuggestions = [
     'Работа в сфере услуг',
     'Работа на складах',
@@ -88,11 +86,7 @@ class VacancySearch extends SearchDelegate<Widget> {
   @override
   Widget buildResults(BuildContext context) {
     final options = searchOptions ?? VacancySearchOptions(searchPhrase: query);
-    return BlocProvider(
-      create: (context) =>
-          VacancySearchCubit(searchOptions: options)..fetchResults(),
-      child: VacanciesPage(),
-    );
+    return VacanciesSearchResultPage(searchOptions: options);
   }
 
   @override

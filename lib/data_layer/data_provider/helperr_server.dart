@@ -13,10 +13,33 @@ final _headers = {
 String _accessToken = '';
 String _refreshToken = '';
 
-Future<List<TruncatedVacancy>> searchVacancies(
-  int page, {
-  VacancySearchOptions options,
-}) async {
+// Future<List<TruncatedVacancy>> searchVacancies(
+//   int page, {
+//   VacancySearchOptions options,
+// }) async {
+//   String optionsString = '';
+
+//   final response = await http.get(
+//     Uri.http(_baseUrl, 'api/vacancy/search/$optionsString'),
+//     headers: _headers,
+//   );
+
+//   if (response.statusCode == 200) {
+//     final decodedResponse = utf8.decode(response.body.runes.toList());
+//     // TODO: change
+//     final tVacanciesList = (json.decode(decodedResponse)['results'] as List)
+//         .map((json) => TruncatedVacancy.fromJson(json))
+//         .toList();
+//     return tVacanciesList;
+//   } else {
+//     print(response.statusCode);
+//     print(response.body);
+//     throw Exception('Failed to fetch search results for vacancies');
+//   }
+// }
+
+Future<VacancySearchResult> fetchVacanciesWithOptions(
+    VacancySearchOptions options) async {
   String optionsString = '';
 
   final response = await http.get(
@@ -26,11 +49,23 @@ Future<List<TruncatedVacancy>> searchVacancies(
 
   if (response.statusCode == 200) {
     final decodedResponse = utf8.decode(response.body.runes.toList());
-    // TODO: change
-    final tVacanciesList = (json.decode(decodedResponse)['results'] as List)
-        .map((json) => TruncatedVacancy.fromJson(json))
-        .toList();
-    return tVacanciesList;
+    return vacancySearchResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch search results for vacancies');
+  }
+}
+
+Future<VacancySearchResult> fetchVacanciesWithPage(String pageUri) async {
+  final response = await http.get(
+    Uri.dataFromString(pageUri),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return vacancySearchResultFromJson(decodedResponse);
   } else {
     print(response.statusCode);
     print(response.body);

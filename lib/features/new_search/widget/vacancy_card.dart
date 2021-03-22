@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../data_layer/model/truncated_vacancy.dart';
+import '../../../data_layer/model/truncated_vacancy.dart';
 
 class TruncatedVacancyCard extends StatelessWidget {
   final TruncatedVacancy vacancy;
@@ -53,7 +53,6 @@ class TruncatedVacancyCard extends StatelessWidget {
     );
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisSize: MainAxisSize.min,

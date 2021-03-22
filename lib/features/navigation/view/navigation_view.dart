@@ -4,13 +4,10 @@ import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
+import 'package:helperr/features/new_search/view/vacancies_search_result_page.dart';
+import 'package:helperr/features/new_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/profile/employer/view/employer_profile_page.dart';
 import 'package:helperr/features/profile/worker/view/worker_profile_page.dart';
-import 'package:helperr/features/search/resume_search/view/resume_search_delegate.dart';
-import 'package:helperr/features/search/resume_search/view/resumes_page.dart';
-import 'package:helperr/features/search/vacancy_search/cubit/search_cubit.dart';
-import 'package:helperr/features/search/vacancy_search/view/vacancies_page.dart';
-import 'package:helperr/features/search/vacancy_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/settings/view/settings_page.dart';
 
 class NavigationView extends StatelessWidget {
@@ -32,9 +29,10 @@ class NavigationView extends StatelessWidget {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 
     if (user.userType == UserType.employee) {
-      return VacancySearch();
+      return VacancySearchDelegate();
     } else if (user.userType == UserType.employer) {
-      return ResumeSearch();
+      // fix
+      return null;
     } else {
       return null;
     }
@@ -45,15 +43,9 @@ class NavigationView extends StatelessWidget {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 
     if (user.userType == UserType.employee) {
-      return BlocProvider(
-        create: (context) =>
-            VacancySearchCubit(searchOptions: VacancySearchOptions())
-              ..fetchResults(),
-        child: VacanciesPage(),
-      );
+      return VacanciesSearchResultPage(searchOptions: VacancySearchOptions());
     } else if (user.userType == UserType.employer) {
-      //return ResumesPage();
-      return Container();
+      return Placeholder();
     } else {
       return Container();
     }
