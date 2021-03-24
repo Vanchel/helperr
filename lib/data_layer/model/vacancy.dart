@@ -110,7 +110,7 @@ class Vacancy extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "user_id": userId,
+        "user": userId,
         "vacancy_name": vacancyName,
         "industry": industry,
         "grade": experienceTypeToJson(grade),

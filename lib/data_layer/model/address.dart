@@ -4,14 +4,12 @@
 
 import 'dart:convert';
 
-import '../../constants.dart' as c;
-
 Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 
 String addressToJson(Address data) => json.encode(data.toJson());
 
 class Address {
-  Address({
+  const Address({
     this.name,
     this.lat,
     this.lng,
@@ -43,4 +41,6 @@ class Address {
         "lat": lat,
         "lng": lng,
       };
+
+  static const empty = Address(lat: 0.0, lng: 0.0, name: '');
 }

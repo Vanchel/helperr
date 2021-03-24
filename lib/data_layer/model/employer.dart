@@ -4,14 +4,17 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 import 'address.dart';
 
 Employer employerFromJson(String str) => Employer.fromJson(json.decode(str));
 
 String employerToJson(Employer data) => json.encode(data.toJson());
 
-class Employer {
+class Employer extends Equatable {
   Employer({
+    this.id,
     this.userId,
     this.name,
     this.mailing,
@@ -24,6 +27,7 @@ class Employer {
     this.profileBackground,
   });
 
+  final int id;
   final int userId;
   final String name;
   final bool mailing;
@@ -36,6 +40,7 @@ class Employer {
   final String profileBackground;
 
   Employer copyWith({
+    int id,
     int userId,
     String name,
     bool mailing,
@@ -48,6 +53,7 @@ class Employer {
     String profileBackground,
   }) =>
       Employer(
+        id: id ?? this.id,
         userId: userId ?? this.userId,
         name: name ?? this.name,
         mailing: mailing ?? this.mailing,
@@ -61,12 +67,13 @@ class Employer {
       );
 
   factory Employer.fromJson(Map<String, dynamic> json) => Employer(
+        id: json["id"],
         userId: json["user"],
         name: json["name"],
         mailing: json["mailing"],
         address: (json["address"]?.isNotEmpty ?? false)
             ? Address.fromJson(json["address"])
-            : null,
+            : Address.empty,
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"],
         links: List<String>.from(json["links"]?.map((x) => x) ?? []),
@@ -76,10 +83,11 @@ class Employer {
       );
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
+        "id": id,
+        "user": userId,
         "name": name,
         "mailing": mailing,
-        "address": address?.toJson(),
+        "address": address.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
         "links": List<dynamic>.from(links.map((x) => x)),
@@ -87,4 +95,19 @@ class Employer {
         "photo_url": photoUrl,
         "profile_background": profileBackground,
       };
+
+  @override
+  List<Object> get props => [
+        this.id,
+        this.userId,
+        this.name,
+        this.mailing,
+        this.address,
+        this.phone,
+        this.about,
+        this.links,
+        this.profileLink,
+        this.photoUrl,
+        this.profileBackground,
+      ];
 }

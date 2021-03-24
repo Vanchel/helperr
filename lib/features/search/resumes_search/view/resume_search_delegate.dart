@@ -1,39 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../../data_layer/model/vacancy_search_options.dart';
-import 'vacancy_filter_page.dart';
-import 'vacancies_search_result_page.dart';
+import '../../../../data_layer/model/resume_search_options.dart';
+import 'resume_filter_page.dart';
+import 'resumes_search_result_page.dart';
 
-class VacancySearchDelegate extends SearchDelegate<Widget> {
+class ResumeSearchDelegate extends SearchDelegate<Widget> {
   static const List<String> fooSuggestions = [
-    'Работа в сфере услуг',
-    'Работа на складах',
-    'Работа в ресторанах',
-    'Работа в сфере бытовых услуг',
-    'Подработка',
-    'Работа в строительстве',
-    'Работа на транспорте',
-    'Удаленная работа',
-    'Работа в сфере доставки',
-    'Работа в сфере продаж',
-    'Работа на производстве',
-    'Работа в сфере безопасности',
-    'Домашний персонал',
-    'Работа в сфере финансов',
-    'Работа в медицине',
-    'Работа в недвижимости',
-    'Работа в сфере IT',
-    'Работа в сфере HR',
-    'Работа для руководителей',
-    'Индустрия красоты',
-    'Работа в страховании',
-    'Работа в сфере дизайна',
-    'Работа в маркетинге',
-    'Работа в юриспруденции',
-    'Работа в агропроме',
+    'Предложить Вам нечего',
+    'Предложить Вам все еще нечего',
   ];
 
-  VacancySearchOptions searchOptions;
+  ResumeSearchOptions searchOptions;
 
   @override
   String get searchFieldLabel => 'Поиск';
@@ -51,7 +28,7 @@ class VacancySearchDelegate extends SearchDelegate<Widget> {
       clearButton = const SizedBox.shrink();
     }
 
-    final onSaveFilters = (VacancySearchOptions options) {
+    final onSaveFilters = (ResumeSearchOptions options) {
       searchOptions = options;
       showResults(context);
     };
@@ -65,7 +42,7 @@ class VacancySearchDelegate extends SearchDelegate<Widget> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                VacancyFilterPage(query: query, onSave: onSaveFilters),
+                ResumeFilterPage(query: query, onSave: onSaveFilters),
           ),
         );
       },
@@ -85,8 +62,8 @@ class VacancySearchDelegate extends SearchDelegate<Widget> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final options = searchOptions ?? VacancySearchOptions(searchPhrase: query);
-    return VacanciesSearchResultPage(searchOptions: options);
+    final options = searchOptions ?? ResumeSearchOptions(searchPhrase: query);
+    return ResumesSearchResultPage(searchOptions: options);
   }
 
   @override

@@ -15,6 +15,7 @@ String workerToJson(Worker data) => json.encode(data.toJson());
 
 class Worker extends Equatable {
   Worker({
+    this.id,
     this.userId,
     this.name,
     this.mailing,
@@ -33,6 +34,7 @@ class Worker extends Equatable {
     this.profileBackground,
   });
 
+  final int id;
   final int userId;
   final String name;
   final bool mailing;
@@ -51,6 +53,7 @@ class Worker extends Equatable {
   final String profileBackground;
 
   Worker copyWith({
+    int id,
     int userId,
     String name,
     bool mailing,
@@ -69,6 +72,7 @@ class Worker extends Equatable {
     String profileBackground,
   }) =>
       Worker(
+        id: id ?? this.id,
         userId: userId ?? this.userId,
         name: name ?? this.name,
         mailing: mailing ?? this.mailing,
@@ -88,6 +92,7 @@ class Worker extends Equatable {
       );
 
   factory Worker.fromJson(Map<String, dynamic> json) => Worker(
+        id: json["id"],
         userId: json["user"],
         name: json["name"] ?? '',
         mailing: json["mailing"] ?? false,
@@ -97,7 +102,7 @@ class Worker extends Equatable {
         gender: genderFromJson(json["gender"]),
         address: (json["address"]?.isNotEmpty ?? false)
             ? Address.fromJson(json["address"])
-            : null,
+            : Address.empty,
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"] ?? '',
         socialLinks:
@@ -113,13 +118,14 @@ class Worker extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
+        "id": id,
+        "user": userId,
         "name": name,
         "mailing": mailing,
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
         "birthday": dateToJson(birthday),
         "gender": genderToJson(gender),
-        "address": address?.toJson(),
+        "address": address.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
         "social_links": List<dynamic>.from(socialLinks.map((x) => x)),
@@ -133,6 +139,7 @@ class Worker extends Equatable {
 
   @override
   List<Object> get props => [
+        this.id,
         this.userId,
         this.name,
         this.mailing,

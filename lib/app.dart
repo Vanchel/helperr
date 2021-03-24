@@ -47,6 +47,7 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       //debugShowMaterialGrid: true,
       //showSemanticsDebugger: true,
+      //showPerformanceOverlay: true,
       theme: theme,
       onGenerateRoute: (_) => SplashPage.route(),
       builder: (context, child) {

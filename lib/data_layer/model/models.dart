@@ -23,3 +23,4 @@ export 'resume_search_options.dart';
 export 'truncated_vacancy.dart';
 export 'truncated_resume.dart';
 export 'vacancy_search_result.dart';
+export 'resume_search_result.dart';

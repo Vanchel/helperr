@@ -27,4 +27,7 @@ class EmployerInfo extends Equatable {
 
   @override
   List<Object> get props => [employer, vacancies, avatarUrl, bgUrl];
+
+  @override
+  String toString() => 'Employer info for id ${employer.userId}';
 }

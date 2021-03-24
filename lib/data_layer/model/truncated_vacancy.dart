@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 import 'util.dart';
+import 'experience_type.dart';
+import 'address.dart';
 import 'work_type.dart';
 
 TruncatedVacancy truncatedVacancyFromJson(String str) =>
@@ -20,8 +22,12 @@ class TruncatedVacancy extends Equatable {
     this.id,
     this.vacancyName,
     this.industry,
+    this.grade,
     this.salary,
+    this.address,
     this.workTypes,
+    this.leading,
+    this.bgHeaderColor,
     this.pubDate,
     this.employerId,
     this.employerName,
@@ -31,8 +37,12 @@ class TruncatedVacancy extends Equatable {
   final int id;
   final String vacancyName;
   final String industry;
+  final ExperienceType grade;
   final int salary;
+  final Address address;
   final Set<WorkType> workTypes;
+  final String leading;
+  final String bgHeaderColor;
   final DateTime pubDate;
   final int employerId;
   final String employerName;
@@ -42,8 +52,12 @@ class TruncatedVacancy extends Equatable {
     int id,
     String vacancyName,
     String industry,
+    ExperienceType grade,
     int salary,
+    Address address,
     Set<WorkType> workTypes,
+    String leading,
+    String bgHeaderColor,
     DateTime pubDate,
     int employerId,
     String employerName,
@@ -53,8 +67,12 @@ class TruncatedVacancy extends Equatable {
         id: id ?? this.id,
         vacancyName: vacancyName ?? this.vacancyName,
         industry: industry ?? this.industry,
+        grade: grade ?? this.grade,
         salary: salary ?? this.salary,
+        address: address ?? this.address,
         workTypes: workTypes ?? this.workTypes,
+        leading: leading ?? this.leading,
+        bgHeaderColor: bgHeaderColor ?? this.bgHeaderColor,
         pubDate: pubDate ?? this.pubDate,
         employerId: employerId ?? this.employerId,
         employerName: employerName ?? this.employerName,
@@ -66,9 +84,15 @@ class TruncatedVacancy extends Equatable {
         id: json["pk"],
         vacancyName: json["vacancy_name"],
         industry: json["industry"],
+        grade: experienceTypeFromJson(json["grade"]),
         salary: json["salary"],
+        address: (json["address"]?.isNotEmpty ?? false)
+            ? Address.fromJson(json["address"])
+            : Address.empty,
         workTypes: Set<WorkType>.from(
             json["work_type"]?.map((x) => workTypeFromJson(x)) ?? []),
+        leading: json["leading"],
+        bgHeaderColor: json["bg_header_color"],
         pubDate: dateFromJson(json["pub_date"]),
         employerId: json["owner_id"],
         employerName: json["owner"],
@@ -79,9 +103,13 @@ class TruncatedVacancy extends Equatable {
         "pk": id,
         "vacancy_name": vacancyName,
         "industry": industry,
+        "grade": experienceTypeToJson(grade),
         "salary": salary,
+        "address": addressToJson(address),
         "work_type":
             List<dynamic>.from(workTypes.map((x) => workTypeToJson(x))),
+        "leading": leading,
+        "bg_header_color": bgHeaderColor,
         "pub_date": dateToJson(pubDate),
         "owner_id": employerId,
         "owner": employerName,
@@ -93,8 +121,12 @@ class TruncatedVacancy extends Equatable {
         this.id,
         this.vacancyName,
         this.industry,
+        this.grade,
         this.salary,
+        this.address,
         this.workTypes,
+        this.leading,
+        this.bgHeaderColor,
         this.pubDate,
         this.employerId,
         this.employerName,

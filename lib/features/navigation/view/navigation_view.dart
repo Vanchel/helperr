@@ -4,8 +4,10 @@ import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
-import 'package:helperr/features/new_search/view/vacancies_search_result_page.dart';
-import 'package:helperr/features/new_search/view/vacancy_search_delegate.dart';
+import 'package:helperr/features/search/vacancies_search/view/vacancies_search_result_page.dart';
+import 'package:helperr/features/search/vacancies_search/view/vacancy_search_delegate.dart';
+import 'package:helperr/features/search/resumes_search/view/resumes_search_result_page.dart';
+import 'package:helperr/features/search/resumes_search/view/resume_search_delegate.dart';
 import 'package:helperr/features/profile/employer/view/employer_profile_page.dart';
 import 'package:helperr/features/profile/worker/view/worker_profile_page.dart';
 import 'package:helperr/features/settings/view/settings_page.dart';
@@ -31,8 +33,7 @@ class NavigationView extends StatelessWidget {
     if (user.userType == UserType.employee) {
       return VacancySearchDelegate();
     } else if (user.userType == UserType.employer) {
-      // fix
-      return null;
+      return ResumeSearchDelegate();
     } else {
       return null;
     }
@@ -45,7 +46,7 @@ class NavigationView extends StatelessWidget {
     if (user.userType == UserType.employee) {
       return VacanciesSearchResultPage(searchOptions: VacancySearchOptions());
     } else if (user.userType == UserType.employer) {
-      return Placeholder();
+      return ResumesSearchResultPage(searchOptions: ResumeSearchOptions());
     } else {
       return Container();
     }
@@ -67,7 +68,6 @@ class NavigationView extends StatelessWidget {
                 onPressed: () {
                   showSearch(
                     context: context,
-                    // not sure yet
                     delegate: _getSearchDelegate(context),
                   );
                 },

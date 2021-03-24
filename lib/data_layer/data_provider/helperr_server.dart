@@ -13,37 +13,10 @@ final _headers = {
 String _accessToken = '';
 String _refreshToken = '';
 
-// Future<List<TruncatedVacancy>> searchVacancies(
-//   int page, {
-//   VacancySearchOptions options,
-// }) async {
-//   String optionsString = '';
-
-//   final response = await http.get(
-//     Uri.http(_baseUrl, 'api/vacancy/search/$optionsString'),
-//     headers: _headers,
-//   );
-
-//   if (response.statusCode == 200) {
-//     final decodedResponse = utf8.decode(response.body.runes.toList());
-//     // TODO: change
-//     final tVacanciesList = (json.decode(decodedResponse)['results'] as List)
-//         .map((json) => TruncatedVacancy.fromJson(json))
-//         .toList();
-//     return tVacanciesList;
-//   } else {
-//     print(response.statusCode);
-//     print(response.body);
-//     throw Exception('Failed to fetch search results for vacancies');
-//   }
-// }
-
 Future<VacancySearchResult> fetchVacanciesWithOptions(
     VacancySearchOptions options) async {
-  String optionsString = '';
-
   final response = await http.get(
-    Uri.http(_baseUrl, 'api/vacancy/search/$optionsString'),
+    Uri.http(_baseUrl, 'api/vacancy/search/$options'),
     headers: _headers,
   );
 
@@ -73,12 +46,37 @@ Future<VacancySearchResult> fetchVacanciesWithPage(String pageUri) async {
   }
 }
 
-Future<List<TruncatedVacancy>> searchResumes(
-  int page, {
-  ResumeSearchOptions options,
-}) async {
-  // TODO: implement searchResumes
-  throw UnimplementedError();
+Future<ResumeSearchResult> fetchResumesWithOptions(
+    ResumeSearchOptions options) async {
+  final response = await http.get(
+    Uri.http(_baseUrl, 'api/cv/search/$options'),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return resumeSearchResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch search results for resumes');
+  }
+}
+
+Future<ResumeSearchResult> fetchResumesWithPage(String pageUri) async {
+  final response = await http.get(
+    Uri.dataFromString(pageUri),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return resumeSearchResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch search results for resumes');
+  }
 }
 
 Future<Worker> fetchWorker(int userId) async {

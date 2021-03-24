@@ -44,4 +44,27 @@ class VacancySearchOptions {
         tags: tags ?? this.tags,
         pubAge: pubAge ?? this.pubAge,
       );
+
+  @override
+  String toString() {
+    final query = ['phrase=$searchPhrase'];
+
+    query.add('industry=$industry');
+    query.add('min-salary=$minSalary');
+    query.add('pub-date=${publicationAgeToJson(pubAge)}');
+    for (final expType in expTypes) {
+      query.add('grade=${experienceTypeToJson(expType)}');
+    }
+    for (final expDuration in expDurations) {
+      query.add('experience=${experienceDurationToJson(expDuration)}');
+    }
+    for (final workType in workTypes) {
+      query.add('work-type=${workTypeToJson(workType)}');
+    }
+    for (final tag in tags) {
+      query.add('tag=$tag');
+    }
+
+    return query.join('&');
+  }
 }

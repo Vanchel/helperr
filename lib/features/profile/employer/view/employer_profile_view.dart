@@ -39,7 +39,7 @@ class EmployerProfileView extends StatelessWidget {
             child: ProfileCard(
               userId: profile.userId,
               name: profile.name,
-              address: profile.address?.name,
+              address: profile.address.name,
               description: profile.about,
               avatarUrl: state.employerInfo.avatarUrl,
               backgroundUrl: state.employerInfo.bgUrl,

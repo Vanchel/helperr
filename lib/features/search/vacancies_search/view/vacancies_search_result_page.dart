@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/vacancy_listing_cubit.dart';
 import '../view/paged_vacancy_list_view.dart';
-import '../../../data_layer/model/vacancy_search_options.dart';
+import '../../../../data_layer/model/vacancy_search_options.dart';
 
 class VacanciesSearchResultPage extends StatelessWidget {
   const VacanciesSearchResultPage({

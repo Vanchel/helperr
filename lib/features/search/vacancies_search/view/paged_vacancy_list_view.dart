@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../widget/vacancy_card.dart';
+import '../widget/truncated_vacancy_card.dart';
+import '../../widget/exception_indicators/error_indicator.dart';
+import '../../widget/exception_indicators/empty_list_indicator.dart';
+
 import '../cubit/vacancy_listing_cubit.dart';
-import '../../../data_layer/model/truncated_vacancy.dart';
+import '../../../../data_layer/model/truncated_vacancy.dart';
 
 class PagedVacancyListView extends StatefulWidget {
   const PagedVacancyListView({Key key}) : super(key: key);
@@ -19,11 +22,11 @@ class _PagedVacancyListViewState extends State<PagedVacancyListView> {
 
   @override
   void initState() {
+    super.initState();
     _pagingController.addPageRequestListener((pageKey) {
       final cubit = BlocProvider.of<VacancyListingCubit>(context);
       cubit.fetchPage(pageKey);
     });
-    super.initState();
   }
 
   @override
@@ -36,10 +39,13 @@ class _PagedVacancyListViewState extends State<PagedVacancyListView> {
   Widget build(BuildContext context) {
     return BlocListener<VacancyListingCubit, VacancyListingState>(
       listener: (context, state) {
-        print('новый стейт пришел');
-        (state.nextPageUri != null)
-            ? _pagingController.appendPage(state.itemList, state.nextPageUri)
-            : _pagingController.appendLastPage(state.itemList);
+        if (state is VacanciesFetchSuccessState) {
+          (state.nextPageUri != null)
+              ? _pagingController.appendPage(state.itemList, state.nextPageUri)
+              : _pagingController.appendLastPage(state.itemList);
+        } else if (state is VacanciesFetchFailureState) {
+          _pagingController.error = state.error;
+        }
       },
       child: RefreshIndicator(
         onRefresh: () => Future.sync(
@@ -57,51 +63,11 @@ class _PagedVacancyListViewState extends State<PagedVacancyListView> {
             noItemsFoundIndicatorBuilder: (context) => EmptyListIndicator(),
           ),
           pagingController: _pagingController,
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12.0),
           separatorBuilder: (context, index) => const SizedBox(
-            height: 12,
+            height: 12.0,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ErrorIndicator extends StatelessWidget {
-  const ErrorIndicator({
-    @required this.error,
-    this.onTryAgain,
-    Key key,
-  })  : assert(error != null),
-        super(key: key);
-
-  final dynamic error;
-  final VoidCallback onTryAgain;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Это первая страница, которая не загрузилась: $error'),
-            TextButton(onPressed: onTryAgain, child: Text('Попробовать снова')),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class EmptyListIndicator extends StatelessWidget {
-  const EmptyListIndicator({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('Этот экран говорит вам, что сервер вернул пустой список'),
       ),
     );
   }
