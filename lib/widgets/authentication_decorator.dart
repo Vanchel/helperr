@@ -18,13 +18,15 @@ class AuthenticationDecorator extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-            margin: const EdgeInsets.all(constants.scaffoldBodyPadding),
             constraints: const BoxConstraints(
               maxWidth: constants.deviceWidthBreakpoint,
             ),
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: SingleChildScrollView(child: child),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: child,
+              ),
             ),
           ),
         ),

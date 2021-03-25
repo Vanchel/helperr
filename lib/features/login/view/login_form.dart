@@ -15,49 +15,47 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
+  String _email;
+  String _password;
+
   @override
   Widget build(BuildContext context) {
-    String _name;
-    String _password;
+    final textTheme = Theme.of(context).textTheme;
 
-    final usernameInput = TextFormField(
-      keyboardType: TextInputType.name,
-      onSaved: (newValue) => _name = newValue,
-      decoration: const InputDecoration(
-        icon: const Icon(Icons.mail_rounded),
-        labelText: 'Email',
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
+    final emailInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.mail_rounded),
+          labelText: 'Email',
+          hintText: 'email@example.com',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        validator: (value) => value.isEmpty ? 'Email не указан' : null,
+        onSaved: (newValue) => _email = newValue,
       ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Email не указан';
-        }
-        return null;
-      },
     );
 
-    final passwordInput = TextFormField(
-      keyboardType: TextInputType.visiblePassword,
-      onSaved: (newValue) => _password = newValue,
-      decoration: const InputDecoration(
-        icon: Icon(Icons.lock_rounded),
-        labelText: 'Пароль',
-      ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Пароль не указан';
-        }
-        return null;
-      },
-      obscureText: true,
-      enableSuggestions: false,
-      autocorrect: false,
-    );
-
-    final recoveryButton = Align(
-      alignment: Alignment.centerLeft,
-      child: TextButton(
-        onPressed: () {},
-        child: Text('Забыли пароль?'),
+    final passwordInput = Container(
+      margin: const EdgeInsets.only(bottom: 8.0),
+      child: TextFormField(
+        keyboardType: TextInputType.visiblePassword,
+        obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.lock_rounded),
+          labelText: 'Пароль',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        validator: (value) => value.isEmpty ? 'Пароль не указан' : null,
+        onSaved: (newValue) => _password = newValue,
       ),
     );
 
@@ -70,22 +68,34 @@ class _LoginFormState extends State<LoginForm> {
             child: const CircularProgressIndicator(),
           );
         } else {
-          return ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                context.read<LoginCubit>().submitLogin(_name, _password);
-              }
-            },
-            child: const Text('Войти'),
+          return Container(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  context.read<LoginCubit>().submitLogin(_email, _password);
+                }
+              },
+              child: const Text('Войти'),
+            ),
           );
         }
       },
     );
 
-    final registerButton = TextButton(
-      onPressed: () => Navigator.push(context, RegisterPage.route()),
-      child: const Text('Зарегистрироваться'),
+    final actionsRow = Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Text('Забыли пароль?'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.push(context, RegisterPage.route()),
+          child: const Text('Зарегистрироваться'),
+        ),
+      ],
     );
 
     return BlocListener<LoginCubit, LoginState>(
@@ -109,11 +119,10 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              usernameInput,
+              emailInput,
               passwordInput,
-              recoveryButton,
               loginButton,
-              registerButton,
+              actionsRow,
             ],
           ),
         ),

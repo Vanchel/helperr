@@ -16,12 +16,17 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
 
-  bool _isValidEmail(String str) {
-    String pattern =
-        r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = RegExp(pattern);
-    return regExp.hasMatch(str);
-  }
+  String _name;
+  String _email;
+  String _password;
+  UserType _userType;
+
+  // bool _isValidEmail(String str) {
+  //   String pattern =
+  //       r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$';
+  //   RegExp regExp = RegExp(pattern);
+  //   return regExp.hasMatch(str);
+  // }
 
   bool _isValidPassword(String str) {
     String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
@@ -31,65 +36,85 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    String _name;
-    String _email;
-    String _password;
-    UserType _userType;
+    final textTheme = Theme.of(context).textTheme;
 
-    final nameInput = TextFormField(
-      keyboardType: TextInputType.name,
-      decoration: const InputDecoration(
-        icon: const Icon(Icons.person_rounded),
-        labelText: 'Имя пользователя',
+    const textInputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
+    final nameInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        keyboardType: TextInputType.name,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.person_rounded),
+          labelText: 'Имя пользователя',
+          hintText: 'Nickname',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        validator: (value) =>
+            value.isEmpty ? 'Имя пользователя не указано' : null,
+        onSaved: (newValue) => _name = newValue,
       ),
-      onSaved: (newValue) => _name = newValue,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Имя пользователя не указано.';
-        }
-        return null;
-      },
     );
 
-    final emailInput = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => _email = newValue,
-      decoration: const InputDecoration(
-        icon: const Icon(Icons.mail_rounded),
-        labelText: 'Email',
+    final emailInput = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.mail_rounded),
+          labelText: 'Email',
+          hintText: 'email@example.com',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        onSaved: (newValue) => _email = newValue,
       ),
-      validator: (value) {
-        // if (!_isValidEmail(value)) {
-        //   return 'Введите корректный email.';
-        // }
-        return null;
-      },
     );
 
-    final passwordInput = TextFormField(
-      keyboardType: TextInputType.visiblePassword,
-      scrollPadding: const EdgeInsets.only(bottom: 32.0),
-      onSaved: (newValue) => _password = newValue,
-      decoration: const InputDecoration(
-        icon: Icon(Icons.lock_rounded),
-        labelText: 'Пароль',
+    final passwordInput = Container(
+      margin: const EdgeInsets.only(bottom: 8.0),
+      child: TextFormField(
+        keyboardType: TextInputType.visiblePassword,
+        obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.lock_rounded),
+          labelText: 'Пароль',
+          helperText: '',
+          border: textInputBorder,
+        ),
+        validator: (value) => !_isValidPassword(value)
+            ? 'Пароль не соответствует критериям'
+            : null,
+        onSaved: (newValue) => _password = newValue,
       ),
-      validator: (value) {
-        if (!_isValidPassword(value)) {
-          return 'Пароль не соответствует критериям.';
-        }
-        return null;
-      },
-      obscureText: true,
-      enableSuggestions: false,
-      autocorrect: false,
     );
 
-    final userTypeToggle = Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      alignment: Alignment.center,
-      child: UserTypeToggle(
-        onChanged: (newValue) => _userType = newValue,
+    final passwordHint = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: Text(
+        'Пароль должен быть от 6 символов в длину и содержать хотя бы одну '
+        'цифру, строчную и заглавную букву.',
+        style: textTheme.caption,
+      ),
+    );
+
+    final userTypeRow = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        textBaseline: TextBaseline.alphabetic,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        children: [
+          Expanded(
+            child: Text('Тип пользователя:'),
+          ),
+          UserTypeToggle(
+            onChanged: (newValue) => _userType = newValue,
+          ),
+        ],
       ),
     );
 
@@ -102,23 +127,38 @@ class _RegisterFormState extends State<RegisterForm> {
             child: const CircularProgressIndicator(),
           );
         } else
-          return ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                context
-                    .read<RegisterCubit>()
-                    .submitRegister(_name, _email, _password, _userType);
-              }
-            },
-            child: const Text('Зарегистрироваться'),
+          return Container(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  context
+                      .read<RegisterCubit>()
+                      .submitRegister(_name, _email, _password, _userType);
+                }
+              },
+              child: const Text('Зарегистрироваться'),
+            ),
           );
       },
     );
 
-    final loginButton = TextButton(
-      onPressed: () => Navigator.pop(context),
-      child: const Text('Войти'),
+    final loginRow = Row(
+      textBaseline: TextBaseline.alphabetic,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      children: [
+        Expanded(
+          child: Text(
+            'Уже есть аккаунт?',
+            style: textTheme.caption,
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Войти'),
+        ),
+      ],
     );
 
     return BlocListener<RegisterCubit, RegisterState>(
@@ -143,9 +183,10 @@ class _RegisterFormState extends State<RegisterForm> {
               nameInput,
               emailInput,
               passwordInput,
-              userTypeToggle,
+              passwordHint,
+              userTypeRow,
               registerButton,
-              loginButton,
+              loginRow,
             ],
           ),
         ),

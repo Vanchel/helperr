@@ -16,7 +16,7 @@ String _refreshToken = '';
 Future<VacancySearchResult> fetchVacanciesWithOptions(
     VacancySearchOptions options) async {
   final response = await http.get(
-    Uri.http(_baseUrl, 'api/vacancy/search', options.toJson()),
+    Uri.http(_baseUrl, 'api/vacancy/search/', options.toJson()),
     headers: _headers,
   );
 
@@ -49,7 +49,7 @@ Future<VacancySearchResult> fetchVacanciesWithPage(String pageUri) async {
 Future<ResumeSearchResult> fetchResumesWithOptions(
     ResumeSearchOptions options) async {
   final response = await http.get(
-    Uri.http(_baseUrl, 'api/cv/search', options.toJson()),
+    Uri.http(_baseUrl, 'api/cv/search/', options.toJson()),
     headers: _headers,
   );
 
