@@ -96,7 +96,7 @@ class Resume extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "user": userId,
+        "user_id": userId,
         "vacancy_name": vacancyName,
         "industry": industry,
         "grade": experienceTypeToJson(grade),
