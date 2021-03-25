@@ -45,26 +45,35 @@ class VacancySearchOptions {
         pubAge: pubAge ?? this.pubAge,
       );
 
-  @override
-  String toString() {
-    final query = ['phrase=$searchPhrase'];
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> params = {};
 
-    query.add('industry=$industry');
-    query.add('min-salary=$minSalary');
-    query.add('pub-date=${publicationAgeToJson(pubAge)}');
-    for (final expType in expTypes) {
-      query.add('grade=${experienceTypeToJson(expType)}');
+    if (searchPhrase?.isNotEmpty ?? false) {
+      params['phrase'] = searchPhrase;
     }
-    for (final expDuration in expDurations) {
-      query.add('experience=${experienceDurationToJson(expDuration)}');
+    if (industry?.isNotEmpty ?? false) {
+      params['industry'] = industry;
     }
-    for (final workType in workTypes) {
-      query.add('work-type=${workTypeToJson(workType)}');
+    if ((minSalary ?? -1) != -1) {
+      params['min-salary'] = minSalary;
     }
-    for (final tag in tags) {
-      query.add('tag=$tag');
+    if ((pubAge ?? PublicationAge.allTime) != PublicationAge.allTime) {
+      params['pub-date'] = publicationAgeToJson(pubAge);
+    }
+    if (expTypes?.isNotEmpty ?? false) {
+      params['grade'] = expTypes.map((e) => experienceTypeToJson(e)).toList();
+    }
+    if (expDurations?.isNotEmpty ?? false) {
+      params['experience'] =
+          expDurations.map((e) => experienceDurationToJson(e)).toList();
+    }
+    if (workTypes?.isNotEmpty ?? false) {
+      params['work-type'] = workTypes.map((e) => workTypeToJson(e)).toList();
+    }
+    if (tags?.isNotEmpty ?? false) {
+      params['tag'] = tags.toList();
     }
 
-    return query.join('&');
+    return params;
   }
 }

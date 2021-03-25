@@ -40,23 +40,31 @@ class ResumeSearchOptions {
         pubAge: pubAge ?? this.pubAge,
       );
 
-  @override
-  String toString() {
-    final query = ['phrase=$searchPhrase'];
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> params = {};
 
-    query.add('industry=$industry');
-    query.add('max-salary=$maxSalary');
-    query.add('pub-date=${publicationAgeToJson(pubAge)}');
-    for (final expType in expTypes) {
-      query.add('grade=${experienceTypeToJson(expType)}');
+    if (searchPhrase?.isNotEmpty ?? false) {
+      params['phrase'] = searchPhrase;
     }
-    for (final workType in workTypes) {
-      query.add('work-type=${workTypeToJson(workType)}');
+    if (industry?.isNotEmpty ?? false) {
+      params['industry'] = industry;
     }
-    for (final tag in tags) {
-      query.add('tag=$tag');
+    if ((maxSalary ?? -1) != -1) {
+      params['max-salary'] = maxSalary;
+    }
+    if ((pubAge ?? PublicationAge.allTime) != PublicationAge.allTime) {
+      params['pub-date'] = publicationAgeToJson(pubAge);
+    }
+    if (expTypes?.isNotEmpty ?? false) {
+      params['grade'] = expTypes.map((e) => experienceTypeToJson(e)).toList();
+    }
+    if (workTypes?.isNotEmpty ?? false) {
+      params['work-type'] = workTypes.map((e) => workTypeToJson(e)).toList();
+    }
+    if (tags?.isNotEmpty ?? false) {
+      params['tag'] = tags.toList();
     }
 
-    return query.join('&');
+    return params;
   }
 }
