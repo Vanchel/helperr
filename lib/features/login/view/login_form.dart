@@ -74,18 +74,19 @@ class _LoginFormState extends State<LoginForm> {
           );
         } else {
           return Container(
-            height: 62.0,
+            height: c.bigButtonHeight,
             margin: const EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton(
+            child: ElevatedButton.icon(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
                   context.read<LoginCubit>().submitLogin(_email, _password);
                 }
               },
-              child: const Text(
+              icon: const Icon(Icons.login_rounded),
+              label: const Text(
                 'Войти',
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: c.bigButtonFontSize),
               ),
             ),
           );
@@ -122,17 +123,21 @@ class _LoginFormState extends State<LoginForm> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.all(c.scaffoldBodyPadding),
-              children: [
-                header,
-                emailInput,
-                passwordInput,
-                loginButton,
-                actionsRow,
-              ],
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(c.scaffoldBodyPadding),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  header,
+                  emailInput,
+                  passwordInput,
+                  loginButton,
+                  actionsRow,
+                ],
+              ),
             ),
           ),
         ),

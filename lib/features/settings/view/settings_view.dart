@@ -18,23 +18,27 @@ class SettingsView extends StatelessWidget {
         ),
         title: const Text('Настройки'),
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(c.scaffoldBodyPadding),
-        children: [
-          const Divider(),
-          Container(
-            height: 62.0,
-            child: OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(primary: Colors.red),
-              icon: const Icon(Icons.logout),
-              label: const Text(
-                'Выйти',
-                style: TextStyle(fontSize: 15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(),
+            Container(
+              height: c.bigButtonHeight,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(primary: Colors.red),
+                icon: const Icon(Icons.logout),
+                label: const Text(
+                  'Выйти',
+                  style: TextStyle(fontSize: c.bigButtonFontSize),
+                ),
+                onPressed: () => context.read<SettingsCubit>().logout(),
               ),
-              onPressed: () => context.read<SettingsCubit>().logout(),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

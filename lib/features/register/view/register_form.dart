@@ -130,9 +130,9 @@ class _RegisterFormState extends State<RegisterForm> {
           );
         } else
           return Container(
-            height: 62.0,
+            height: c.bigButtonHeight,
             margin: const EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton(
+            child: ElevatedButton.icon(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
@@ -141,9 +141,10 @@ class _RegisterFormState extends State<RegisterForm> {
                       .submitRegister(_name, _email, _password, _userType);
                 }
               },
-              child: const Text(
+              icon: const Icon(Icons.login_rounded),
+              label: const Text(
                 'Зарегистрироваться',
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: c.bigButtonFontSize),
               ),
             ),
           );
@@ -180,20 +181,24 @@ class _RegisterFormState extends State<RegisterForm> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.all(c.scaffoldBodyPadding),
-              children: [
-                header,
-                nameInput,
-                emailInput,
-                passwordInput,
-                passwordHint,
-                userTypeRow,
-                registerButton,
-                loginRow,
-              ],
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(c.scaffoldBodyPadding),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  header,
+                  nameInput,
+                  emailInput,
+                  passwordInput,
+                  passwordHint,
+                  userTypeRow,
+                  registerButton,
+                  loginRow,
+                ],
+              ),
             ),
           ),
         ),

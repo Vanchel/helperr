@@ -22,18 +22,28 @@ Future<String> getBackgroundUrl(int userId) async {
   }
 }
 
-Future<void> updateProfileAvatarImage(int userId, String filePath) async {
-  final file = File(filePath);
-  final ref = FirebaseStorage.instance.ref('user-avatar$userId');
+Future<String> updateProfileAvatarImage(int userId, String filePath) async {
+  try {
+    final file = File(filePath);
 
-  await ref.putFile(file);
+    final ref = FirebaseStorage.instance.ref('user-avatar$userId');
+    await ref.putFile(file);
+    return await ref.getDownloadURL();
+  } catch (_) {
+    return '';
+  }
 }
 
-Future<void> updateProfileBackgroundImage(int userId, String filePath) async {
-  final file = File(filePath);
-  final ref = FirebaseStorage.instance.ref('user-personal-background$userId');
+Future<String> updateProfileBackgroundImage(int userId, String filePath) async {
+  try {
+    final file = File(filePath);
 
-  await ref.putFile(file);
+    final ref = FirebaseStorage.instance.ref('user-personal-background$userId');
+    await ref.putFile(file);
+    return await ref.getDownloadURL();
+  } catch (_) {
+    return '';
+  }
 }
 
 Future<void> deleteProfileAvatarImage(int userId) async {
