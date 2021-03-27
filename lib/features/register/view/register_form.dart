@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_single_value/views/user_type_toggle/user_type_toggle_widget.dart';
 
-import '../../../constants.dart' as constants;
+import '../../../constants.dart' as c;
 import '../../../data_layer/model/user_type.dart';
 import '../register.dart';
 
@@ -21,13 +21,6 @@ class _RegisterFormState extends State<RegisterForm> {
   String _password;
   UserType _userType;
 
-  // bool _isValidEmail(String str) {
-  //   String pattern =
-  //       r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$';
-  //   RegExp regExp = RegExp(pattern);
-  //   return regExp.hasMatch(str);
-  // }
-
   bool _isValidPassword(String str) {
     String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
     RegExp regExp = RegExp(pattern);
@@ -40,6 +33,11 @@ class _RegisterFormState extends State<RegisterForm> {
 
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
+    final header = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Регистрация', style: textTheme.headline2),
+    );
 
     final nameInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
@@ -109,7 +107,11 @@ class _RegisterFormState extends State<RegisterForm> {
         crossAxisAlignment: CrossAxisAlignment.baseline,
         children: [
           Expanded(
-            child: Text('Тип пользователя:'),
+            child: Text(
+              'Тип пользователя:',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           UserTypeToggle(
             onChanged: (newValue) => _userType = newValue,
@@ -128,6 +130,7 @@ class _RegisterFormState extends State<RegisterForm> {
           );
         } else
           return Container(
+            height: 62.0,
             margin: const EdgeInsets.only(bottom: 16.0),
             child: ElevatedButton(
               onPressed: () {
@@ -138,7 +141,10 @@ class _RegisterFormState extends State<RegisterForm> {
                       .submitRegister(_name, _email, _password, _userType);
                 }
               },
-              child: const Text('Зарегистрироваться'),
+              child: const Text(
+                'Зарегистрироваться',
+                style: TextStyle(fontSize: 15),
+              ),
             ),
           );
       },
@@ -172,22 +178,23 @@ class _RegisterFormState extends State<RegisterForm> {
             ));
         }
       },
-      child: Container(
-        padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              nameInput,
-              emailInput,
-              passwordInput,
-              passwordHint,
-              userTypeRow,
-              registerButton,
-              loginRow,
-            ],
+      child: Scaffold(
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(c.scaffoldBodyPadding),
+              children: [
+                header,
+                nameInput,
+                emailInput,
+                passwordInput,
+                passwordHint,
+                userTypeRow,
+                registerButton,
+                loginRow,
+              ],
+            ),
           ),
         ),
       ),

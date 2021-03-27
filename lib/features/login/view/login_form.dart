@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../constants.dart' as constants;
+import '../../../constants.dart' as c;
 import '../../register/view/register_page.dart';
 import '../login.dart';
 
@@ -24,6 +24,11 @@ class _LoginFormState extends State<LoginForm> {
 
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(16.0)));
+
+    final header = Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Вход', style: textTheme.headline2),
+    );
 
     final emailInput = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
@@ -69,6 +74,7 @@ class _LoginFormState extends State<LoginForm> {
           );
         } else {
           return Container(
+            height: 62.0,
             margin: const EdgeInsets.only(bottom: 16.0),
             child: ElevatedButton(
               onPressed: () {
@@ -77,7 +83,10 @@ class _LoginFormState extends State<LoginForm> {
                   context.read<LoginCubit>().submitLogin(_email, _password);
                 }
               },
-              child: const Text('Войти'),
+              child: const Text(
+                'Войти',
+                style: TextStyle(fontSize: 15),
+              ),
             ),
           );
         }
@@ -111,19 +120,20 @@ class _LoginFormState extends State<LoginForm> {
             );
         }
       },
-      child: Container(
-        padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              emailInput,
-              passwordInput,
-              loginButton,
-              actionsRow,
-            ],
+      child: Scaffold(
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(c.scaffoldBodyPadding),
+              children: [
+                header,
+                emailInput,
+                passwordInput,
+                loginButton,
+                actionsRow,
+              ],
+            ),
           ),
         ),
       ),
