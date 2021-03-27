@@ -32,7 +32,7 @@ Future<VacancySearchResult> fetchVacanciesWithOptions(
 
 Future<VacancySearchResult> fetchVacanciesWithPage(String pageUri) async {
   final response = await http.get(
-    Uri.dataFromString(pageUri),
+    Uri.parse(pageUri),
     headers: _headers,
   );
 
@@ -65,7 +65,7 @@ Future<ResumeSearchResult> fetchResumesWithOptions(
 
 Future<ResumeSearchResult> fetchResumesWithPage(String pageUri) async {
   final response = await http.get(
-    Uri.dataFromString(pageUri),
+    Uri.parse(pageUri),
     headers: _headers,
   );
 
