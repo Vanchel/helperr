@@ -10,12 +10,24 @@ enum AuthenticationStatus { authenticated, unauthenticated }
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
-
-  User user;
+  User _user;
 
   Stream<AuthenticationStatus> get status async* {
-    yield AuthenticationStatus.unauthenticated;
+    yield await _trySignInWithToken();
     yield* _controller.stream;
+  }
+
+  User get user => _user ?? User.empty;
+
+  Future<AuthenticationStatus> _trySignInWithToken() async {
+    try {
+      final userId = await server.verifyCurrentRefreshToken();
+      _user = await server.getUser(userId);
+      return AuthenticationStatus.authenticated;
+    } catch (e) {
+      print(e);
+      return AuthenticationStatus.unauthenticated;
+    }
   }
 
   Future<void> logIn({
@@ -25,7 +37,7 @@ class AuthenticationRepository {
     assert(email != null);
     assert(password != null);
 
-    user = await server.login(email, password);
+    _user = await server.login(email, password);
     _controller.add(AuthenticationStatus.authenticated);
   }
 
@@ -40,7 +52,7 @@ class AuthenticationRepository {
     assert(password != null);
     assert(userType != null);
 
-    user = await server.register(name, email, password, userType);
+    _user = await server.register(name, email, password, userType);
     _controller.add(AuthenticationStatus.authenticated);
   }
 

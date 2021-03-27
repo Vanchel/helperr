@@ -13,7 +13,7 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User extends Equatable {
-  User({
+  const User({
     this.id,
     this.name,
     this.email,
@@ -38,6 +38,13 @@ class User extends Equatable {
         "email": email,
         "user_type": userTypeToJson(userType),
       };
+
+  static const empty = User(
+    id: -1,
+    name: '',
+    email: '',
+    userType: UserType.employee,
+  );
 
   @override
   List<Object> get props => [

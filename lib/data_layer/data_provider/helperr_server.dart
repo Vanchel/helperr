@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'dart:convert' show utf8;
+import 'package:http/http.dart' as http;
+import 'secured_storage.dart' as storage;
+
 import '../model/models.dart';
 
 final _baseUrl = 'job-flow.ru';
@@ -9,9 +11,6 @@ final _headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json'
 };
-
-String _accessToken = '';
-String _refreshToken = '';
 
 Future<VacancySearchResult> fetchVacanciesWithOptions(
     VacancySearchOptions options) async {
@@ -268,6 +267,56 @@ Future<void> deleteVacancy(int vacancyId) async {
   }
 }
 
+Future<User> getUser(int userId) async {
+  final response = await http.get(
+    Uri.http(_baseUrl, 'api/users/$userId'),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    final responseBody = json.decode(utf8.decode(response.body.runes.toList()));
+    return User.fromJson(responseBody['users']);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch user');
+  }
+}
+
+Future<int> verifyCurrentRefreshToken() async {
+  final jwt = await storage.readRefreshToken();
+
+  if (jwt == null) {
+    throw Exception('No refresh token found');
+  }
+
+  final data = {'token': jwt};
+  final body = utf8.encode(json.encode(data));
+
+  final response = await http.post(
+    Uri.http(_baseUrl, 'api/auth/token/verify/'),
+    body: body,
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    var publicPart = jwt.split('.')[1];
+
+    if (publicPart.length % 4 == 2) {
+      publicPart = publicPart + '==';
+    } else if (publicPart.length % 4 == 3) {
+      publicPart = publicPart + '=';
+    }
+
+    final decoded = json.decode(utf8.decode(base64.decode(publicPart)));
+    return decoded['user_id'];
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Token has not pass verification');
+  }
+}
+
 Future<User> login(String email, String password) async {
   final data = {'email': email, 'password': password};
   final body = utf8.encode(json.encode(data));
@@ -281,17 +330,11 @@ Future<User> login(String email, String password) async {
   if (response.statusCode == 200) {
     final Map<String, dynamic> responseMap =
         json.decode(utf8.decode(response.body.runes.toList()));
-    _accessToken = responseMap['access_token'];
-    _refreshToken = responseMap['refresh_token'];
 
-    print(responseMap['user'].runtimeType);
-    print(responseMap['user']);
+    storage.writeAccessToken(responseMap['access_token']);
+    storage.writeRefreshToken(responseMap['refresh_token']);
 
-    User user = User.fromJson(responseMap['user']);
-    print(user);
-    return user;
-
-    //return userFromJson(utf8.decode(response.body.runes.toList()));
+    return User.fromJson(responseMap['user']);
   } else {
     print(response.statusCode);
     print(response.body);

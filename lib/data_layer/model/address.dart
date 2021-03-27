@@ -4,11 +4,13 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 
 String addressToJson(Address data) => json.encode(data.toJson());
 
-class Address {
+class Address extends Equatable {
   const Address({
     this.name,
     this.lat,
@@ -43,4 +45,11 @@ class Address {
       };
 
   static const empty = Address(lat: 0.0, lng: 0.0, name: '');
+
+  @override
+  List<Object> get props => [
+        this.name,
+        this.lat,
+        this.lng,
+      ];
 }
