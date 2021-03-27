@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'settings_view.dart';
+import '../cubit/settings_cubit.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 
 class SettingsPage extends StatelessWidget {
   static Route route() {
@@ -7,13 +12,12 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Настройки')),
-      body: Container(
-        child: Center(
-          child: const Text('Knock-knock... -Who\'s there? -Settings!'),
-        ),
+    return BlocProvider(
+      create: (context) => SettingsCubit(
+        authenticationRepository:
+            RepositoryProvider.of<AuthenticationRepository>(context),
       ),
+      child: SettingsView(),
     );
   }
 }

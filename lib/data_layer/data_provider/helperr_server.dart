@@ -317,6 +317,13 @@ Future<int> verifyCurrentRefreshToken() async {
   }
 }
 
+Future<void> logout() async {
+  storage.deleteAccessToken();
+  storage.deleteRefreshToken();
+
+  //TODO: maybe some server logout logic later
+}
+
 Future<User> login(String email, String password) async {
   final data = {'email': email, 'password': password};
   final body = utf8.encode(json.encode(data));

@@ -57,6 +57,7 @@ class AuthenticationRepository {
   }
 
   void logOut() {
+    server.logout();
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 
