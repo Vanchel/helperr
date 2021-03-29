@@ -56,7 +56,7 @@ class ResumeSearchOptions {
       params['pub-date'] = publicationAgeToJson(pubAge);
     }
     if (expTypes?.isNotEmpty ?? false) {
-      params['grade'] = expTypes.map((e) => experienceTypeToJson(e)).toList();
+      params['grades'] = expTypes.map((e) => experienceTypeToJson(e)).toList();
     }
     if (workTypes?.isNotEmpty ?? false) {
       params['work-type'] = workTypes.map((e) => workTypeToJson(e)).toList();

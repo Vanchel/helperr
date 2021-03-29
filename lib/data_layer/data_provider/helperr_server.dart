@@ -274,8 +274,7 @@ Future<User> getUser(int userId) async {
   );
 
   if (response.statusCode == 200) {
-    final responseBody = json.decode(utf8.decode(response.body.runes.toList()));
-    return User.fromJson(responseBody['users']);
+    return userFromJson(utf8.decode(response.body.runes.toList()));
   } else {
     print(response.statusCode);
     print(response.body);
@@ -320,8 +319,6 @@ Future<int> verifyCurrentRefreshToken() async {
 Future<void> logout() async {
   storage.deleteAccessToken();
   storage.deleteRefreshToken();
-
-  //TODO: maybe some server logout logic later
 }
 
 Future<User> login(String email, String password) async {

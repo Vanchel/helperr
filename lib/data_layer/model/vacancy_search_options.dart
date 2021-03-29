@@ -61,7 +61,7 @@ class VacancySearchOptions {
       params['pub-date'] = publicationAgeToJson(pubAge);
     }
     if (expTypes?.isNotEmpty ?? false) {
-      params['grade'] = expTypes.map((e) => experienceTypeToJson(e)).toList();
+      params['grades'] = expTypes.map((e) => experienceTypeToJson(e)).toList();
     }
     if (expDurations?.isNotEmpty ?? false) {
       params['experience'] =

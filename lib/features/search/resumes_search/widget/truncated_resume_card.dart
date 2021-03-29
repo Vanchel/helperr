@@ -21,19 +21,10 @@ class TruncatedResumeCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final header = ListTile(
-      leading: FutureBuilder(
-        future: storage.getAvatarUrl(resume.workerId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CircleAvatar(
-              foregroundImage: snapshot.data.isNotEmpty
-                  ? NetworkImage(snapshot.data)
-                  : AssetImage('assets/avatar.png'),
-            );
-          } else {
-            return CircleAvatar();
-          }
-        },
+      leading: CircleAvatar(
+        foregroundImage: resume.photoUrl.isNotEmpty
+            ? NetworkImage(resume.photoUrl)
+            : AssetImage('assets/avatar.png'),
       ),
       title: Row(
         children: [
@@ -75,9 +66,14 @@ class TruncatedResumeCard extends StatelessWidget {
     final footer = Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(resume.address.name, style: textTheme.caption),
+          Expanded(
+            child: Text(
+              resume.address.name,
+              style: textTheme.caption,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           Text(_formattedPubDate, style: textTheme.caption),
         ],
       ),

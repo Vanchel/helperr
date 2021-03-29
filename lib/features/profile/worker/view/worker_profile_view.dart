@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_resume/view/resumes_list.dart';
 import 'package:helperr/features/edit_worker_profile/view/edit_worker_profile_page.dart';
+import 'package:helperr/features/profile_images/worker/view/worker_avatar_widget.dart';
 import 'package:helperr/widgets/error_screen.dart';
 import 'package:helperr/widgets/loading_screen.dart';
 import 'package:helperr/widgets/profile_card.dart';
@@ -34,20 +35,19 @@ class WorkerProfileView extends StatelessWidget {
             );
           };
 
+          final header = WorkerAvatar(
+            worker: profile,
+            onChanged: () => profileCubit.loadProfile(),
+          );
+
           final profileCard = Container(
             margin: const EdgeInsets.only(bottom: 16.0),
             child: ProfileCard(
-              userId: profile.userId,
+              header: header,
               name: profile.name,
               description: profile.about,
-              avatarUrl: state.workerInfo.avatarUrl,
-              backgroundUrl: state.workerInfo.bgUrl,
-              dateOfBirth: profile.birthday,
-              sex: profile.gender,
               address: profile.address.name,
-              country: profile.cz,
               onEdit: onEdit,
-              onImageChanged: () => profileCubit.loadProfile(),
             ),
           );
 

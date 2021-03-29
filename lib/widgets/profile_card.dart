@@ -1,34 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:helperr/data_layer/model/gender.dart';
-import 'package:helperr/widgets/avatar_header/avatar_header.dart';
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
     Key key,
-    this.userId,
+    this.header,
     this.name,
     this.description,
-    this.backgroundUrl,
-    this.avatarUrl,
-    this.dateOfBirth,
-    this.sex,
     this.address,
-    this.country,
     this.onEdit,
-    this.onImageChanged,
   }) : super(key: key);
 
-  final int userId;
+  final Widget header;
   final String name;
   final String description;
-  final String backgroundUrl;
-  final String avatarUrl;
-  final DateTime dateOfBirth;
-  final Gender sex;
   final String address;
-  final String country;
   final VoidCallback onEdit;
-  final VoidCallback onImageChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +57,7 @@ class ProfileCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AvatarHeader(
-            userId: userId,
-            avatarUrl: avatarUrl,
-            backgroundUrl: backgroundUrl,
-            onChanged: onImageChanged,
-          ),
+          header,
           Container(
             padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: Column(

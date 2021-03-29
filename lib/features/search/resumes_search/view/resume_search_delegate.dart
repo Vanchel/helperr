@@ -5,11 +5,6 @@ import 'resume_filter_page.dart';
 import 'resumes_search_result_page.dart';
 
 class ResumeSearchDelegate extends SearchDelegate<Widget> {
-  static const List<String> fooSuggestions = [
-    'Предложить Вам нечего',
-    'Предложить Вам все еще нечего',
-  ];
-
   ResumeSearchOptions searchOptions;
 
   @override
@@ -68,23 +63,6 @@ class ResumeSearchDelegate extends SearchDelegate<Widget> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final matchingSugestions = fooSuggestions
-        .where((element) => element.toLowerCase().contains(query.toLowerCase()))
-        .take(5)
-        .toList();
-
-    return ListView.builder(
-      itemCount: matchingSugestions.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            query = matchingSugestions[index];
-            showResults(context);
-          },
-          leading: const Icon(Icons.search_rounded),
-          title: Text(matchingSugestions[index]),
-        );
-      },
-    );
+    return Container();
   }
 }

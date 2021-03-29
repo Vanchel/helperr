@@ -17,6 +17,11 @@ class VacanciesFetchSuccessState extends VacancyListingState {
   final String nextPageUri;
 
   @override
+  String toString() {
+    return 'Vacancies fetch success';
+  }
+
+  @override
   List<Object> get props => [itemList, nextPageUri];
 }
 

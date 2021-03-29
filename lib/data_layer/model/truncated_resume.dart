@@ -85,7 +85,7 @@ class TruncatedResume extends Equatable {
         vacancyName: json["vacancy_name"],
         industry: json["industry"],
         grade: experienceTypeFromJson(json["grade"]),
-        salary: json["salary"],
+        salary: json["salary"] ?? -1,
         address: (json["address"]?.isNotEmpty ?? false)
             ? Address.fromJson(json["address"])
             : Address.empty,

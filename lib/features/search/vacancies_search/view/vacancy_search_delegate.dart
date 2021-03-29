@@ -5,34 +5,6 @@ import 'vacancy_filter_page.dart';
 import 'vacancies_search_result_page.dart';
 
 class VacancySearchDelegate extends SearchDelegate<Widget> {
-  static const List<String> fooSuggestions = [
-    'Работа в сфере услуг',
-    'Работа на складах',
-    'Работа в ресторанах',
-    'Работа в сфере бытовых услуг',
-    'Подработка',
-    'Работа в строительстве',
-    'Работа на транспорте',
-    'Удаленная работа',
-    'Работа в сфере доставки',
-    'Работа в сфере продаж',
-    'Работа на производстве',
-    'Работа в сфере безопасности',
-    'Домашний персонал',
-    'Работа в сфере финансов',
-    'Работа в медицине',
-    'Работа в недвижимости',
-    'Работа в сфере IT',
-    'Работа в сфере HR',
-    'Работа для руководителей',
-    'Индустрия красоты',
-    'Работа в страховании',
-    'Работа в сфере дизайна',
-    'Работа в маркетинге',
-    'Работа в юриспруденции',
-    'Работа в агропроме',
-  ];
-
   VacancySearchOptions searchOptions;
 
   @override
@@ -91,23 +63,6 @@ class VacancySearchDelegate extends SearchDelegate<Widget> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final matchingSugestions = fooSuggestions
-        .where((element) => element.toLowerCase().contains(query.toLowerCase()))
-        .take(5)
-        .toList();
-
-    return ListView.builder(
-      itemCount: matchingSugestions.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            query = matchingSugestions[index];
-            showResults(context);
-          },
-          leading: const Icon(Icons.search_rounded),
-          title: Text(matchingSugestions[index]),
-        );
-      },
-    );
+    return Container();
   }
 }

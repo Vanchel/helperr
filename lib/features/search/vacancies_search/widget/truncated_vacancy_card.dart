@@ -21,19 +21,10 @@ class TruncatedVacancyCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final header = ListTile(
-      leading: FutureBuilder(
-        future: storage.getAvatarUrl(vacancy.employerId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CircleAvatar(
-              foregroundImage: snapshot.data.isNotEmpty
-                  ? NetworkImage(snapshot.data)
-                  : AssetImage('assets/avatar.png'),
-            );
-          } else {
-            return CircleAvatar();
-          }
-        },
+      leading: CircleAvatar(
+        foregroundImage: vacancy.photoUrl.isNotEmpty
+            ? NetworkImage(vacancy.photoUrl)
+            : AssetImage('assets/avatar.png'),
       ),
       title: Row(
         children: [
@@ -44,9 +35,11 @@ class TruncatedVacancyCard extends StatelessWidget {
               maxLines: 1,
             ),
           ),
-          Text((vacancy.salary != -1)
-              ? '${vacancy.salary} руб.'
-              : 'з/п не указана'),
+          Text(
+            (vacancy.salary != -1)
+                ? '${vacancy.salary} руб.'
+                : 'з/п не указана',
+          ),
         ],
       ),
       subtitle: Text(
@@ -75,9 +68,14 @@ class TruncatedVacancyCard extends StatelessWidget {
     final footer = Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(vacancy.address.name, style: textTheme.caption),
+          Expanded(
+            child: Text(
+              vacancy.address.name,
+              style: textTheme.caption,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           Text(_formattedPubDate, style: textTheme.caption),
         ],
       ),

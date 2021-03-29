@@ -16,7 +16,9 @@ class ErrorIndicator extends StatelessWidget {
   final VoidCallback onTryAgain;
 
   @override
-  Widget build(BuildContext context) => error is SocketException
+  Widget build(BuildContext context) {
+    return error is SocketException
       ? NoConnectionIndicator(onTryAgain: onTryAgain)
       : GenericErrorIndicator(onTryAgain: onTryAgain);
+  }
 }

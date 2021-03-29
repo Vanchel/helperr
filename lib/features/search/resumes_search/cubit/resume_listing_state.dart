@@ -17,6 +17,11 @@ class ResumesFetchSuccessState extends ResumeListingState {
   final String nextPageUri;
 
   @override
+  String toString() {
+    return 'Resumes fetch success';
+  }
+
+  @override
   List<Object> get props => [itemList, nextPageUri];
 }
 

@@ -4,29 +4,22 @@ import 'worker.dart';
 import 'resume.dart';
 
 class WorkerInfo extends Equatable {
-  WorkerInfo(this.worker, this.resumes, this.avatarUrl, this.bgUrl);
+  WorkerInfo(this.worker, this.resumes);
 
   final Worker worker;
   final List<Resume> resumes;
 
-  final String avatarUrl;
-  final String bgUrl;
-
   WorkerInfo copyWith({
     Worker worker,
     List<Resume> resumes,
-    String avatarUrl,
-    String bgUrl,
   }) =>
       WorkerInfo(
         worker ?? this.worker,
         resumes ?? this.resumes,
-        avatarUrl ?? this.avatarUrl,
-        bgUrl ?? this.bgUrl,
       );
 
   @override
-  List<Object> get props => [worker, resumes, avatarUrl, bgUrl];
+  List<Object> get props => [worker, resumes];
 
   @override
   String toString() => 'Worker info for id ${worker.userId}';
