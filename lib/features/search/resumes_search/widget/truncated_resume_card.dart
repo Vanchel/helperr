@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../../../data_layer/model/truncated_resume.dart';
-import '../../../../data_layer/data_provider/firebase_server.dart' as storage;
 
 class TruncatedResumeCard extends StatelessWidget {
   const TruncatedResumeCard({
@@ -21,11 +21,20 @@ class TruncatedResumeCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final header = ListTile(
-      leading: CircleAvatar(
-        foregroundImage: resume.photoUrl.isNotEmpty
-            ? NetworkImage(resume.photoUrl)
-            : AssetImage('assets/avatar.png'),
+      leading: ClipOval(
+        child: FadeInImage(
+          fit: BoxFit.cover,
+          width: 40,
+          height: 40,
+          image: NetworkImage(resume.photoUrl),
+          placeholder: MemoryImage(kTransparentImage),
+        ),
       ),
+      // leading: CircleAvatar(
+      //   foregroundImage: resume.photoUrl.isNotEmpty
+      //       ? NetworkImage(resume.photoUrl)
+      //       : AssetImage('assets/avatar.png'),
+      // ),
       title: Row(
         children: [
           Expanded(

@@ -113,8 +113,8 @@ class NavigationView extends StatelessWidget {
               label: 'Поиск',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_rounded),
-              label: 'Избранное',
+              icon: Icon(Icons.assignment_rounded),
+              label: 'Отклики',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_rounded),

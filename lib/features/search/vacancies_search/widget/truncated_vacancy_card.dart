@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../../../data_layer/model/truncated_vacancy.dart';
-import '../../../../data_layer/data_provider/firebase_server.dart' as storage;
 
 class TruncatedVacancyCard extends StatelessWidget {
   const TruncatedVacancyCard({
@@ -21,11 +21,20 @@ class TruncatedVacancyCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final header = ListTile(
-      leading: CircleAvatar(
-        foregroundImage: vacancy.photoUrl.isNotEmpty
-            ? NetworkImage(vacancy.photoUrl)
-            : AssetImage('assets/avatar.png'),
+      leading: ClipOval(
+        child: FadeInImage(
+          fit: BoxFit.cover,
+          width: 40,
+          height: 40,
+          image: NetworkImage(vacancy.photoUrl),
+          placeholder: MemoryImage(kTransparentImage),
+        ),
       ),
+      // leading: CircleAvatar(
+      //   foregroundImage: vacancy.photoUrl.isNotEmpty
+      //       ? NetworkImage(vacancy.photoUrl)
+      //       : AssetImage('assets/avatar.png'),
+      // ),
       title: Row(
         children: [
           Expanded(

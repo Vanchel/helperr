@@ -46,22 +46,22 @@ class ProfileImagesRepository {
   }
 
   static Future<void> deleteWorkerAvatar(Worker worker) async {
-    await fb_server.deleteProfileAvatarImage(worker.userId);
     await server.updateWorker(worker.copyWith(photoUrl: ''));
+    await fb_server.deleteProfileAvatarImage(worker.userId);
   }
 
   static Future<void> deleteWorkerBgImage(Worker worker) async {
-    await fb_server.deleteProfileBackgroundImage(worker.userId);
     await server.updateWorker(worker.copyWith(profileBackground: ''));
+    await fb_server.deleteProfileBackgroundImage(worker.userId);
   }
 
   static Future<void> deleteEmployerAvatar(Employer employer) async {
-    await fb_server.deleteProfileAvatarImage(employer.userId);
     await server.updateEmployer(employer.copyWith(photoUrl: ''));
+    await fb_server.deleteProfileAvatarImage(employer.userId);
   }
 
   static Future<void> deleteEmployerBgImage(Employer employer) async {
-    await fb_server.deleteProfileBackgroundImage(employer.userId);
     await server.updateEmployer(employer.copyWith(profileBackground: ''));
+    await fb_server.deleteProfileBackgroundImage(employer.userId);
   }
 }
