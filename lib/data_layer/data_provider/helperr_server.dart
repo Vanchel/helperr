@@ -12,6 +12,36 @@ final _headers = {
   'Accept': 'application/json'
 };
 
+Future<Vacancy> fetchVacancy(int id) async {
+  final response = await http.get(
+    Uri.http(_baseUrl, 'api/vacancy/$id'),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    return vacancyFromJson(utf8.decode(response.body.runes.toList()));
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch vacancy');
+  }
+}
+
+Future<Resume> fetchResume(int id) async {
+  final response = await http.get(
+    Uri.http(_baseUrl, 'api/cv/$id'),
+    headers: _headers,
+  );
+
+  if (response.statusCode == 200) {
+    return resumeFromJson(utf8.decode(response.body.runes.toList()));
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch resume');
+  }
+}
+
 Future<VacancySearchResult> fetchVacanciesWithOptions(
     VacancySearchOptions options) async {
   final response = await http.get(

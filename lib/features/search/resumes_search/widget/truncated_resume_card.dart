@@ -30,11 +30,6 @@ class TruncatedResumeCard extends StatelessWidget {
           placeholder: MemoryImage(kTransparentImage),
         ),
       ),
-      // leading: CircleAvatar(
-      //   foregroundImage: resume.photoUrl.isNotEmpty
-      //       ? NetworkImage(resume.photoUrl)
-      //       : AssetImage('assets/avatar.png'),
-      // ),
       title: Row(
         children: [
           Expanded(

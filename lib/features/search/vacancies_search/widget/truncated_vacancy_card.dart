@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/features/vacancy_details/view/vacancy_details_page.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -30,11 +31,6 @@ class TruncatedVacancyCard extends StatelessWidget {
           placeholder: MemoryImage(kTransparentImage),
         ),
       ),
-      // leading: CircleAvatar(
-      //   foregroundImage: vacancy.photoUrl.isNotEmpty
-      //       ? NetworkImage(vacancy.photoUrl)
-      //       : AssetImage('assets/avatar.png'),
-      // ),
       title: Row(
         children: [
           Expanded(
@@ -117,11 +113,25 @@ class TruncatedVacancyCard extends StatelessWidget {
       ],
     );
 
+    final onCardTap = () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VacancyDetailsPage(
+            vacancyName: vacancy.vacancyName,
+            vacancyId: vacancy.id,
+            isResponded: false,
+            isInFavorite: false,
+          ),
+        ),
+      );
+    };
+
     return Card(
       margin: const EdgeInsets.all(0.0),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {},
+        onTap: onCardTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
