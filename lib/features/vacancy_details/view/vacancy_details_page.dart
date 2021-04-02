@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'vacancy_details_view.dart';
-import '../cubit/vacancy_details_cubit.dart';
+import '../cubit/vacancy_details_loading_cubit.dart';
 
 class VacancyDetailsPage extends StatelessWidget {
   const VacancyDetailsPage({
@@ -27,7 +27,7 @@ class VacancyDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => VacancyDetailsCubit(vacancyId)..loadVacancy(),
+      create: (context) => VacancyDetailsLoadingCubit(vacancyId)..loadVacancy(),
       child: VacancyDetailsView(
         vacancyName: vacancyName,
         isResponded: isResponded,

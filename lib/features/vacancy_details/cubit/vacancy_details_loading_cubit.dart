@@ -4,13 +4,13 @@ import 'package:helperr/data_layer/model/models.dart';
 
 import '../../../data_layer/data_provider/helperr_server.dart' as server;
 
-part 'vacancy_details_state.dart';
+part 'vacancy_details_loading_state.dart';
 
-class VacancyDetailsCubit extends Cubit<VacancyDetailsState> {
-  VacancyDetailsCubit(vacancyId)
+class VacancyDetailsLoadingCubit extends Cubit<VacancyDetailsLoadingState> {
+  VacancyDetailsLoadingCubit(vacancyId)
       : assert(vacancyId != null),
         _vacancyId = vacancyId,
-        super(VacancyDetailsInitial());
+        super(VacancyDetailsLoadingInitial());
 
   final int _vacancyId;
 

@@ -75,8 +75,10 @@ class NavigationView extends StatelessWidget {
             ],
           );
         } else if (state == 1) {
-          appBar = AppBar(title: const Text('В процессе разработки'));
+          appBar = AppBar(title: const Text('Отклики'));
         } else if (state == 2) {
+          appBar = AppBar(title: const Text('Избранное'));
+        } else if (state == 3) {
           appBar = AppBar(
             title: const Text('Профиль'),
             actions: [
@@ -101,12 +103,19 @@ class NavigationView extends StatelessWidget {
             ),
           );
         } else if (state == 2) {
+          body = Container(
+            child: Center(
+              child: Text('В процессе разработки'),
+            ),
+          );
+        } else if (state == 3) {
           body = _getUserProfilePage(context);
         }
 
         Widget bottomNavigationBar = BottomNavigationBar(
           currentIndex: state,
           onTap: (value) => context.read<NavigationCubit>().selectPage(value),
+          type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.search_rounded),
@@ -115,6 +124,10 @@ class NavigationView extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Icon(Icons.assignment_rounded),
               label: 'Отклики',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_rounded),
+              label: 'Избранное',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_rounded),
