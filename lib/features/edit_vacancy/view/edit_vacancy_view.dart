@@ -19,7 +19,7 @@ import '../../edit_list/views/chip_input/chip_input_widget.dart';
 import '../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
 import '../../edit_list/views/scroll/scroll_list.dart';
 
-import '../../../constants.dart' as constants;
+import '../../../constants.dart' as c;
 
 class EditVacancyView extends StatefulWidget {
   EditVacancyView({
@@ -57,146 +57,121 @@ class _EditVacancyViewState extends State<EditVacancyView> {
     final themeData = Theme.of(context);
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
-    final vacancyNameInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.vacancyName : '',
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          labelText: 'Название вакансии',
-          hintText: 'Пилот лунного модуля',
-          helperText: '',
-          border: textInputBorder,
+    final vacancyNameInput = TextFormField(
+      initialValue: widget.isEditing ? widget.vacancy.vacancyName : '',
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+        labelText: 'Название вакансии',
+        hintText: 'Пилот лунного модуля',
+        helperText: '',
+        border: textInputBorder,
+      ),
+      validator: (value) =>
+          value.isEmpty ? 'Название вакансии должно быть указано' : null,
+      onSaved: (newValue) => _vacancyName = newValue,
+    );
+
+    final industryInput = TextFormField(
+      initialValue: widget.isEditing ? widget.vacancy.industry : '',
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+        labelText: 'Название отрасли',
+        hintText: 'Космонавтика',
+        helperText: '',
+        border: textInputBorder,
+      ),
+      validator: (value) =>
+          value.isEmpty ? 'Название отрасли должно быть указано' : null,
+      onSaved: (newValue) => _industry = newValue,
+    );
+
+    final leadingInput = TextFormField(
+      initialValue: widget.isEditing ? widget.vacancy.leading : '',
+      keyboardType: TextInputType.multiline,
+      maxLength: 400,
+      minLines: 4,
+      maxLines: null,
+      decoration: const InputDecoration(
+        labelText: 'Введение',
+        hintText: 'Ищем старательного сотрудника.',
+        helperText: '',
+        border: textInputBorder,
+      ),
+      onSaved: (newValue) => _leading = newValue,
+    );
+
+    final trailingInput = TextFormField(
+      initialValue: widget.isEditing ? widget.vacancy.trailing : '',
+      keyboardType: TextInputType.multiline,
+      maxLength: 400,
+      minLines: 4,
+      maxLines: null,
+      decoration: const InputDecoration(
+        labelText: 'Заключение',
+        hintText: 'Будем рады Вашему отклику.',
+        helperText: '',
+        border: textInputBorder,
+      ),
+      onSaved: (newValue) => _trailing = newValue,
+    );
+
+    final addressInput = TextFormField(
+      initialValue: widget.isEditing ? widget.vacancy.address?.name : '',
+      keyboardType: TextInputType.streetAddress,
+      decoration: const InputDecoration(
+        labelText: 'Адрес',
+        hintText: 'г. Москва, ул. Пушкина, дом 2',
+        helperText: '',
+        border: textInputBorder,
+      ),
+      onSaved: (newValue) => _address = newValue,
+    );
+
+    final gradeInput = EditExperienceType(
+      initialValue:
+          widget.isEditing ? widget.vacancy.grade : ExperienceType.internship,
+      onChanged: (value) => _grade = value,
+    );
+
+    final expInput = EditExperienceDuration(
+      initialValue: widget.isEditing
+          ? widget.vacancy.exp
+          : ExperienceDuration.noExperience,
+      onChanged: (value) => _experienceDuration = value,
+    );
+
+    final salaryInput = TextFormField(
+      initialValue: widget.isEditing
+          ? ((widget.vacancy.salary != -1) ? widget.vacancy.salary : '')
+              .toString()
+          : '',
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      decoration: InputDecoration(
+        labelText: 'Предполагаемая зарплата',
+        hintText: '15000',
+        helperText: '',
+        border: textInputBorder,
+        suffix: Container(
+          margin: const EdgeInsets.only(right: 6.0),
+          child: const Text('руб.'),
         ),
-        validator: (value) =>
-            value.isEmpty ? 'Название вакансии должно быть указано' : null,
-        onSaved: (newValue) => _vacancyName = newValue,
       ),
-    );
-
-    final industryInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.industry : '',
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          labelText: 'Название отрасли',
-          hintText: 'Космонавтика',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        validator: (value) =>
-            value.isEmpty ? 'Название отрасли должно быть указано' : null,
-        onSaved: (newValue) => _industry = newValue,
-      ),
-    );
-
-    final leadingInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.leading : '',
-        keyboardType: TextInputType.multiline,
-        maxLength: 400,
-        minLines: 4,
-        maxLines: null,
-        decoration: const InputDecoration(
-          labelText: 'Введение',
-          hintText: 'Ищем старательного сотрудника.',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _leading = newValue,
-      ),
-    );
-
-    final trailingInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.trailing : '',
-        keyboardType: TextInputType.multiline,
-        maxLength: 400,
-        minLines: 4,
-        maxLines: null,
-        decoration: const InputDecoration(
-          labelText: 'Заключение',
-          hintText: 'Будем рады Вашему отклику.',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _trailing = newValue,
-      ),
-    );
-
-    final addressInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.vacancy.address?.name : '',
-        keyboardType: TextInputType.streetAddress,
-        decoration: const InputDecoration(
-          labelText: 'Адрес',
-          hintText: 'г. Москва, ул. Пушкина, дом 2',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _address = newValue,
-      ),
-    );
-
-    final gradeInput = Container(
-      margin: const EdgeInsets.only(bottom: 38.0),
-      child: EditExperienceType(
-        initialValue:
-            widget.isEditing ? widget.vacancy.grade : ExperienceType.internship,
-        onChanged: (value) => _grade = value,
-      ),
-    );
-
-    final expInput = Container(
-      margin: const EdgeInsets.only(bottom: 38.0),
-      child: EditExperienceDuration(
-        initialValue: widget.isEditing
-            ? widget.vacancy.exp
-            : ExperienceDuration.noExperience,
-        onChanged: (value) => _experienceDuration = value,
-      ),
-    );
-
-    final salaryInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing
-            ? ((widget.vacancy.salary != -1) ? widget.vacancy.salary : '')
-                .toString()
-            : '',
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-        decoration: InputDecoration(
-          labelText: 'Предполагаемая зарплата',
-          hintText: '15000',
-          helperText: '',
-          border: textInputBorder,
-          suffix: Container(
-            margin: const EdgeInsets.only(right: 6.0),
-            child: const Text('руб.'),
-          ),
-        ),
-        validator: (value) {
-          if (value.isEmpty) return null;
-          try {
-            int.parse(value);
-            return null;
-          } catch (_) {
-            return 'Неверный формат целого числа.';
-          }
-        },
-        onSaved: (newValue) => _salary = newValue.isEmpty
-            ? constants.salaryNotSpecified
-            : int.parse(newValue),
-      ),
+      validator: (value) {
+        if (value.isEmpty) return null;
+        try {
+          int.parse(value);
+          return null;
+        } catch (_) {
+          return 'Неверный формат целого числа.';
+        }
+      },
+      onSaved: (newValue) => _salary =
+          newValue.isEmpty ? c.salaryNotSpecified : int.parse(newValue),
     );
 
     final workTypesFilter = Container(
@@ -363,18 +338,26 @@ class _EditVacancyViewState extends State<EditVacancyView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+            padding: const EdgeInsets.all(c.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 vacancyNameInput,
+                const SizedBox(height: c.defaultMargin),
                 industryInput,
+                const SizedBox(height: c.defaultMargin),
                 leadingInput,
+                const SizedBox(height: c.defaultMargin),
                 trailingInput,
+                const SizedBox(height: c.defaultMargin),
                 addressInput,
+                const SizedBox(height: c.defaultMargin),
                 gradeInput,
+                const SizedBox(height: c.defaultMargin),
                 expInput,
+                const SizedBox(height: c.defaultMargin),
                 salaryInput,
+                const SizedBox(height: c.defaultMargin),
                 workTypesFilter,
                 tagsInput,
                 scrollsInput,

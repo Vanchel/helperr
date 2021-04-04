@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../../../widgets/date_input.dart';
 import '../../../../data_layer/model/models.dart';
-import '../../../../constants.dart' as constants;
+import '../../../../constants.dart' as c;
 
 class EditExperiencePage extends StatefulWidget {
   EditExperiencePage({
@@ -64,74 +64,59 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       },
     );
 
-    final positionInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.experience.position : '',
-        autofocus: !widget.isEditing,
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          labelText: 'Должность',
-          hintText: 'Укажите должность',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _position = newValue,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Поле не дожно быть пустым.';
-          }
-          return null;
-        },
+    final positionInput = TextFormField(
+      initialValue: widget.isEditing ? widget.experience.position : '',
+      autofocus: !widget.isEditing,
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+        labelText: 'Должность',
+        hintText: 'Укажите должность',
+        helperText: '',
+        border: textInputBorder,
       ),
+      onSaved: (newValue) => _position = newValue,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Поле не дожно быть пустым.';
+        }
+        return null;
+      },
     );
 
-    final companyInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.experience.company : '',
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          labelText: 'Компания',
-          hintText: 'Укажите название компании',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _company = newValue,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Поле не дожно быть пустым.';
-          }
-          return null;
-        },
+    final companyInput = TextFormField(
+      initialValue: widget.isEditing ? widget.experience.company : '',
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+        labelText: 'Компания',
+        hintText: 'Укажите название компании',
+        helperText: '',
+        border: textInputBorder,
       ),
+      onSaved: (newValue) => _company = newValue,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Поле не дожно быть пустым.';
+        }
+        return null;
+      },
     );
 
-    final typeInput = Container(
-      margin: const EdgeInsets.only(bottom: 38.0),
-      child: EditExperienceType(
-        initialValue: widget.isEditing
-            ? widget.experience.type
-            : ExperienceType.internship,
-        onChanged: (value) => _type = value,
-      ),
+    final typeInput = EditExperienceType(
+      initialValue:
+          widget.isEditing ? widget.experience.type : ExperienceType.internship,
+      onChanged: (value) => _type = value,
     );
 
-    final startDateInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: DateInput(
-        initialValue: widget.isEditing ? widget.experience.startYear : null,
-        labelText: 'Дата начала работы',
-        onValidate: (newValue) => _startDate = newValue,
-      ),
+    final startDateInput = DateInput(
+      initialValue: widget.isEditing ? widget.experience.startYear : null,
+      labelText: 'Дата начала работы',
+      onValidate: (newValue) => _startDate = newValue,
     );
 
-    final endDateInput = Container(
-      child: DateInput(
-        initialValue: widget.isEditing ? widget.experience.endYear : null,
-        labelText: 'Дата окончания работы',
-        onValidate: (newValue) => _endDate = newValue,
-      ),
+    final endDateInput = DateInput(
+      initialValue: widget.isEditing ? widget.experience.endYear : null,
+      labelText: 'Дата окончания работы',
+      onValidate: (newValue) => _endDate = newValue,
     );
 
     // final untilNowSwitch = Row(
@@ -144,8 +129,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
     //     ),
     //   ],
     // );
-
-    final divider = const Divider();
 
     final commonPrompt = Container(
       child: Text(
@@ -166,17 +149,20 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+          padding: const EdgeInsets.all(c.scaffoldBodyPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               positionInput,
+              const SizedBox(height: c.defaultMargin),
               companyInput,
+              const SizedBox(height: c.defaultMargin),
               typeInput,
+              const SizedBox(height: c.defaultMargin),
               startDateInput,
-              //untilNowSwitch,
+              const SizedBox(height: c.defaultMargin),
               endDateInput,
-              divider,
+              const Divider(),
               commonPrompt,
             ],
           ),

@@ -22,57 +22,46 @@ class PublicationAgeDropdownButton extends StatelessWidget {
 
         final dropdownValue = state;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Выводить результаты', style: themeData.textTheme.subtitle1),
-            const SizedBox(height: 8.0),
-            Container(
-              padding: const EdgeInsets.fromLTRB(11.0, 4.0, 17.0, 4.0),
-              decoration: BoxDecoration(
-                color: themeData.canvasColor,
-                border: const Border.fromBorderSide(
-                  BorderSide(color: Colors.black38),
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<PublicationAge>(
-                  value: dropdownValue,
-                  isExpanded: true,
-                  onChanged: (value) {
-                    context
-                        .read<EditSingleValueCubit<PublicationAge>>()
-                        .changeValue(value);
-                  },
-                  items: const [
-                    DropdownMenuItem<PublicationAge>(
-                      value: PublicationAge.allTime,
-                      child: Text('За все время'),
-                    ),
-                    DropdownMenuItem<PublicationAge>(
-                      value: PublicationAge.day,
-                      child: Text('За сутки'),
-                    ),
-                    DropdownMenuItem<PublicationAge>(
-                      value: PublicationAge.threeDays,
-                      child: Text('За три дня'),
-                    ),
-                    DropdownMenuItem<PublicationAge>(
-                      value: PublicationAge.week,
-                      child: Text('За неделю'),
-                    ),
-                    DropdownMenuItem<PublicationAge>(
-                      value: PublicationAge.twoWeeks,
-                      child: Text('За две недели'),
-                    ),
-                    DropdownMenuItem<PublicationAge>(
-                      value: PublicationAge.month,
-                      child: Text('За месяц'),
-                    ),
-                  ],
-                ),
-              ),
+        return DropdownButtonFormField<PublicationAge>(
+          decoration: InputDecoration(
+            labelText: 'Выводить результаты',
+            hintText: 'Выберите период публикации',
+            helperText: '',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            ),
+          ),
+          value: dropdownValue,
+          isExpanded: true,
+          onChanged: (value) {
+            context
+                .read<EditSingleValueCubit<PublicationAge>>()
+                .changeValue(value);
+          },
+          items: const [
+            DropdownMenuItem<PublicationAge>(
+              value: PublicationAge.allTime,
+              child: Text('За все время'),
+            ),
+            DropdownMenuItem<PublicationAge>(
+              value: PublicationAge.day,
+              child: Text('За сутки'),
+            ),
+            DropdownMenuItem<PublicationAge>(
+              value: PublicationAge.threeDays,
+              child: Text('За три дня'),
+            ),
+            DropdownMenuItem<PublicationAge>(
+              value: PublicationAge.week,
+              child: Text('За неделю'),
+            ),
+            DropdownMenuItem<PublicationAge>(
+              value: PublicationAge.twoWeeks,
+              child: Text('За две недели'),
+            ),
+            DropdownMenuItem<PublicationAge>(
+              value: PublicationAge.month,
+              child: Text('За месяц'),
             ),
           ],
         );

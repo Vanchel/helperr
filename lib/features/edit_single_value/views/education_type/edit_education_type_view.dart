@@ -12,8 +12,6 @@ class EducationDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     return BlocBuilder<EditSingleValueCubit<EducationType>, EducationType>(
       builder: (context, state) {
         if (onChanged != null) {
@@ -22,73 +20,62 @@ class EducationDropdownButton extends StatelessWidget {
 
         final dropdownValue = state;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Тип', style: themeData.textTheme.bodyText1),
-            const SizedBox(height: 8.0),
-            Container(
-              padding: const EdgeInsets.fromLTRB(11.0, 4.0, 17.0, 4.0),
-              decoration: BoxDecoration(
-                color: themeData.canvasColor,
-                border: const Border.fromBorderSide(
-                  BorderSide(color: Colors.black38),
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<EducationType>(
-                  value: dropdownValue,
-                  isExpanded: true,
-                  onChanged: (value) {
-                    context
-                        .read<EditSingleValueCubit<EducationType>>()
-                        .changeValue(value);
-                  },
-                  items: const [
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.course,
-                      child: Text('Курсы'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.primary,
-                      child: Text('Начальное (4 класса)'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.basic,
-                      child: Text('Среднее общее (9 классов)'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.secondary,
-                      child: Text('Среднее полное (11 классов)'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.postSecondary,
-                      child: Text('Среднее профессиональное'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.bachelor,
-                      child: Text('Высшее (бакалавриат)'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.specialist,
-                      child: Text('Высшее (специалитет)'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.magister,
-                      child: Text('Высшее (магистратура)'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.phdAsp,
-                      child: Text('Аспирантура'),
-                    ),
-                    DropdownMenuItem<EducationType>(
-                      value: EducationType.phdDoc,
-                      child: Text('Докторантура'),
-                    ),
-                  ],
-                ),
-              ),
+        return DropdownButtonFormField<EducationType>(
+          decoration: InputDecoration(
+            labelText: 'Тип',
+            hintText: 'Выберите тип образования',
+            helperText: '',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            ),
+          ),
+          value: dropdownValue,
+          isExpanded: true,
+          onChanged: (value) {
+            context
+                .read<EditSingleValueCubit<EducationType>>()
+                .changeValue(value);
+          },
+          items: const [
+            DropdownMenuItem<EducationType>(
+              value: EducationType.course,
+              child: Text('Курсы'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.primary,
+              child: Text('Начальное (4 класса)'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.basic,
+              child: Text('Среднее общее (9 классов)'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.secondary,
+              child: Text('Среднее полное (11 классов)'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.postSecondary,
+              child: Text('Среднее профессиональное'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.bachelor,
+              child: Text('Высшее (бакалавриат)'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.specialist,
+              child: Text('Высшее (специалитет)'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.magister,
+              child: Text('Высшее (магистратура)'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.phdAsp,
+              child: Text('Аспирантура'),
+            ),
+            DropdownMenuItem<EducationType>(
+              value: EducationType.phdDoc,
+              child: Text('Докторантура'),
             ),
           ],
         );

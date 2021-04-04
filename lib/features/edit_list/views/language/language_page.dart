@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../edit_single_value/views/language_proficiency/edit_language_proficiency.dart';
 import '../../../../data_layer/model/models.dart';
-import '../../../../constants.dart' as constants;
+import '../../../../constants.dart' as c;
 
 class EditLanguagePage extends StatefulWidget {
   EditLanguagePage({
@@ -31,17 +31,17 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
     final themeData = Theme.of(context);
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
     final backButton = IconButton(
       icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: 24.0,
+      splashRadius: c.iconButtonSplashRadius,
       onPressed: () => Navigator.pop(context),
     );
 
     final saveButton = IconButton(
       icon: const Icon(Icons.check_rounded),
-      splashRadius: 24.0,
+      splashRadius: c.iconButtonSplashRadius,
       onPressed: () {
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();
@@ -57,38 +57,30 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
       },
     );
 
-    final languageInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        initialValue: widget.isEditing ? widget.language.language : '',
-        autofocus: !widget.isEditing,
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          labelText: 'Язык',
-          hintText: 'Укажите язык',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _language = newValue,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Поле не дожно быть пустым.';
-          }
-          return null;
-        },
+    final languageInput = TextFormField(
+      initialValue: widget.isEditing ? widget.language.language : '',
+      autofocus: !widget.isEditing,
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+        labelText: 'Язык',
+        hintText: 'Укажите язык',
+        helperText: '',
+        border: textInputBorder,
       ),
+      onSaved: (newValue) => _language = newValue,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Поле не дожно быть пустым.';
+        }
+        return null;
+      },
     );
 
-    final proficiencyInput = Container(
-      margin: const EdgeInsets.only(bottom: 22.0),
-      child: EditLanguageProficiency(
-        initialValue:
-            widget.isEditing ? widget.language.grade : LanguageProficiency.a1,
-        onChanged: (value) => _proficiency = value,
-      ),
+    final proficiencyInput = EditLanguageProficiency(
+      initialValue:
+          widget.isEditing ? widget.language.grade : LanguageProficiency.a1,
+      onChanged: (value) => _proficiency = value,
     );
-
-    final divider = const Divider();
 
     final commonPrompt = Container(
       child: Text(
@@ -113,13 +105,14 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+          padding: const EdgeInsets.all(c.scaffoldBodyPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               languageInput,
+              const SizedBox(height: c.defaultMargin),
               proficiencyInput,
-              divider,
+              const Divider(),
               commonPrompt,
             ],
           ),
