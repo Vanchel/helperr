@@ -24,7 +24,6 @@ class TruncatedResume extends Equatable {
     this.industry,
     this.grade,
     this.salary,
-    this.address,
     this.workTypes,
     this.about,
     this.bgHeaderColor,
@@ -39,7 +38,6 @@ class TruncatedResume extends Equatable {
   final String industry;
   final ExperienceType grade;
   final int salary;
-  final Address address;
   final Set<WorkType> workTypes;
   final String about;
   final String bgHeaderColor;
@@ -54,7 +52,6 @@ class TruncatedResume extends Equatable {
     String industry,
     ExperienceType grade,
     int salary,
-    Address address,
     Set<WorkType> workTypes,
     String about,
     String bgHeaderColor,
@@ -69,7 +66,6 @@ class TruncatedResume extends Equatable {
         industry: industry ?? this.industry,
         grade: grade ?? this.grade,
         salary: salary ?? this.salary,
-        address: address ?? this.address,
         workTypes: workTypes ?? this.workTypes,
         about: about ?? this.about,
         bgHeaderColor: bgHeaderColor ?? this.bgHeaderColor,
@@ -86,9 +82,6 @@ class TruncatedResume extends Equatable {
         industry: json["industry"],
         grade: experienceTypeFromJson(json["grade"]),
         salary: json["salary"] ?? -1,
-        address: (json["address"]?.isNotEmpty ?? false)
-            ? Address.fromJson(json["address"])
-            : Address.empty,
         workTypes: Set<WorkType>.from(
             json["work_type"]?.map((x) => workTypeFromJson(x)) ?? []),
         about: json["about"],
@@ -105,7 +98,6 @@ class TruncatedResume extends Equatable {
         "industry": industry,
         "grade": experienceTypeToJson(grade),
         "salary": salary,
-        "address": addressToJson(address),
         "work_type":
             List<dynamic>.from(workTypes.map((x) => workTypeToJson(x))),
         "about": about,
@@ -123,7 +115,6 @@ class TruncatedResume extends Equatable {
         this.industry,
         this.grade,
         this.salary,
-        this.address,
         this.workTypes,
         this.about,
         this.bgHeaderColor,

@@ -20,13 +20,17 @@ class TruncatedResumeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
+    final ImageProvider image = resume.photoUrl.isNotEmpty
+        ? NetworkImage(resume.photoUrl)
+        : AssetImage('assets/avatar.png');
+
     final header = ListTile(
       leading: ClipOval(
         child: FadeInImage(
           fit: BoxFit.cover,
           width: 40,
           height: 40,
-          image: NetworkImage(resume.photoUrl),
+          image: image,
           placeholder: MemoryImage(kTransparentImage),
         ),
       ),
@@ -71,13 +75,7 @@ class TruncatedResumeCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: [
-          Expanded(
-            child: Text(
-              resume.address.name,
-              style: textTheme.caption,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          Expanded(child: const SizedBox.shrink()),
           Text(_formattedPubDate, style: textTheme.caption),
         ],
       ),

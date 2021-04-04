@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
 import 'package:helperr/features/vacancy_details/view/vacancy_details_page.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -21,13 +22,17 @@ class TruncatedVacancyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
+    final ImageProvider image = vacancy.photoUrl.isNotEmpty
+        ? NetworkImage(vacancy.photoUrl)
+        : AssetImage('assets/avatar.png');
+
     final header = ListTile(
       leading: ClipOval(
         child: FadeInImage(
           fit: BoxFit.cover,
           width: 40,
           height: 40,
-          image: NetworkImage(vacancy.photoUrl),
+          image: image,
           placeholder: MemoryImage(kTransparentImage),
         ),
       ),
@@ -96,12 +101,25 @@ class TruncatedVacancyCard extends StatelessWidget {
         ));
     };
 
+    final onRespond = () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WorkerResponsePage(
+            onSave: () {},
+            vacancyId: vacancy.id,
+            employerId: vacancy.employerId,
+          ),
+        ),
+      );
+    };
+
     final actions = ButtonBar(
       alignment: MainAxisAlignment.spaceBetween,
       layoutBehavior: ButtonBarLayoutBehavior.constrained,
       children: [
         TextButton(
-          onPressed: onNotImplemented,
+          onPressed: onRespond,
           child: Text('Откликнуться'.toUpperCase()),
         ),
         IconButton(
