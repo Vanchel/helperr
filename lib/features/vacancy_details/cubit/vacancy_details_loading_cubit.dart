@@ -7,7 +7,7 @@ import '../../../data_layer/data_provider/helperr_server.dart' as server;
 part 'vacancy_details_loading_state.dart';
 
 class VacancyDetailsLoadingCubit extends Cubit<VacancyDetailsLoadingState> {
-  VacancyDetailsLoadingCubit(vacancyId)
+  VacancyDetailsLoadingCubit(int vacancyId)
       : assert(vacancyId != null),
         _vacancyId = vacancyId,
         super(VacancyDetailsLoadingInitial());

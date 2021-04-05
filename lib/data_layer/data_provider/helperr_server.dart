@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'dart:convert' show utf8;
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'secured_storage.dart' as storage;
 
@@ -8,9 +9,37 @@ import '../model/models.dart';
 
 final _baseUrl = 'job-flow.ru';
 final _headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json'
+  HttpHeaders.contentTypeHeader: 'application/json',
+  HttpHeaders.acceptHeader: 'application/json',
 };
+
+Future<void> addVacancyResponse(Response vacancyResponse) async {
+  final response = await http.post(
+    Uri.http(_baseUrl, 'api/vacancy/response/'),
+    body: utf8.encode(responseToJson(vacancyResponse)),
+    headers: _headers,
+  );
+
+  if (response.statusCode != 201) {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to add vacancy response');
+  }
+}
+
+Future<void> addResumeResponse(Response vacancyResponse) async {
+  final response = await http.post(
+    Uri.http(_baseUrl, 'api/cv/response/'),
+    body: utf8.encode(responseToJson(vacancyResponse)),
+    headers: _headers,
+  );
+
+  if (response.statusCode != 201) {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to add resume response');
+  }
+}
 
 Future<Vacancy> fetchVacancy(int id) async {
   final response = await http.get(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/vacancy_details_loading_cubit.dart';
@@ -257,7 +258,17 @@ class VacancyDetailsView extends StatelessWidget {
               ),
             );
 
-            final onRespondClick = () {};
+            final onRespondClick = () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WorkerResponsePage(
+                      onSave: () {},
+                      vacancyId: vacancy.id,
+                      employerId: vacancy.userId,
+                    ),
+                  ));
+            };
 
             final respondButton = ElevatedButton(
               onPressed: isResponded ? null : onRespondClick,
