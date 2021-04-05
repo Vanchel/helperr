@@ -47,8 +47,8 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         workerId: json["worker"],
         employerId: json["employer"],
-        vacancyId: json["vacancy_response"],
-        resumeId: json["worker_cv"],
+        vacancyId: json["vacancy"],
+        resumeId: json["cv"],
         message: json["message"],
         state: responseStateFromJson(json["state"]),
       );
@@ -56,8 +56,8 @@ class Response {
   Map<String, dynamic> toJson() => {
         "worker": workerId,
         "employer": employerId,
-        "vacancy_response": vacancyId,
-        "worker_cv": resumeId,
+        "vacancy": vacancyId,
+        "cv": resumeId,
         "message": message,
         "state": responseStateToJson(state),
       };

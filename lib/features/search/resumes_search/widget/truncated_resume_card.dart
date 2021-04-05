@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/features/response/employer/view/employer_response_loading_page.dart';
+import 'package:helperr/features/resume_details/view/resume_details_page.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -91,13 +93,26 @@ class TruncatedResumeCard extends StatelessWidget {
         ));
     };
 
+    final onRespond = () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmployerResponsePage(
+            onSave: () {},
+            resumeId: resume.id,
+            workerId: resume.workerId,
+          ),
+        ),
+      );
+    };
+
     final actions = ButtonBar(
       alignment: MainAxisAlignment.spaceBetween,
       layoutBehavior: ButtonBarLayoutBehavior.constrained,
       children: [
         TextButton(
-          onPressed: onNotImplemented,
-          child: Text('Откликнуться'.toUpperCase()),
+          onPressed: onRespond,
+          child: Text('Пригласить'.toUpperCase()),
         ),
         IconButton(
           icon: const Icon(Icons.favorite_outline_rounded),
@@ -108,11 +123,25 @@ class TruncatedResumeCard extends StatelessWidget {
       ],
     );
 
+    final onCardTap = () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResumeDetailsPage(
+            resumeName: resume.vacancyName,
+            resumeId: resume.id,
+            isResponded: false,
+            isInFavorite: false,
+          ),
+        ),
+      );
+    };
+
     return Card(
       margin: const EdgeInsets.all(0.0),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {},
+        onTap: onCardTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

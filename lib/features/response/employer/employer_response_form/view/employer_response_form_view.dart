@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/worker_response_cubit.dart';
+import '../cubit/employer_response_cubit.dart';
 import '../../../../../constants.dart' as c;
 import '../../../../../data_layer/model/response.dart';
-import '../../../../../data_layer/model/resume.dart';
-import '../../../../../features/edit_single_value/views/resume/select_resume.dart';
+import '../../../../../data_layer/model/vacancy.dart';
+import '../../../../edit_single_value/views/vacancy/select_vacancy.dart';
 
-class WorkerResponseFormView extends StatefulWidget {
-  WorkerResponseFormView({
+class EmployerResponseFormView extends StatefulWidget {
+  EmployerResponseFormView({
     Key key,
     @required this.onSave,
-    @required this.vacancyId,
-    @required this.employerId,
-    @required this.resumes,
+    @required this.resumeId,
+    @required this.workerId,
+    @required this.vacancies,
   }) : super(key: key);
 
   final VoidCallback onSave;
-  final int vacancyId;
-  final int employerId;
-  final List<Resume> resumes;
+  final int resumeId;
+  final int workerId;
+  final List<Vacancy> vacancies;
 
   @override
-  _WorkerResponseFormViewState createState() => _WorkerResponseFormViewState();
+  _EmployerResponseFormViewState createState() =>
+      _EmployerResponseFormViewState();
 }
 
-class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
+class _EmployerResponseFormViewState extends State<EmployerResponseFormView> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Resume _selectedResume;
+  Vacancy _selectedVacancy;
   String _message = '';
 
   @override
@@ -38,9 +39,9 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
-    final resumeInput = SelectResume(
-      resumes: widget.resumes,
-      onChanged: (newValue) => _selectedResume = newValue,
+    final vacancyInput = SelectVacancy(
+      vacancies: widget.vacancies,
+      onChanged: (newValue) => _selectedVacancy = newValue,
     );
 
     final messageInput = TextFormField(
@@ -50,7 +51,7 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
       maxLines: null,
       decoration: const InputDecoration(
         labelText: 'Сопроводительное письмо',
-        hintText: 'Уж я-то вам точно пригожусь.',
+        hintText: 'Мы считаем, что Вы нам подходите.',
         helperText: '',
         border: textInputBorder,
       ),
@@ -58,9 +59,9 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
     );
 
     final commonPrompt = Text(
-      'После того, как Вы откликнетесь на вакансию, '
-      'работодатель сможет рассмотреть Вашу кандидатуру и прислать '
-      'ответный отклик на указанное резюме.',
+      'После того, как Вы предложите соискателю вакансию, '
+      'он сможет рассмотреть Ваше предложение и прислать '
+      'ответный отклик на указанную вакансию.',
       style: textTheme.caption,
     );
 
@@ -74,40 +75,41 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
 
-        final workerResponse = Response(
-          vacancyId: widget.vacancyId,
-          employerId: widget.employerId,
-          resumeId: _selectedResume.id,
-          workerId: _selectedResume.userId,
+        final employerResponse = Response(
+          vacancyId: _selectedVacancy.id,
+          employerId: _selectedVacancy.userId,
+          resumeId: widget.resumeId,
+          workerId: widget.workerId,
           message: _message,
         );
-        context.read<WorkerResponseCubit>().addResponse(workerResponse);
+        context.read<EmployerResponseCubit>().addResponse(employerResponse);
       }
     };
 
     final progressIndicator =
-        BlocBuilder<WorkerResponseCubit, WorkerResponseState>(
+        BlocBuilder<EmployerResponseCubit, EmployerResponseState>(
       builder: (context, state) {
-        return (state is WorkerResponseInProgress)
+        return (state is EmployerResponseInProgress)
             ? const LinearProgressIndicator()
             : const SizedBox.shrink();
       },
     );
 
-    final submitButton = BlocBuilder<WorkerResponseCubit, WorkerResponseState>(
+    final submitButton =
+        BlocBuilder<EmployerResponseCubit, EmployerResponseState>(
       builder: (context, state) {
         return IconButton(
           icon: const Icon(Icons.check_rounded),
           splashRadius: c.iconButtonSplashRadius,
           onPressed:
-              !(state is WorkerResponseInProgress) ? onSubmitPressed : null,
+              !(state is EmployerResponseInProgress) ? onSubmitPressed : null,
         );
       },
     );
 
     final appBar = AppBar(
       leading: backButton,
-      title: const Text('Откликнуться'),
+      title: const Text('Пригласить'),
       actions: [submitButton],
       bottom: PreferredSize(
         child: progressIndicator,
@@ -115,17 +117,17 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
       ),
     );
 
-    final listener = (BuildContext context, WorkerResponseState state) {
-      if (state is WorkerResponseFailure) {
+    final listener = (BuildContext context, EmployerResponseState state) {
+      if (state is EmployerResponseFailure) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
             SnackBar(
               backgroundColor: Colors.black54,
-              content: Text('Не удалось отправить отклик'),
+              content: Text('Не удалось отправить приглашение'),
             ),
           );
-      } else if (state is WorkerResponseSuccess) {
+      } else if (state is EmployerResponseSuccess) {
         widget.onSave();
         Navigator.pop(context);
       }
@@ -133,7 +135,7 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
 
     return Scaffold(
       appBar: appBar,
-      body: BlocListener<WorkerResponseCubit, WorkerResponseState>(
+      body: BlocListener<EmployerResponseCubit, EmployerResponseState>(
         listener: listener,
         child: Form(
           key: _formKey,
@@ -142,7 +144,7 @@ class _WorkerResponseFormViewState extends State<WorkerResponseFormView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                resumeInput,
+                vacancyInput,
                 const SizedBox(height: c.defaultMargin),
                 messageInput,
                 const Divider(),

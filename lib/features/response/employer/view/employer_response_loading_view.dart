@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/load_vacancies_cubit.dart';
+import '../employer_response_form/view/employer_response_form.dart';
+import '../../../../widgets/loading_screen.dart';
+import '../../../../widgets/error_screen.dart';
+import '../../../../constants.dart' as c;
+
+class EmployerResponseView extends StatelessWidget {
+  const EmployerResponseView({
+    Key key,
+    this.onSave,
+    this.resumeId,
+    this.workerId,
+  }) : super(key: key);
+
+  final VoidCallback onSave;
+  final int resumeId;
+  final int workerId;
+
+  @override
+  Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text('Пригласить'),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_rounded),
+        splashRadius: c.iconButtonSplashRadius,
+        onPressed: () => Navigator.pop(context),
+      ),
+      bottom: PreferredSize(
+        child: const SizedBox.shrink(),
+        preferredSize: const Size.fromHeight(4.0),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.check_rounded),
+          splashRadius: c.iconButtonSplashRadius,
+          onPressed: null,
+        ),
+      ],
+    );
+
+    return BlocBuilder<LoadVacanciesCubit, LoadVacanciesState>(
+      builder: (context, state) {
+        if (state is VacanciesLoadSuccess) {
+          return EmployerResponseForm(
+            onSave: onSave,
+            resumeId: resumeId,
+            workerId: workerId,
+            vacancies: state.vacancies,
+          );
+        } else if (state is VacanciesLoadFailure) {
+          return Scaffold(
+            appBar: appBar,
+            body: ErrorScreen(
+              onRetry: () => context.read<LoadVacanciesCubit>().loadVacancies(),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: appBar,
+            body: const LoadingScreen(),
+          );
+        }
+      },
+    );
+  }
+}
