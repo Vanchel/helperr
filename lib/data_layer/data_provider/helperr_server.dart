@@ -13,6 +13,78 @@ final _headers = {
   HttpHeaders.acceptHeader: 'application/json',
 };
 
+Future<DetailedResponseResult> fetchVacancyWorkerResponses(
+    String pageUri, int userId) async {
+  final uri = (pageUri?.isNotEmpty ?? false)
+      ? Uri.parse(pageUri)
+      : Uri.http(_baseUrl, 'api/vacancy/response/worker/$userId');
+
+  final response = await http.get(uri, headers: _headers);
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return detailedResponseResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch vacancy responses for worker');
+  }
+}
+
+Future<DetailedResponseResult> fetchVacancyEmployerResponses(
+    String pageUri, int userId) async {
+  final uri = (pageUri?.isNotEmpty ?? false)
+      ? Uri.parse(pageUri)
+      : Uri.http(_baseUrl, 'api/vacancy/response/employer/$userId');
+
+  final response = await http.get(uri, headers: _headers);
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return detailedResponseResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch vacancy responses for employer');
+  }
+}
+
+Future<DetailedResponseResult> fetchResumeWorkerResponses(
+    String pageUri, int userId) async {
+  final uri = (pageUri?.isNotEmpty ?? false)
+      ? Uri.parse(pageUri)
+      : Uri.http(_baseUrl, 'api/cv/response/worker/$userId');
+
+  final response = await http.get(uri, headers: _headers);
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return detailedResponseResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch resume responses for worker');
+  }
+}
+
+Future<DetailedResponseResult> fetchResumeEmployerResponses(
+    String pageUri, int userId) async {
+  final uri = (pageUri?.isNotEmpty ?? false)
+      ? Uri.parse(pageUri)
+      : Uri.http(_baseUrl, 'api/cv/response/employer/$userId');
+
+  final response = await http.get(uri, headers: _headers);
+
+  if (response.statusCode == 200) {
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return detailedResponseResultFromJson(decodedResponse);
+  } else {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to fetch resume responses for employer');
+  }
+}
+
 Future<void> addVacancyResponse(Response vacancyResponse) async {
   final response = await http.post(
     Uri.http(_baseUrl, 'api/vacancy/response/'),

@@ -26,3 +26,5 @@ export 'vacancy_search_result.dart';
 export 'resume_search_result.dart';
 export 'response.dart';
 export 'response_state.dart';
+export 'detailed_response.dart';
+export 'detailed_response_result.dart';

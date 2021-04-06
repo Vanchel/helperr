@@ -4,6 +4,9 @@ import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
+import 'package:helperr/features/response_page_view_tab/repository/detailed_response_repository.dart';
+import 'package:helperr/features/response_page_view_tab/view/paded_response_page.dart';
+import 'package:helperr/features/response_page_view_tab/widget/detailed_response_list_item.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancies_search_result_page.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/search/resumes_search/view/resumes_search_result_page.dart';
@@ -52,6 +55,72 @@ class NavigationView extends StatelessWidget {
     }
   }
 
+  // TODO: yet another temporary solution
+  Widget _getResponseViews(BuildContext context) {
+    final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
+
+    Widget inboxTab;
+    Widget outboxTab;
+
+    if (user.userType == UserType.employee) {
+      inboxTab = PagedResponsePage(
+        userId: user.id,
+        responseRepository: WorkerInboxRepository(),
+        builder: (context, response) {
+          return DetailedResponseListItem(
+            avatarUrl: response.employerAvatar,
+            title: response.vacancyName,
+            ownerName: response.employerName,
+            state: response.state,
+            onTap: () {},
+          );
+        },
+      );
+      outboxTab = PagedResponsePage(
+        userId: user.id,
+        responseRepository: WorkerOutboxRepository(),
+        builder: (context, response) {
+          return DetailedResponseListItem(
+            avatarUrl: response.employerAvatar,
+            title: response.vacancyName,
+            ownerName: response.employerName,
+            state: response.state,
+            onTap: () {},
+          );
+        },
+      );
+    } else if (user.userType == UserType.employer) {
+      inboxTab = PagedResponsePage(
+        userId: user.id,
+        responseRepository: EmployerInboxRepository(),
+        builder: (context, response) {
+          return DetailedResponseListItem(
+            avatarUrl: response.workerAvatar,
+            title: response.cvName,
+            ownerName: response.workerName,
+            state: response.state,
+            onTap: () {},
+          );
+        },
+      );
+      outboxTab = PagedResponsePage(
+        userId: user.id,
+        responseRepository: EmployerOutboxRepository(),
+        builder: (context, response) {
+          return DetailedResponseListItem(
+            avatarUrl: response.workerAvatar,
+            title: response.cvName,
+            ownerName: response.workerName,
+            state: response.state,
+            onTap: () {},
+          );
+        },
+      );
+    }
+
+    return TabBarView(children: [inboxTab, outboxTab]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, int>(
@@ -75,7 +144,15 @@ class NavigationView extends StatelessWidget {
             ],
           );
         } else if (state == 1) {
-          appBar = AppBar(title: const Text('Отклики'));
+          appBar = AppBar(
+            title: const Text('Отклики'),
+            bottom: TabBar(
+              tabs: [
+                Tab(text: 'Входящие'.toUpperCase()),
+                Tab(text: 'Исходящие'.toUpperCase()),
+              ],
+            ),
+          );
         } else if (state == 2) {
           appBar = AppBar(title: const Text('Избранное'));
         } else if (state == 3) {
@@ -97,11 +174,7 @@ class NavigationView extends StatelessWidget {
         if (state == 0) {
           body = _getSearchPage(context);
         } else if (state == 1) {
-          body = Container(
-            child: Center(
-              child: Text('В процессе разработки'),
-            ),
-          );
+          body = _getResponseViews(context);
         } else if (state == 2) {
           body = Container(
             child: Center(
@@ -136,10 +209,13 @@ class NavigationView extends StatelessWidget {
           ],
         );
 
-        return Scaffold(
-          appBar: appBar,
-          body: body,
-          bottomNavigationBar: bottomNavigationBar,
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: appBar,
+            body: body,
+            bottomNavigationBar: bottomNavigationBar,
+          ),
         );
       },
     );
