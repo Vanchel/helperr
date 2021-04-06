@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../../data_layer/model/response_state.dart';
+import '../../../../data_layer/model/response_state.dart';
 
 class DetailedResponseListItem extends StatelessWidget {
   const DetailedResponseListItem({
     Key key,
     this.title,
-    this.ownerName,
+    this.subtitle,
     this.avatarUrl,
     this.state,
     @required this.onTap,
   }) : super(key: key);
 
   final String title;
-  final String ownerName;
+  final String subtitle;
   final String avatarUrl;
   final ResponseState state;
   final VoidCallback onTap;
@@ -61,14 +61,14 @@ class DetailedResponseListItem extends StatelessWidget {
       ],
     );
 
-    final subtitle = Text(ownerName);
+    final subtitleText = Text(subtitle);
 
     return InkWell(
       onTap: onTap,
       child: ListTile(
         leading: leading,
         title: titleRow,
-        subtitle: subtitle,
+        subtitle: subtitleText,
       ),
     );
   }

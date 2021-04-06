@@ -6,7 +6,8 @@ import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
 import 'package:helperr/features/response_page_view_tab/repository/detailed_response_repository.dart';
 import 'package:helperr/features/response_page_view_tab/view/paded_response_page.dart';
-import 'package:helperr/features/response_page_view_tab/widget/detailed_response_list_item.dart';
+import 'package:helperr/features/response_page_view_tab/widget/list_items/employer_response_list_item.dart';
+import 'package:helperr/features/response_page_view_tab/widget/list_items/worker_response_list_item.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancies_search_result_page.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/search/resumes_search/view/resumes_search_result_page.dart';
@@ -66,55 +67,35 @@ class NavigationView extends StatelessWidget {
       inboxTab = PagedResponsePage(
         userId: user.id,
         responseRepository: WorkerInboxRepository(),
-        builder: (context, response) {
-          return DetailedResponseListItem(
-            avatarUrl: response.employerAvatar,
-            title: response.vacancyName,
-            ownerName: response.employerName,
-            state: response.state,
-            onTap: () {},
-          );
-        },
+        builder: (context, response) => WorkerResponseListItem(
+          response: response,
+          onTap: () {},
+        ),
       );
       outboxTab = PagedResponsePage(
         userId: user.id,
         responseRepository: WorkerOutboxRepository(),
-        builder: (context, response) {
-          return DetailedResponseListItem(
-            avatarUrl: response.employerAvatar,
-            title: response.vacancyName,
-            ownerName: response.employerName,
-            state: response.state,
-            onTap: () {},
-          );
-        },
+        builder: (context, response) => WorkerResponseListItem(
+          response: response,
+          onTap: () {},
+        ),
       );
     } else if (user.userType == UserType.employer) {
       inboxTab = PagedResponsePage(
         userId: user.id,
         responseRepository: EmployerInboxRepository(),
-        builder: (context, response) {
-          return DetailedResponseListItem(
-            avatarUrl: response.workerAvatar,
-            title: response.cvName,
-            ownerName: response.workerName,
-            state: response.state,
-            onTap: () {},
-          );
-        },
+        builder: (context, response) => EmployerResponseListItem(
+          response: response,
+          onTap: () {},
+        ),
       );
       outboxTab = PagedResponsePage(
         userId: user.id,
         responseRepository: EmployerOutboxRepository(),
-        builder: (context, response) {
-          return DetailedResponseListItem(
-            avatarUrl: response.workerAvatar,
-            title: response.cvName,
-            ownerName: response.workerName,
-            state: response.state,
-            onTap: () {},
-          );
-        },
+        builder: (context, response) => EmployerResponseListItem(
+          response: response,
+          onTap: () {},
+        ),
       );
     }
 
