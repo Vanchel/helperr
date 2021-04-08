@@ -13,6 +13,46 @@ final _headers = {
   HttpHeaders.acceptHeader: 'application/json',
 };
 
+Future<void> updateVacancyResponseState(
+    int responseId, ResponseState newState) async {
+  final body = {
+    'id': responseId,
+    'state': responseStateToJson(newState),
+  };
+
+  final response = await http.put(
+    Uri.http(_baseUrl, 'api/vacancy/response/'),
+    body: json.encode(body),
+    headers: _headers,
+  );
+
+  if (response.statusCode != 200) {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to update vacancy response state');
+  }
+}
+
+Future<void> updateResumeResponseState(
+    int responseId, ResponseState newState) async {
+  final body = {
+    'id': responseId,
+    'state': responseStateToJson(newState),
+  };
+
+  final response = await http.put(
+    Uri.http(_baseUrl, 'api/cv/response/'),
+    body: json.encode(body),
+    headers: _headers,
+  );
+
+  if (response.statusCode != 200) {
+    print(response.statusCode);
+    print(response.body);
+    throw Exception('Failed to update resume response state');
+  }
+}
+
 Future<DetailedResponseResult> fetchVacancyWorkerResponses(
     String pageUri, int userId) async {
   final uri = (pageUri?.isNotEmpty ?? false)

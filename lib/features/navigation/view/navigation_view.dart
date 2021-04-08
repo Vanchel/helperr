@@ -4,6 +4,8 @@ import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
+import 'package:helperr/features/response_details/view/employer_initial_response_detail_view.dart';
+import 'package:helperr/features/response_details/view/worker_initial_response_detail_view.dart';
 import 'package:helperr/features/response_page_view_tab/repository/detailed_response_repository.dart';
 import 'package:helperr/features/response_page_view_tab/view/paded_response_page.dart';
 import 'package:helperr/features/response_page_view_tab/widget/list_items/employer_response_list_item.dart';
@@ -69,7 +71,16 @@ class NavigationView extends StatelessWidget {
         responseRepository: WorkerInboxRepository(),
         builder: (context, response) => WorkerResponseListItem(
           response: response,
-          onTap: () {},
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EmployerInitialResponseDetailView(
+                response: response,
+                isRespondable: true,
+                onChange: () {},
+              ),
+            ),
+          ),
         ),
       );
       outboxTab = PagedResponsePage(
@@ -77,7 +88,16 @@ class NavigationView extends StatelessWidget {
         responseRepository: WorkerOutboxRepository(),
         builder: (context, response) => WorkerResponseListItem(
           response: response,
-          onTap: () {},
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WorkerInitialResponseDetailView(
+                response: response,
+                isRespondable: false,
+                onChange: () {},
+              ),
+            ),
+          ),
         ),
       );
     } else if (user.userType == UserType.employer) {
@@ -86,7 +106,16 @@ class NavigationView extends StatelessWidget {
         responseRepository: EmployerInboxRepository(),
         builder: (context, response) => EmployerResponseListItem(
           response: response,
-          onTap: () {},
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WorkerInitialResponseDetailView(
+                response: response,
+                isRespondable: true,
+                onChange: () {},
+              ),
+            ),
+          ),
         ),
       );
       outboxTab = PagedResponsePage(
@@ -94,7 +123,16 @@ class NavigationView extends StatelessWidget {
         responseRepository: EmployerOutboxRepository(),
         builder: (context, response) => EmployerResponseListItem(
           response: response,
-          onTap: () {},
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EmployerInitialResponseDetailView(
+                response: response,
+                isRespondable: false,
+                onChange: () {},
+              ),
+            ),
+          ),
         ),
       );
     }
