@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/features/back_response/repository/back_response_repository.dart';
+import 'package:helperr/features/back_response/view/back_response_page.dart';
 
 import '../../../data_layer/model/detailed_response.dart';
+import '../../../data_layer/model/response.dart';
 import '../../../data_layer/model/response_state.dart';
 import '../../../constants.dart' as c;
 
@@ -20,6 +23,21 @@ class EmployerInitialResponseDetailView extends StatelessWidget {
       isRespondable &&
       response.state != ResponseState.accepted &&
       response.state != ResponseState.declined;
+
+  void toBackResponse(BuildContext context, ResponseState state) {
+    final newResponse = Response.fromDetailed(response).copyWith(state: state);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BackResponsePage(
+          repository: EmployerInitialResponseRepository(),
+          response: newResponse,
+          onSave: () {},
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,21 +101,28 @@ class EmployerInitialResponseDetailView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Divider(),
-            Text(
-              'Вы можете послать обратный отклик и принять или отклонить '
-              'предложение, нажав на кнопку ниже.',
-              style: textTheme.caption,
-            ),
-            const SizedBox(height: c.defaultMargin),
-            ElevatedButton(
-              child: const Text('Откликнуться'),
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-                    content: Text('Ну хоть что-то'),
-                  ));
-              },
+            // Text(
+            //   'Вы можете послать обратный отклик и принять или отклонить '
+            //   'предложение, нажав на одну из кнопок ниже.',
+            //   style: textTheme.caption,
+            // ),
+            // const SizedBox(height: c.defaultMargin),
+            Wrap(
+              alignment: WrapAlignment.end,
+              spacing: c.defaultMargin,
+              runSpacing: c.defaultMargin,
+              children: [
+                OutlinedButton(
+                  child: Text('Отклонить'.toUpperCase()),
+                  onPressed: () =>
+                      toBackResponse(context, ResponseState.declined),
+                ),
+                ElevatedButton(
+                  child: Text('Принять'.toUpperCase()),
+                  onPressed: () =>
+                      toBackResponse(context, ResponseState.accepted),
+                ),
+              ],
             ),
           ],
         ),

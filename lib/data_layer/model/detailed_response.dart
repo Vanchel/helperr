@@ -14,6 +14,7 @@ String detailedResponseToJson(DetailedResponse data) =>
 
 class DetailedResponse {
   DetailedResponse({
+    this.id,
     this.vacancy,
     this.worker,
     this.employer,
@@ -29,6 +30,7 @@ class DetailedResponse {
     this.cvName,
   });
 
+  final int id;
   final int vacancy;
   final int worker;
   final int employer;
@@ -44,6 +46,7 @@ class DetailedResponse {
   final String cvName;
 
   DetailedResponse copyWith({
+    int id,
     int vacancy,
     int worker,
     int employer,
@@ -59,6 +62,7 @@ class DetailedResponse {
     String cvName,
   }) =>
       DetailedResponse(
+        id: id ?? this.id,
         vacancy: vacancy ?? this.vacancy,
         worker: worker ?? this.worker,
         employer: employer ?? this.employer,
@@ -76,6 +80,7 @@ class DetailedResponse {
 
   factory DetailedResponse.fromJson(Map<String, dynamic> json) =>
       DetailedResponse(
+        id: json["id"],
         vacancy: json["vacancy"],
         worker: json["worker"],
         employer: json["employer"],
@@ -92,6 +97,7 @@ class DetailedResponse {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "vacancy": vacancy,
         "worker": worker,
         "employer": employer,

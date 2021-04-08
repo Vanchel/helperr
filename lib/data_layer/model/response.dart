@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'detailed_response.dart';
 import 'response_state.dart';
 
 Response responseFromJson(String str) => Response.fromJson(json.decode(str));
@@ -12,6 +13,7 @@ String responseToJson(Response data) => json.encode(data.toJson());
 
 class Response {
   Response({
+    this.id,
     this.workerId,
     this.employerId,
     this.vacancyId,
@@ -20,6 +22,7 @@ class Response {
     this.state = ResponseState.sent,
   });
 
+  final int id;
   final int workerId;
   final int employerId;
   final int vacancyId;
@@ -28,6 +31,7 @@ class Response {
   final ResponseState state;
 
   Response copyWith({
+    int id,
     int workerId,
     int employerId,
     int vacancyId,
@@ -36,6 +40,7 @@ class Response {
     ResponseState state,
   }) =>
       Response(
+        id: id ?? this.id,
         workerId: workerId ?? this.workerId,
         employerId: employerId ?? this.employerId,
         vacancyId: vacancyId ?? this.vacancyId,
@@ -44,7 +49,18 @@ class Response {
         state: state ?? this.state,
       );
 
+  factory Response.fromDetailed(DetailedResponse detailed) => Response(
+        id: detailed.id,
+        workerId: detailed.worker,
+        employerId: detailed.employer,
+        vacancyId: detailed.vacancy,
+        resumeId: detailed.cv,
+        message: detailed.message,
+        state: detailed.state,
+      );
+
   factory Response.fromJson(Map<String, dynamic> json) => Response(
+        id: null,
         workerId: json["worker"],
         employerId: json["employer"],
         vacancyId: json["vacancy"],
@@ -54,6 +70,7 @@ class Response {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "worker": workerId,
         "employer": employerId,
         "vacancy": vacancyId,
