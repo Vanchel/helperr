@@ -4,7 +4,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../cubit/response_listing_cubit.dart';
 import '../widget/error_screens/empty_response_list_indicator.dart';
+import '../widget/detailed_response_list_item.dart';
 import '../../../data_layer/model/detailed_response.dart';
+import '../../../data_layer/model/user_type.dart';
 import '../../../widgets/error_screen.dart';
 
 typedef BuilderDelegate = Widget Function(
@@ -15,10 +17,10 @@ typedef BuilderDelegate = Widget Function(
 class PagedResponseListView extends StatefulWidget {
   const PagedResponseListView({
     Key key,
-    @required this.builder,
+    @required this.sender,
   }) : super(key: key);
 
-  final BuilderDelegate builder;
+  final UserType sender;
 
   @override
   _PagedResponseListViewState createState() => _PagedResponseListViewState();
@@ -61,8 +63,10 @@ class _PagedResponseListViewState extends State<PagedResponseListView> {
         ),
         child: PagedListView.separated(
           builderDelegate: PagedChildBuilderDelegate<DetailedResponse>(
-            itemBuilder: (context, response, index) =>
-                widget.builder(context, response),
+            itemBuilder: (context, response, index) => DetailedResponseListItem(
+              response: response,
+              sender: widget.sender,
+            ),
             firstPageErrorIndicatorBuilder: (context) => ErrorScreen(
               onRetry: () => _pagingController.refresh(),
             ),

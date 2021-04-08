@@ -6,6 +6,8 @@ abstract class BackResponseRepository {
 }
 
 class WorkerInitialResponseRepository implements BackResponseRepository {
+  const WorkerInitialResponseRepository();
+
   @override
   Future<void> respond(Response response) async {
     await Future.wait([
@@ -16,6 +18,8 @@ class WorkerInitialResponseRepository implements BackResponseRepository {
 }
 
 class EmployerInitialResponseRepository implements BackResponseRepository {
+  const EmployerInitialResponseRepository();
+
   @override
   Future<void> respond(Response response) async {
     await Future.wait([

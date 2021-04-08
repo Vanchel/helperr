@@ -1,28 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/back_response/repository/back_response_repository.dart';
 import 'package:helperr/features/back_response/view/back_response_page.dart';
 
 import '../../../data_layer/model/detailed_response.dart';
+import '../../../data_layer/model/models.dart';
 import '../../../data_layer/model/response.dart';
 import '../../../data_layer/model/response_state.dart';
+import '../../../data_layer/model/user_type.dart';
+import '../../../data_layer/repository/authentication_repository.dart';
 import '../../../constants.dart' as c;
 
-class WorkerInitialResponseDetailView extends StatelessWidget {
-  const WorkerInitialResponseDetailView({
+class ResponseDetailView extends StatelessWidget {
+  const ResponseDetailView({
     Key key,
     @required this.response,
+    @required this.sender,
     @required this.onChange,
-    this.isRespondable = false,
-  }) : super(key: key);
+  })  : repository = (sender == UserType.employer)
+            ? const EmployerInitialResponseRepository()
+            : const WorkerInitialResponseRepository(),
+        super(key: key);
 
   final DetailedResponse response;
+  final UserType sender;
   final VoidCallback onChange;
-  final bool isRespondable;
+  final BackResponseRepository repository;
 
-  bool get _isTrulyRespondable =>
-      isRespondable &&
-      response.state != ResponseState.accepted &&
-      response.state != ResponseState.declined;
+  bool _isRespondable(BuildContext context) {
+    final userType =
+        RepositoryProvider.of<AuthenticationRepository>(context).user.userType;
+
+    return userType != sender &&
+        response.state != ResponseState.accepted &&
+        response.state != ResponseState.declined;
+  }
 
   void toBackResponse(BuildContext context, ResponseState state) {
     final newResponse = Response.fromDetailed(response).copyWith(state: state);
@@ -31,9 +43,9 @@ class WorkerInitialResponseDetailView extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => BackResponsePage(
-          repository: WorkerInitialResponseRepository(),
+          repository: repository,
           response: newResponse,
-          onSave: () {},
+          onSave: onChange,
         ),
       ),
     );
@@ -49,7 +61,7 @@ class WorkerInitialResponseDetailView extends StatelessWidget {
         splashRadius: c.iconButtonSplashRadius,
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text('Отклик'),
+      title: Text(sender == UserType.employer ? 'Приглашение' : 'Отклик'),
     );
 
     final responseFrom = Row(
@@ -95,7 +107,7 @@ class WorkerInitialResponseDetailView extends StatelessWidget {
     }
 
     Widget respondBackBlock;
-    if (_isTrulyRespondable) {
+    if (_isRespondable(context)) {
       respondBackBlock = Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

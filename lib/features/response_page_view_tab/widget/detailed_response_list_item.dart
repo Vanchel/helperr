@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../../../data_layer/model/response_state.dart';
+import '../../../data_layer/model/detailed_response.dart';
+import '../../../data_layer/model/response_state.dart';
+import '../../../data_layer/model/user_type.dart';
+import '../view/response_detail_view.dart';
 
 class DetailedResponseListItem extends StatelessWidget {
   const DetailedResponseListItem({
     Key key,
-    this.title,
-    this.subtitle,
-    this.avatarUrl,
-    this.state,
-    @required this.onTap,
+    @required this.response,
+    @required this.sender,
   }) : super(key: key);
 
-  final String title;
-  final String subtitle;
-  final String avatarUrl;
-  final ResponseState state;
-  final VoidCallback onTap;
+  final DetailedResponse response;
+  final UserType sender;
 
   String formatState(ResponseState state) => Intl.select(state, {
         ResponseState.sent: 'Не просмотрено',
@@ -30,6 +27,10 @@ class DetailedResponseListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    final avatarUrl = sender == UserType.employer
+        ? response.employerAvatar
+        : response.workerAvatar;
 
     final leading = ClipOval(
       child: FadeInImage(
@@ -49,19 +50,30 @@ class DetailedResponseListItem extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            title,
+            response.vacancyName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         Text(
-          formatState(state),
+          formatState(response.state),
           style: textTheme.caption,
         ),
       ],
     );
 
-    final subtitleText = Text(subtitle);
+    final subtitleText = Text(response.cvName);
+
+    final onTap = () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResponseDetailView(
+              response: response,
+              sender: sender,
+              onChange: () {},
+            ),
+          ),
+        );
 
     return InkWell(
       onTap: onTap,

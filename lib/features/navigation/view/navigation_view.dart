@@ -4,12 +4,8 @@ import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
-import 'package:helperr/features/response_details/view/employer_initial_response_detail_view.dart';
-import 'package:helperr/features/response_details/view/worker_initial_response_detail_view.dart';
 import 'package:helperr/features/response_page_view_tab/repository/detailed_response_repository.dart';
 import 'package:helperr/features/response_page_view_tab/view/paded_response_page.dart';
-import 'package:helperr/features/response_page_view_tab/widget/list_items/employer_response_list_item.dart';
-import 'package:helperr/features/response_page_view_tab/widget/list_items/worker_response_list_item.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancies_search_result_page.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/search/resumes_search/view/resumes_search_result_page.dart';
@@ -60,80 +56,29 @@ class NavigationView extends StatelessWidget {
 
   // TODO: yet another temporary solution
   Widget _getResponseViews(BuildContext context) {
-    final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
+    final currentUserType =
+        RepositoryProvider.of<AuthenticationRepository>(context).user.userType;
 
     Widget inboxTab;
     Widget outboxTab;
 
-    if (user.userType == UserType.employee) {
+    if (currentUserType == UserType.employee) {
       inboxTab = PagedResponsePage(
-        userId: user.id,
+        sender: UserType.employer,
         responseRepository: WorkerInboxRepository(),
-        builder: (context, response) => WorkerResponseListItem(
-          response: response,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EmployerInitialResponseDetailView(
-                response: response,
-                isRespondable: true,
-                onChange: () {},
-              ),
-            ),
-          ),
-        ),
       );
       outboxTab = PagedResponsePage(
-        userId: user.id,
+        sender: UserType.employee,
         responseRepository: WorkerOutboxRepository(),
-        builder: (context, response) => WorkerResponseListItem(
-          response: response,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WorkerInitialResponseDetailView(
-                response: response,
-                isRespondable: false,
-                onChange: () {},
-              ),
-            ),
-          ),
-        ),
       );
-    } else if (user.userType == UserType.employer) {
+    } else if (currentUserType == UserType.employer) {
       inboxTab = PagedResponsePage(
-        userId: user.id,
+        sender: UserType.employee,
         responseRepository: EmployerInboxRepository(),
-        builder: (context, response) => EmployerResponseListItem(
-          response: response,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WorkerInitialResponseDetailView(
-                response: response,
-                isRespondable: true,
-                onChange: () {},
-              ),
-            ),
-          ),
-        ),
       );
       outboxTab = PagedResponsePage(
-        userId: user.id,
+        sender: UserType.employer,
         responseRepository: EmployerOutboxRepository(),
-        builder: (context, response) => EmployerResponseListItem(
-          response: response,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EmployerInitialResponseDetailView(
-                response: response,
-                isRespondable: false,
-                onChange: () {},
-              ),
-            ),
-          ),
-        ),
       );
     }
 
