@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/back_response/repository/back_response_repository.dart';
 import 'package:helperr/features/back_response/view/back_response_page.dart';
 
-import '../../../data_layer/model/detailed_response.dart';
-import '../../../data_layer/model/models.dart';
-import '../../../data_layer/model/response.dart';
-import '../../../data_layer/model/response_state.dart';
-import '../../../data_layer/model/user_type.dart';
-import '../../../data_layer/repository/authentication_repository.dart';
-import '../../../constants.dart' as c;
+import '../../../../data_layer/model/models.dart';
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/detailed_response.dart';
+import '../../../../data_layer/model/response.dart';
+import '../../../../data_layer/model/response_state.dart';
+import '../../../../data_layer/model/user_type.dart';
+import '../../../../data_layer/repository/authentication_repository.dart';
+import '../../../../constants.dart' as c;
 
 class ResponseDetailView extends StatelessWidget {
   const ResponseDetailView({
@@ -24,16 +25,14 @@ class ResponseDetailView extends StatelessWidget {
 
   final DetailedResponse response;
   final UserType sender;
-  final VoidCallback onChange;
+  final void Function(ResponseState) onChange;
   final BackResponseRepository repository;
 
   bool _isRespondable(BuildContext context) {
     final userType =
         RepositoryProvider.of<AuthenticationRepository>(context).user.userType;
 
-    return userType != sender &&
-        response.state != ResponseState.accepted &&
-        response.state != ResponseState.declined;
+    return userType != sender;
   }
 
   void toBackResponse(BuildContext context, ResponseState state) {
@@ -106,20 +105,13 @@ class ResponseDetailView extends StatelessWidget {
       );
     }
 
-    Widget respondBackBlock;
+    // refactor this?
+    Widget footer;
     if (_isRespondable(context)) {
-      respondBackBlock = Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Divider(),
-            // Text(
-            //   'Вы можете послать обратный отклик и принять или отклонить '
-            //   'предложение, нажав на одну из кнопок ниже.',
-            //   style: textTheme.caption,
-            // ),
-            // const SizedBox(height: c.defaultMargin),
-            Wrap(
+      footer = BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
+        builder: (context, state) {
+          if (state == ResponseState.sent) {
+            return Wrap(
               alignment: WrapAlignment.end,
               spacing: c.defaultMargin,
               runSpacing: c.defaultMargin,
@@ -135,13 +127,63 @@ class ResponseDetailView extends StatelessWidget {
                       toBackResponse(context, ResponseState.accepted),
                 ),
               ],
-            ),
-          ],
-        ),
+            );
+          } else if (state == ResponseState.accepted) {
+            return Text(
+              'Собеседник принял Ваше предложение. Обмен откликами завершен.',
+              style: textTheme.caption,
+            );
+          } else if (state == ResponseState.declined) {
+            return Text(
+              'Собеседник отказался от Вашего предложения. Обмен откликами '
+              'завершен.',
+              style: textTheme.caption,
+            );
+          } else {
+            return Text(
+              'Вы уже дали ответ на это предложение.',
+              style: textTheme.caption,
+            );
+          }
+        },
       );
     } else {
-      respondBackBlock = const SizedBox.shrink();
+      footer = BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
+        builder: (context, state) {
+          if (state == ResponseState.sent) {
+            return Text(
+              'Собеседник пока не дал ответа.',
+              style: textTheme.caption,
+            );
+          } else if (state == ResponseState.accepted) {
+            return Text(
+              'Вы ответили согласием на это предложение.',
+              style: textTheme.caption,
+            );
+          } else if (state == ResponseState.declined) {
+            return Text(
+              'Вы ответили отказом на это предложение.',
+              style: textTheme.caption,
+            );
+          } else {
+            return Text(
+              'Собеседник уже дал ответ на Ваше предложение. Проверьте '
+              'вкладку "Входящие".',
+              style: textTheme.caption,
+            );
+          }
+        },
+      );
     }
+
+    final respondBackBlock = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Divider(),
+        footer,
+      ],
+    );
 
     return Scaffold(
       appBar: appBar,

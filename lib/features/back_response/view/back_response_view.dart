@@ -4,6 +4,7 @@ import 'package:helperr/constants.dart' as c;
 
 import '../cubit/back_response_cubit.dart';
 import '../../../data_layer/model/response.dart';
+import '../../../data_layer/model/response_state.dart';
 
 class BackResponseView extends StatefulWidget {
   BackResponseView({
@@ -13,7 +14,7 @@ class BackResponseView extends StatefulWidget {
   }) : super(key: key);
 
   final Response initialResponse;
-  final VoidCallback onSave;
+  final void Function(ResponseState) onSave;
 
   @override
   _BackResponseViewState createState() => _BackResponseViewState();
@@ -108,7 +109,7 @@ class _BackResponseViewState extends State<BackResponseView> {
             ),
           );
       } else if (state.status == BackResponseStatus.success) {
-        widget.onSave();
+        widget.onSave(widget.initialResponse.state);
         Navigator.pop(context);
       }
     };

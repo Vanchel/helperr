@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'back_response_view.dart';
 import '../cubit/back_response_cubit.dart';
 import '../repository/back_response_repository.dart';
+import '../../../data_layer/model/response_state.dart';
 import '../../../data_layer/model/response.dart';
 
 class BackResponsePage extends StatelessWidget {
@@ -16,7 +17,7 @@ class BackResponsePage extends StatelessWidget {
 
   final BackResponseRepository repository;
   final Response response;
-  final VoidCallback onSave;
+  final void Function(ResponseState) onSave;
 
   @override
   Widget build(BuildContext context) {

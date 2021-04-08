@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../cubit/response_listing_cubit.dart';
-import '../widget/error_screens/empty_response_list_indicator.dart';
-import '../widget/detailed_response_list_item.dart';
+import '../widget/empty_response_list_indicator.dart';
+import '../../edit_single_value/views/response_details/detailed_response_list_item.dart';
 import '../../../data_layer/model/detailed_response.dart';
 import '../../../data_layer/model/user_type.dart';
 import '../../../widgets/error_screen.dart';

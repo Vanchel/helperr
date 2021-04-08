@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../../data_layer/model/detailed_response.dart';
-import '../../../data_layer/model/response_state.dart';
-import '../../../data_layer/model/user_type.dart';
-import '../view/response_detail_view.dart';
+import 'response_detail_view.dart';
+import '../../cubit/edit_single_value_cubit.dart';
+import '../../../../data_layer/model/models.dart';
+import '../../../../data_layer/model/detailed_response.dart';
+import '../../../../data_layer/model/response_state.dart';
+import '../../../../data_layer/model/user_type.dart';
 
-class DetailedResponseListItem extends StatelessWidget {
-  const DetailedResponseListItem({
+class DetailedResponseListItemView extends StatelessWidget {
+  const DetailedResponseListItemView({
     Key key,
     @required this.response,
     @required this.sender,
@@ -55,9 +58,11 @@ class DetailedResponseListItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Text(
-          formatState(response.state),
-          style: textTheme.caption,
+        BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
+          builder: (context, state) => Text(
+            formatState(state),
+            style: textTheme.caption,
+          ),
         ),
       ],
     );
@@ -67,11 +72,19 @@ class DetailedResponseListItem extends StatelessWidget {
     final onTap = () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ResponseDetailView(
-              response: response,
-              sender: sender,
-              onChange: () {},
-            ),
+            builder: (_) {
+              return BlocProvider.value(
+                value: BlocProvider.of<EditSingleValueCubit<ResponseState>>(
+                    context),
+                child: ResponseDetailView(
+                  response: response,
+                  sender: sender,
+                  onChange: (newState) => context
+                      .read<EditSingleValueCubit<ResponseState>>()
+                      .changeValue(newState),
+                ),
+              );
+            },
           ),
         );
 

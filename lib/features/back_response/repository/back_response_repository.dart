@@ -1,4 +1,5 @@
 import '../../../data_layer/model/response.dart';
+import '../../../data_layer/model/response_state.dart';
 import '../../../data_layer/data_provider/helperr_server.dart' as server;
 
 abstract class BackResponseRepository {
@@ -11,7 +12,7 @@ class WorkerInitialResponseRepository implements BackResponseRepository {
   @override
   Future<void> respond(Response response) async {
     await Future.wait([
-      server.updateVacancyResponseState(response.id, response.state),
+      server.updateVacancyResponseState(response.id, ResponseState.viewed),
       server.addResumeResponse(response),
     ]);
   }
@@ -23,7 +24,7 @@ class EmployerInitialResponseRepository implements BackResponseRepository {
   @override
   Future<void> respond(Response response) async {
     await Future.wait([
-      server.updateResumeResponseState(response.id, response.state),
+      server.updateResumeResponseState(response.id, ResponseState.viewed),
       server.addVacancyResponse(response),
     ]);
   }
