@@ -109,7 +109,7 @@ class _BackResponseViewState extends State<BackResponseView> {
             ),
           );
       } else if (state.status == BackResponseStatus.success) {
-        widget.onSave(widget.initialResponse.state);
+        widget.onSave(ResponseState.viewed);
         Navigator.pop(context);
       }
     };
