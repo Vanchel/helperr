@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/back_response/repository/back_response_repository.dart';
 import 'package:helperr/features/back_response/view/back_response_page.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../data_layer/model/models.dart';
 import '../../cubit/edit_single_value_cubit.dart';
@@ -28,12 +29,8 @@ class ResponseDetailView extends StatelessWidget {
   final void Function(ResponseState) onChange;
   final BackResponseRepository repository;
 
-  bool _isRespondable(BuildContext context) {
-    final userType =
-        RepositoryProvider.of<AuthenticationRepository>(context).user.userType;
-
-    return userType != sender;
-  }
+  String get _formattedPubDate =>
+      DateFormat('dd.MM.yyyy, HH:mm').format(response.dateResponse);
 
   void toBackResponse(BuildContext context, ResponseState state) {
     final newResponse = Response.fromDetailed(response).copyWith(state: state);
@@ -53,6 +50,11 @@ class ResponseDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isRespondable =
+        RepositoryProvider.of<AuthenticationRepository>(context)
+                .user
+                .userType !=
+            sender;
 
     final appBar = AppBar(
       leading: IconButton(
@@ -63,51 +65,77 @@ class ResponseDetailView extends StatelessWidget {
       title: Text(sender == UserType.employer ? 'Приглашение' : 'Отклик'),
     );
 
-    final responseFrom = Row(
+    final headerTitle = Text(
+      sender == UserType.employer ? response.vacancyName : response.cvName,
+      style: textTheme.headline5,
+    );
+
+    final headerSubtitle = Text(
+      'В ответ на: ' +
+          (sender == UserType.employer
+              ? response.cvName
+              : response.vacancyName),
+      style: textTheme.subtitle2,
+    );
+
+    final fromRow = Row(
       children: [
         Expanded(
           child: Text(
-            'От:',
+            'От',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.black54),
           ),
         ),
-        // should be text button or smth one day
-        Text(response.workerName),
+        Text(sender == UserType.employer
+            ? response.employerName
+            : response.workerName),
       ],
     );
 
-    final responseFor = Row(
+    final toRow = Row(
       children: [
         Expanded(
           child: Text(
-            'На:',
+            'Кому',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.black54),
           ),
         ),
-        // should be text button or smth one day
-        Text(response.vacancyName),
+        Text(sender == UserType.employer
+            ? response.workerName
+            : response.employerName),
+      ],
+    );
+
+    final dateRow = Row(
+      children: [
+        Expanded(
+          child: Text(
+            'Дата',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.black54),
+          ),
+        ),
+        Text(_formattedPubDate),
       ],
     );
 
     final spacer = const SizedBox(height: c.defaultMargin);
 
-    Widget attachedMessage;
-    if (response.message?.isNotEmpty ?? false) {
-      attachedMessage = Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Приложенное письмо:', style: textTheme.bodyText1),
-          Text(response.message),
-        ],
-      );
-    }
+    final divider = const Divider();
 
-    // refactor this?
+    Widget attachedMessage = Text(
+      response.message?.isNotEmpty ?? false
+          ? response.message
+          : '- Сообщение не приркреплено -',
+    );
+
     Widget footer;
-    if (_isRespondable(context)) {
+    if (isRespondable) {
       footer = BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
         builder: (context, state) {
           if (state == ResponseState.sent) {
@@ -176,15 +204,6 @@ class ResponseDetailView extends StatelessWidget {
       );
     }
 
-    final respondBackBlock = Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Divider(),
-        footer,
-      ],
-    );
-
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -192,12 +211,19 @@ class ResponseDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            responseFrom,
+            headerTitle,
             spacer,
-            responseFor,
+            headerSubtitle,
+            divider,
+            fromRow,
             spacer,
+            toRow,
+            spacer,
+            dateRow,
+            divider,
             attachedMessage,
-            respondBackBlock,
+            divider,
+            footer,
           ],
         ),
       ),

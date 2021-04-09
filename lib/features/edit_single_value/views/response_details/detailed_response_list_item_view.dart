@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -20,20 +21,35 @@ class DetailedResponseListItemView extends StatelessWidget {
   final DetailedResponse response;
   final UserType sender;
 
-  String formatState(ResponseState state) => Intl.select(state, {
+  String _formatState(ResponseState state) => Intl.select(state, {
         ResponseState.sent: 'Не просмотрено',
         ResponseState.viewed: 'Просмотрено',
         ResponseState.accepted: 'Принято',
         ResponseState.declined: 'Отклонено',
       });
 
+  String get _formattedPubDate =>
+      DateFormat('dd.MM.yyyy').format(response.dateResponse);
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isFromCurrent =
+        RepositoryProvider.of<AuthenticationRepository>(context)
+                .user
+                .userType ==
+            sender;
 
-    final avatarUrl = sender == UserType.employer
-        ? response.employerAvatar
-        : response.workerAvatar;
+    String avatarUrl;
+    if (isFromCurrent) {
+      avatarUrl = sender == UserType.employer
+          ? response.workerAvatar
+          : response.employerAvatar;
+    } else {
+      avatarUrl = sender == UserType.employer
+          ? response.employerAvatar
+          : response.workerAvatar;
+    }
 
     final leading = ClipOval(
       child: FadeInImage(
@@ -53,21 +69,53 @@ class DetailedResponseListItemView extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            response.vacancyName,
+            sender == UserType.employer
+                ? response.vacancyName
+                : response.cvName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
           builder: (context, state) => Text(
-            formatState(state),
+            _formattedPubDate,
             style: textTheme.caption,
           ),
         ),
       ],
     );
 
-    final subtitleText = Text(response.cvName);
+    String subtitleText;
+    if (isFromCurrent) {
+      final name = sender == UserType.employer
+          ? response.workerName
+          : response.employerName;
+      subtitleText = 'кому: $name';
+    } else {
+      subtitleText = sender == UserType.employer
+          ? response.employerName
+          : response.workerName;
+    }
+
+    final subtitleRow = Row(
+      textBaseline: TextBaseline.alphabetic,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      children: [
+        Expanded(
+          child: Text(
+            subtitleText,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
+          builder: (context, state) => Text(
+            _formatState(state),
+            style: textTheme.caption,
+          ),
+        ),
+      ],
+    );
 
     final onTap = () => Navigator.push(
           context,
@@ -93,7 +141,7 @@ class DetailedResponseListItemView extends StatelessWidget {
       child: ListTile(
         leading: leading,
         title: titleRow,
-        subtitle: subtitleText,
+        subtitle: subtitleRow,
       ),
     );
   }
