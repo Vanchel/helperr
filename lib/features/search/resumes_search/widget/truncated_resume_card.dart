@@ -51,7 +51,7 @@ class TruncatedResumeCard extends StatelessWidget {
         ],
       ),
       subtitle: Text(
-        resume.vacancyName,
+        resume.workerName,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),
