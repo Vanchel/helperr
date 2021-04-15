@@ -1,8 +1,8 @@
 import '../../../data_layer/model/worker.dart';
 import '../../../data_layer/model/employer.dart';
 
-import 'package:helperr/data_layer/data_provider/helperr_server.dart' as server;
-import 'package:helperr/data_layer/data_provider/firebase_server.dart'
+import 'package:helperr/data_layer/data_provider/regular_api_client.dart';
+import 'package:helperr/data_layer/data_provider/firebase_api_client.dart'
     as fb_server;
 
 class ProfileImagesRepository {
@@ -10,7 +10,7 @@ class ProfileImagesRepository {
     final newPhotoUrl =
         await fb_server.updateProfileAvatarImage(worker.userId, filePath);
 
-    await server.updateWorker(worker.copyWith(
+    await RegularApiClient.updateWorker(worker.copyWith(
       photoUrl: newPhotoUrl,
     ));
   }
@@ -20,7 +20,7 @@ class ProfileImagesRepository {
     final newProfileBg =
         await fb_server.updateProfileBackgroundImage(worker.userId, filePath);
 
-    await server.updateWorker(worker.copyWith(
+    await RegularApiClient.updateWorker(worker.copyWith(
       profileBackground: newProfileBg,
     ));
   }
@@ -30,7 +30,7 @@ class ProfileImagesRepository {
     final newPhotoUrl =
         await fb_server.updateProfileAvatarImage(employer.userId, filePath);
 
-    await server.updateEmployer(employer.copyWith(
+    await RegularApiClient.updateEmployer(employer.copyWith(
       photoUrl: newPhotoUrl,
     ));
   }
@@ -40,28 +40,29 @@ class ProfileImagesRepository {
     final newProfileBg =
         await fb_server.updateProfileBackgroundImage(employer.userId, filePath);
 
-    await server.updateEmployer(employer.copyWith(
+    await RegularApiClient.updateEmployer(employer.copyWith(
       profileBackground: newProfileBg,
     ));
   }
 
   static Future<void> deleteWorkerAvatar(Worker worker) async {
-    await server.updateWorker(worker.copyWith(photoUrl: ''));
+    await RegularApiClient.updateWorker(worker.copyWith(photoUrl: ''));
     await fb_server.deleteProfileAvatarImage(worker.userId);
   }
 
   static Future<void> deleteWorkerBgImage(Worker worker) async {
-    await server.updateWorker(worker.copyWith(profileBackground: ''));
+    await RegularApiClient.updateWorker(worker.copyWith(profileBackground: ''));
     await fb_server.deleteProfileBackgroundImage(worker.userId);
   }
 
   static Future<void> deleteEmployerAvatar(Employer employer) async {
-    await server.updateEmployer(employer.copyWith(photoUrl: ''));
+    await RegularApiClient.updateEmployer(employer.copyWith(photoUrl: ''));
     await fb_server.deleteProfileAvatarImage(employer.userId);
   }
 
   static Future<void> deleteEmployerBgImage(Employer employer) async {
-    await server.updateEmployer(employer.copyWith(profileBackground: ''));
+    await RegularApiClient.updateEmployer(
+        employer.copyWith(profileBackground: ''));
     await fb_server.deleteProfileBackgroundImage(employer.userId);
   }
 }

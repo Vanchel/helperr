@@ -22,7 +22,7 @@ class _RegisterFormState extends State<RegisterForm> {
   UserType _userType;
 
   bool _isValidPassword(String str) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{4,}$';
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(str);
   }
@@ -94,7 +94,7 @@ class _RegisterFormState extends State<RegisterForm> {
     final passwordHint = Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: Text(
-        'Пароль должен быть от 6 символов в длину и содержать хотя бы одну '
+        'Пароль должен быть от 4 символов в длину и содержать хотя бы одну '
         'цифру, строчную и заглавную букву.',
         style: textTheme.caption,
       ),

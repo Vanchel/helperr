@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 import 'package:helperr/data_layer/model/resume_search_options.dart';
 import 'package:helperr/data_layer/model/truncated_resume.dart';
-import 'package:helperr/data_layer/data_provider/helperr_server.dart' as server;
+import 'package:helperr/data_layer/data_provider/regular_api_client.dart';
 
 part 'resume_listing_state.dart';
 
@@ -18,8 +18,8 @@ class ResumeListingCubit extends Cubit<ResumeListingState> {
     try {
       emit(ResumesFetchInProgressState());
       final result = (pageUri != null)
-          ? await server.fetchResumesWithPage(pageUri)
-          : await server.fetchResumesWithOptions(searchOptions);
+          ? await RegularApiClient.fetchResumesWithPage(pageUri)
+          : await RegularApiClient.fetchResumesWithOptions(searchOptions);
       final newState = ResumesFetchSuccessState(
         nextPageUri: result.next,
         itemList: result.results,

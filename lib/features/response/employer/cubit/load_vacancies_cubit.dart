@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../data_layer/model/vacancy.dart';
-import '../../../../data_layer/data_provider/helperr_server.dart' as server;
+import '../../../../data_layer/data_provider/regular_api_client.dart';
 
 part 'load_vacancies_state.dart';
 
@@ -17,7 +17,7 @@ class LoadVacanciesCubit extends Cubit<LoadVacanciesState> {
   Future<void> loadVacancies() async {
     try {
       emit(VacanciesLoadInProgress());
-      final vacancies = await server.fetchVacancies(_userId);
+      final vacancies = await RegularApiClient.fetchVacancies(_userId);
       emit(VacanciesLoadSuccess(vacancies));
     } catch (_) {
       emit(VacanciesLoadFailure());

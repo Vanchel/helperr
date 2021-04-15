@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../data_layer/model/resume.dart';
-import '../../../../data_layer/data_provider/helperr_server.dart' as server;
+import '../../../../data_layer/data_provider/regular_api_client.dart';
 
 part 'load_resumes_state.dart';
 
@@ -17,7 +17,7 @@ class LoadResumesCubit extends Cubit<LoadResumesState> {
   Future<void> loadResumes() async {
     try {
       emit(ResumesLoadInProgress());
-      final resumes = await server.fetchResumes(_userId);
+      final resumes = await RegularApiClient.fetchResumes(_userId);
       emit(ResumesLoadSuccess(resumes));
     } catch (_) {
       emit(ResumesLoadFailure());
