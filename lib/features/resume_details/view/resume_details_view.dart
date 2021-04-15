@@ -15,13 +15,9 @@ class ResumeDetailsView extends StatelessWidget {
   const ResumeDetailsView({
     Key key,
     this.resumeName,
-    this.isResponded,
-    this.isInFavorite,
   }) : super(key: key);
 
   final String resumeName;
-  final bool isResponded;
-  final bool isInFavorite;
 
   String _formatDate(DateTime date) => DateFormat('dd.MM.yyyy').format(date);
 
@@ -204,7 +200,7 @@ class ResumeDetailsView extends StatelessWidget {
             };
 
             final respondButton = ElevatedButton(
-              onPressed: isResponded ? null : onRespondClick,
+              onPressed: resume.gotResponsed ? null : onRespondClick,
               child: Text('Пригласить'),
             );
 

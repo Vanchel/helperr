@@ -29,6 +29,8 @@ class Resume extends Equatable {
     this.bgHeaderColor,
     this.pubDate,
     this.portfolio,
+    this.gotResponsed,
+    this.favorited,
   });
 
   final int id;
@@ -43,6 +45,8 @@ class Resume extends Equatable {
   final String bgHeaderColor;
   final DateTime pubDate;
   final List<Portfolio> portfolio;
+  final bool gotResponsed;
+  final bool favorited;
 
   Resume copyWith({
     int id,
@@ -57,6 +61,8 @@ class Resume extends Equatable {
     String bgHeaderColor,
     DateTime pubDate,
     List<Portfolio> portfolio,
+    bool gotResponsed,
+    bool favorited,
   }) =>
       Resume(
         id: id ?? this.id,
@@ -71,6 +77,8 @@ class Resume extends Equatable {
         bgHeaderColor: bgHeaderColor ?? this.bgHeaderColor,
         pubDate: pubDate ?? this.pubDate,
         portfolio: portfolio ?? this.portfolio,
+        gotResponsed: gotResponsed ?? this.gotResponsed,
+        favorited: favorited ?? this.favorited,
       );
 
   factory Resume.fromRawJson(String str) => Resume.fromJson(json.decode(str));
@@ -92,6 +100,8 @@ class Resume extends Equatable {
         pubDate: dateFromJson(json["pub_date"]),
         portfolio: List<Portfolio>.from(
             json["portfolio"]?.map((x) => Portfolio.fromJson(x)) ?? []),
+        gotResponsed: json["got_responsed"],
+        favorited: json["favorite"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,6 +117,8 @@ class Resume extends Equatable {
         "bg_header_color": bgHeaderColor,
         "pub_date": dateToJson(pubDate),
         "portfolio": List<dynamic>.from(portfolio.map((x) => x.toJson())),
+        "got_responsed": gotResponsed,
+        "favorite": favorited,
       };
 
   @override
@@ -123,5 +135,7 @@ class Resume extends Equatable {
         this.bgHeaderColor,
         this.pubDate,
         this.portfolio,
+        this.gotResponsed,
+        this.favorited,
       ];
 }

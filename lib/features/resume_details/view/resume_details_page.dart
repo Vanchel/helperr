@@ -11,28 +11,18 @@ class ResumeDetailsPage extends StatelessWidget {
     // о профиле в отдельный виджет
     @required this.resumeName,
     @required this.resumeId,
-    this.isResponded = false,
-    this.isInFavorite = false,
   })  : assert(resumeName != null),
         assert(resumeId != null),
-        assert(isResponded != null),
-        assert(isInFavorite != null),
         super(key: key);
 
   final String resumeName;
   final int resumeId;
-  final bool isResponded;
-  final bool isInFavorite;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ResumeDetailsLoadingCubit(resumeId)..loadResume(),
-      child: ResumeDetailsView(
-        resumeName: resumeName,
-        isResponded: isResponded,
-        isInFavorite: isInFavorite,
-      ),
+      child: ResumeDetailsView(resumeName: resumeName),
     );
   }
 }

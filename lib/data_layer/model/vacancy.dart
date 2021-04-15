@@ -34,6 +34,8 @@ class Vacancy extends Equatable {
     this.leading,
     this.trailing,
     this.body,
+    this.gotResponsed,
+    this.favorited,
   });
 
   final int id;
@@ -51,6 +53,8 @@ class Vacancy extends Equatable {
   final String leading;
   final String trailing;
   final List<Scroll> body;
+  final bool gotResponsed;
+  final bool favorited;
 
   Vacancy copyWith({
     int userId,
@@ -67,6 +71,8 @@ class Vacancy extends Equatable {
     String leading,
     String trailing,
     List<Scroll> body,
+    bool gotResponsed,
+    bool favorited,
   }) =>
       Vacancy(
         id: id ?? this.id,
@@ -84,6 +90,8 @@ class Vacancy extends Equatable {
         leading: leading ?? this.leading,
         trailing: trailing ?? this.trailing,
         body: body ?? this.body,
+        gotResponsed: gotResponsed ?? this.gotResponsed,
+        favorited: favorited ?? this.favorited,
       );
 
   factory Vacancy.fromJson(Map<String, dynamic> json) => Vacancy(
@@ -106,6 +114,8 @@ class Vacancy extends Equatable {
         trailing: json["trailing"],
         body: List<Scroll>.from(
             json["body"]?.map((x) => Scroll.fromJson(x)) ?? []),
+        gotResponsed: json["got_responsed"],
+        favorited: json["favorite"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -124,6 +134,8 @@ class Vacancy extends Equatable {
         "leading": leading,
         "trailing": trailing,
         "body": List<dynamic>.from(body.map((x) => x.toJson())),
+        "got_responsed": gotResponsed,
+        "favorite": favorited,
       };
 
   @override
@@ -143,5 +155,7 @@ class Vacancy extends Equatable {
         this.leading,
         this.trailing,
         this.body,
+        this.gotResponsed,
+        this.favorited,
       ];
 }

@@ -16,13 +16,9 @@ class VacancyDetailsView extends StatelessWidget {
   const VacancyDetailsView({
     Key key,
     this.vacancyName,
-    this.isResponded,
-    this.isInFavorite,
   }) : super(key: key);
 
   final String vacancyName;
-  final bool isResponded;
-  final bool isInFavorite;
 
   String _formatDate(DateTime date) => DateFormat('dd.MM.yyyy').format(date);
 
@@ -271,7 +267,7 @@ class VacancyDetailsView extends StatelessWidget {
             };
 
             final respondButton = ElevatedButton(
-              onPressed: isResponded ? null : onRespondClick,
+              onPressed: vacancy.gotResponsed ? null : onRespondClick,
               child: Text('Откликнуться'),
             );
 

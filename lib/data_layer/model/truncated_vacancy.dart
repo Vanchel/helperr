@@ -32,6 +32,8 @@ class TruncatedVacancy extends Equatable {
     this.employerId,
     this.employerName,
     this.photoUrl,
+    this.gotResponsed,
+    this.favorited,
   });
 
   final int id;
@@ -47,6 +49,8 @@ class TruncatedVacancy extends Equatable {
   final int employerId;
   final String employerName;
   final String photoUrl;
+  final bool gotResponsed;
+  final bool favorited;
 
   TruncatedVacancy copyWith({
     int id,
@@ -62,6 +66,8 @@ class TruncatedVacancy extends Equatable {
     int employerId,
     String employerName,
     String photoUrl,
+    bool gotResponsed,
+    bool favorited,
   }) =>
       TruncatedVacancy(
         id: id ?? this.id,
@@ -77,6 +83,8 @@ class TruncatedVacancy extends Equatable {
         employerId: employerId ?? this.employerId,
         employerName: employerName ?? this.employerName,
         photoUrl: photoUrl ?? this.photoUrl,
+        gotResponsed: gotResponsed ?? this.gotResponsed,
+        favorited: favorited ?? this.favorited,
       );
 
   factory TruncatedVacancy.fromJson(Map<String, dynamic> json) =>
@@ -97,6 +105,8 @@ class TruncatedVacancy extends Equatable {
         employerId: json["owner_id"],
         employerName: json["owner"],
         photoUrl: json["photo_url"],
+        gotResponsed: json["got_responsed"],
+        favorited: json["favorite"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -114,6 +124,8 @@ class TruncatedVacancy extends Equatable {
         "owner_id": employerId,
         "owner": employerName,
         "photo_url": photoUrl,
+        "got_responsed": gotResponsed,
+        "favorite": favorited,
       };
 
   @override
@@ -131,5 +143,7 @@ class TruncatedVacancy extends Equatable {
         this.employerId,
         this.employerName,
         this.photoUrl,
+        this.gotResponsed,
+        this.favorited,
       ];
 }

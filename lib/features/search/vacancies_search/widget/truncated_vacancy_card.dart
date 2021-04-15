@@ -119,7 +119,7 @@ class TruncatedVacancyCard extends StatelessWidget {
       layoutBehavior: ButtonBarLayoutBehavior.constrained,
       children: [
         TextButton(
-          onPressed: onRespond,
+          onPressed: vacancy.gotResponsed ? null : onRespond,
           child: Text('Откликнуться'.toUpperCase()),
         ),
         IconButton(
@@ -138,8 +138,6 @@ class TruncatedVacancyCard extends StatelessWidget {
           builder: (context) => VacancyDetailsPage(
             vacancyName: vacancy.vacancyName,
             vacancyId: vacancy.id,
-            isResponded: false,
-            isInFavorite: false,
           ),
         ),
       );

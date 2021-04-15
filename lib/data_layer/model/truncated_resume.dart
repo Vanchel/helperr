@@ -8,7 +8,6 @@ import 'package:equatable/equatable.dart';
 
 import 'util.dart';
 import 'experience_type.dart';
-import 'address.dart';
 import 'work_type.dart';
 
 TruncatedResume truncatedResumeFromJson(String str) =>
@@ -31,6 +30,8 @@ class TruncatedResume extends Equatable {
     this.workerId,
     this.workerName,
     this.photoUrl,
+    this.gotResponsed,
+    this.favorited,
   });
 
   final int id;
@@ -45,6 +46,8 @@ class TruncatedResume extends Equatable {
   final int workerId;
   final String workerName;
   final String photoUrl;
+  final bool gotResponsed;
+  final bool favorited;
 
   TruncatedResume copyWith({
     int id,
@@ -59,6 +62,8 @@ class TruncatedResume extends Equatable {
     int workerId,
     String workerName,
     String photoUrl,
+    bool gotResponsed,
+    bool favorited,
   }) =>
       TruncatedResume(
         id: id ?? this.id,
@@ -73,6 +78,8 @@ class TruncatedResume extends Equatable {
         workerId: workerId ?? this.workerId,
         workerName: workerName ?? this.workerName,
         photoUrl: photoUrl ?? this.photoUrl,
+        gotResponsed: gotResponsed ?? this.gotResponsed,
+        favorited: favorited ?? this.favorited,
       );
 
   factory TruncatedResume.fromJson(Map<String, dynamic> json) =>
@@ -90,6 +97,8 @@ class TruncatedResume extends Equatable {
         workerId: json["owner_id"],
         workerName: json["owner"],
         photoUrl: json["photo_url"],
+        gotResponsed: json["got_responsed"],
+        favorited: json["favorite"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,6 +115,8 @@ class TruncatedResume extends Equatable {
         "owner_id": workerId,
         "owner": workerName,
         "photo_url": photoUrl,
+        "got_responsed": gotResponsed,
+        "favorite": favorited,
       };
 
   @override
@@ -122,5 +133,7 @@ class TruncatedResume extends Equatable {
         this.workerId,
         this.workerName,
         this.photoUrl,
+        this.gotResponsed,
+        this.favorited,
       ];
 }

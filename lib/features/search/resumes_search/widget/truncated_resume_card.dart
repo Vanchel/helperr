@@ -111,7 +111,7 @@ class TruncatedResumeCard extends StatelessWidget {
       layoutBehavior: ButtonBarLayoutBehavior.constrained,
       children: [
         TextButton(
-          onPressed: onRespond,
+          onPressed: resume.gotResponsed ? null : onRespond,
           child: Text('Пригласить'.toUpperCase()),
         ),
         IconButton(
@@ -130,8 +130,6 @@ class TruncatedResumeCard extends StatelessWidget {
           builder: (context) => ResumeDetailsPage(
             resumeName: resume.vacancyName,
             resumeId: resume.id,
-            isResponded: false,
-            isInFavorite: false,
           ),
         ),
       );

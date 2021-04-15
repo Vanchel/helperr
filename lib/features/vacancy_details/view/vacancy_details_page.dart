@@ -11,28 +11,18 @@ class VacancyDetailsPage extends StatelessWidget {
     // о профиле в отдельный виджет
     @required this.vacancyName,
     @required this.vacancyId,
-    this.isResponded = false,
-    this.isInFavorite = false,
   })  : assert(vacancyName != null),
         assert(vacancyId != null),
-        assert(isResponded != null),
-        assert(isInFavorite != null),
         super(key: key);
 
   final String vacancyName;
   final int vacancyId;
-  final bool isResponded;
-  final bool isInFavorite;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => VacancyDetailsLoadingCubit(vacancyId)..loadVacancy(),
-      child: VacancyDetailsView(
-        vacancyName: vacancyName,
-        isResponded: isResponded,
-        isInFavorite: isInFavorite,
-      ),
+      child: VacancyDetailsView(vacancyName: vacancyName),
     );
   }
 }
