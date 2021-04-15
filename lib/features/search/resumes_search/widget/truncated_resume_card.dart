@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helperr/features/response/employer/view/employer_response_loading_page.dart';
 import 'package:helperr/features/resume_details/view/resume_details_page.dart';
+import 'package:helperr/widgets/favorite_button/view/favorite_button.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -114,12 +115,7 @@ class TruncatedResumeCard extends StatelessWidget {
           onPressed: resume.gotResponsed ? null : onRespond,
           child: Text('Пригласить'.toUpperCase()),
         ),
-        IconButton(
-          icon: const Icon(Icons.favorite_outline_rounded),
-          color: Colors.black38,
-          splashRadius: 24.0,
-          onPressed: onNotImplemented,
-        )
+        FavoriteButton(id: resume.id, isInFavorite: resume.favorited),
       ],
     );
 

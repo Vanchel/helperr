@@ -29,6 +29,46 @@ class RegularApiClient {
     throw Exception(errorMessage);
   }
 
+  static Future<void> addFavoriteVacancy(int vacancyId) async {
+    final data = {'item_id': vacancyId};
+    final body = utf8.encode(json.encode(data));
+
+    final response = await httpClient.post(
+      Uri.http(_baseUrl, 'api/favorites/vacancy/'),
+      body: body,
+      headers: _headers,
+    );
+    _handleError(response.statusCode, 'Failed to add vacancy to favorite');
+  }
+
+  static Future<void> deleteFavoriteVacancy(int vacancyId) async {
+    final response = await httpClient.delete(
+      Uri.http(_baseUrl, 'api/favorites/vacancy/$vacancyId'),
+      headers: _headers,
+    );
+    _handleError(response.statusCode, 'Failed to remove vacancy from favorite');
+  }
+
+  static Future<void> addFavoriteResume(int resumeId) async {
+    final data = {'item_id': resumeId};
+    final body = utf8.encode(json.encode(data));
+
+    final response = await httpClient.post(
+      Uri.http(_baseUrl, 'api/favorites/cv/'),
+      body: body,
+      headers: _headers,
+    );
+    _handleError(response.statusCode, 'Failed to add resume to favorite');
+  }
+
+  static Future<void> deleteFavoriteResume(int resumeId) async {
+    final response = await httpClient.delete(
+      Uri.http(_baseUrl, 'api/favorites/cv/$resumeId'),
+      headers: _headers,
+    );
+    _handleError(response.statusCode, 'Failed to remove resume from favorite');
+  }
+
   static Future<void> updateVacancyResponseState(
       int responseId, ResponseState newState) async {
     final body = {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
 import 'package:helperr/features/vacancy_details/view/vacancy_details_page.dart';
+import 'package:helperr/widgets/favorite_button/view/favorite_button.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -122,12 +123,7 @@ class TruncatedVacancyCard extends StatelessWidget {
           onPressed: vacancy.gotResponsed ? null : onRespond,
           child: Text('Откликнуться'.toUpperCase()),
         ),
-        IconButton(
-          icon: const Icon(Icons.favorite_outline_rounded),
-          color: Colors.black38,
-          splashRadius: 24.0,
-          onPressed: onNotImplemented,
-        )
+        FavoriteButton(id: vacancy.id, isInFavorite: vacancy.favorited),
       ],
     );
 

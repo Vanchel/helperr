@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
+import 'package:helperr/widgets/favorite_button/view/favorite_button.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/vacancy_details_loading_cubit.dart';
@@ -130,10 +131,9 @@ class VacancyDetailsView extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.favorite_border_rounded),
-                  splashRadius: c.iconButtonSplashRadius,
-                  onPressed: () {},
+                FavoriteButton(
+                  id: vacancy.id,
+                  isInFavorite: vacancy.favorited,
                 ),
               ],
             );
@@ -254,22 +254,30 @@ class VacancyDetailsView extends StatelessWidget {
               ),
             );
 
-            final onRespondClick = () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WorkerResponsePage(
-                      onSave: () {},
-                      vacancyId: vacancy.id,
-                      employerId: vacancy.userId,
-                    ),
-                  ));
-            };
+            Widget respondWidget;
+            if (vacancy.gotResponsed) {
+              respondWidget = Text(
+                'Вы уже откликнулись на эту вакансию.',
+                style: textTheme.caption,
+              );
+            } else {
+              final onRespond = () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WorkerResponsePage(
+                        onSave: () {},
+                        vacancyId: vacancy.id,
+                        employerId: vacancy.userId,
+                      ),
+                    ));
+              };
 
-            final respondButton = ElevatedButton(
-              onPressed: vacancy.gotResponsed ? null : onRespondClick,
-              child: Text('Откликнуться'),
-            );
+              respondWidget = ElevatedButton(
+                child: Text('Откликнуться'),
+                onPressed: onRespond,
+              );
+            }
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(c.scaffoldBodyPadding),
@@ -293,7 +301,7 @@ class VacancyDetailsView extends StatelessWidget {
                   SizedBox(height: 16.0),
                   tagsWidget,
                   Divider(),
-                  respondButton,
+                  respondWidget,
                 ],
               ),
             );

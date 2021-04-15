@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/response/employer/view/employer_response_loading_page.dart';
+import 'package:helperr/widgets/favorite_button/view/favorite_button.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/resume_details_loading_cubit.dart';
@@ -112,10 +113,9 @@ class ResumeDetailsView extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.favorite_border_rounded),
-                  splashRadius: c.iconButtonSplashRadius,
-                  onPressed: () {},
+                FavoriteButton(
+                  id: resume.id,
+                  isInFavorite: resume.favorited,
                 ),
               ],
             );
@@ -187,22 +187,30 @@ class ResumeDetailsView extends StatelessWidget {
               ),
             );
 
-            final onRespondClick = () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployerResponsePage(
-                      onSave: () {},
-                      resumeId: resume.id,
-                      workerId: resume.userId,
-                    ),
-                  ));
-            };
+            Widget respondWidget;
+            if (resume.gotResponsed) {
+              respondWidget = Text(
+                'Вы уже пригласили этого кандидата.',
+                style: textTheme.caption,
+              );
+            } else {
+              final onRespond = () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EmployerResponsePage(
+                        onSave: () {},
+                        resumeId: resume.id,
+                        workerId: resume.userId,
+                      ),
+                    ));
+              };
 
-            final respondButton = ElevatedButton(
-              onPressed: resume.gotResponsed ? null : onRespondClick,
-              child: Text('Пригласить'),
-            );
+              respondWidget = ElevatedButton(
+                child: Text('Пригласить'),
+                onPressed: onRespond,
+              );
+            }
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(c.scaffoldBodyPadding),
@@ -223,7 +231,7 @@ class ResumeDetailsView extends StatelessWidget {
                   SizedBox(height: 16.0),
                   tagsWidget,
                   Divider(),
-                  respondButton,
+                  respondWidget,
                 ],
               ),
             );

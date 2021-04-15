@@ -5,7 +5,7 @@ import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
 import 'package:helperr/features/navigation/navigation.dart';
 import 'package:helperr/features/response_page_view_tab/repository/detailed_response_repository.dart';
-import 'package:helperr/features/response_page_view_tab/view/paded_response_page.dart';
+import 'package:helperr/features/response_page_view_tab/view/paged_response_page.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancies_search_result_page.dart';
 import 'package:helperr/features/search/vacancies_search/view/vacancy_search_delegate.dart';
 import 'package:helperr/features/search/resumes_search/view/resumes_search_result_page.dart';
