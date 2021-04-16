@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
 import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
 import 'package:helperr/features/vacancy_details/view/vacancy_details_page.dart';
-import 'package:helperr/widgets/favorite_button/view/favorite_button.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 

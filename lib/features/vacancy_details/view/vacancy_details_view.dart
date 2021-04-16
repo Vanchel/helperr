@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
 import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
-import 'package:helperr/widgets/favorite_button/view/favorite_button.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/vacancy_details_loading_cubit.dart';

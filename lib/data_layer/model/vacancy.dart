@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 import 'address.dart';
-import 'util.dart';
 import 'experience_type.dart';
 import 'work_type.dart';
 import 'experience_duration.dart';
@@ -109,7 +108,7 @@ class Vacancy extends Equatable {
             ? Address.fromJson(json["address"])
             : null,
         bgHeaderColor: json["bg_header_color"],
-        pubDate: dateFromJson(json["pub_date"]),
+        pubDate: DateTime.parse(json["pub_date"]),
         leading: json["leading"],
         trailing: json["trailing"],
         body: List<Scroll>.from(
@@ -130,7 +129,7 @@ class Vacancy extends Equatable {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "address": address?.toJson(),
         "bg_header_color": bgHeaderColor,
-        "pub_date": dateToJson(pubDate),
+        "pub_date": pubDate.toIso8601String(),
         "leading": leading,
         "trailing": trailing,
         "body": List<dynamic>.from(body.map((x) => x.toJson())),

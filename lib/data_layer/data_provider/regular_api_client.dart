@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'dart:io';
 import 'dart:convert' show utf8;
+import 'package:helperr/data_layer/model/resume_favorite_result.dart';
+import 'package:helperr/data_layer/model/vacancy_favorite_result.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/models.dart';
@@ -27,6 +29,32 @@ class RegularApiClient {
       onUnauthorized();
     }
     throw Exception(errorMessage);
+  }
+
+  static Future<VacancyFavoriteResult> fetchFavoriteVacancies(
+      String pageUri) async {
+    final uri = (pageUri?.isNotEmpty ?? false)
+        ? Uri.parse(pageUri)
+        : Uri.http(_baseUrl, 'api/favorites/vacancy');
+
+    final response = await httpClient.get(uri, headers: _headers);
+    _handleError(response.statusCode, 'Failed to fetch favorite vacancies');
+
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return vacancyFavoriteResultFromJson(decodedResponse);
+  }
+
+  static Future<ResumeFavoriteResult> fetchFavoriteResumes(
+      String pageUri) async {
+    final uri = (pageUri?.isNotEmpty ?? false)
+        ? Uri.parse(pageUri)
+        : Uri.http(_baseUrl, 'api/favorites/cv');
+
+    final response = await httpClient.get(uri, headers: _headers);
+    _handleError(response.statusCode, 'Failed to fetch favorite vacancies');
+
+    final decodedResponse = utf8.decode(response.body.runes.toList());
+    return resumeFavoriteResultFromJson(decodedResponse);
   }
 
   static Future<void> addFavoriteVacancy(int vacancyId) async {

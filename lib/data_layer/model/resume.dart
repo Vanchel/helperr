@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'util.dart';
 import 'experience_type.dart';
 import 'work_type.dart';
 import 'portfolio.dart';
@@ -97,7 +96,7 @@ class Resume extends Equatable {
         tags: List<String>.from(json["tags"]?.map((x) => x) ?? []),
         about: json["about"],
         bgHeaderColor: json["bg_header_color"],
-        pubDate: dateFromJson(json["pub_date"]),
+        pubDate: DateTime.parse(json["pub_date"]),
         portfolio: List<Portfolio>.from(
             json["portfolio"]?.map((x) => Portfolio.fromJson(x)) ?? []),
         gotResponsed: json["got_responsed"],
@@ -115,7 +114,7 @@ class Resume extends Equatable {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "about": about,
         "bg_header_color": bgHeaderColor,
-        "pub_date": dateToJson(pubDate),
+        "pub_date": pubDate.toIso8601String(),
         "portfolio": List<dynamic>.from(portfolio.map((x) => x.toJson())),
         "got_responsed": gotResponsed,
         "favorite": favorited,

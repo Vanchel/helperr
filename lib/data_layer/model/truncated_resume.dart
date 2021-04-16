@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'util.dart';
 import 'experience_type.dart';
 import 'work_type.dart';
 
@@ -93,7 +92,7 @@ class TruncatedResume extends Equatable {
             json["work_type"]?.map((x) => workTypeFromJson(x)) ?? []),
         about: json["about"],
         bgHeaderColor: json["bg_header_color"],
-        pubDate: dateFromJson(json["pub_date"]),
+        pubDate: DateTime.parse(json["pub_date"]),
         workerId: json["owner_id"],
         workerName: json["owner"],
         photoUrl: json["photo_url"],
@@ -111,7 +110,7 @@ class TruncatedResume extends Equatable {
             List<dynamic>.from(workTypes.map((x) => workTypeToJson(x))),
         "about": about,
         "bg_header_color": bgHeaderColor,
-        "pub_date": dateToJson(pubDate),
+        "pub_date": pubDate.toIso8601String(),
         "owner_id": workerId,
         "owner": workerName,
         "photo_url": photoUrl,

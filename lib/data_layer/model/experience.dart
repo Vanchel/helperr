@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 import 'experience_type.dart';
-import 'util.dart';
 
 class Exp extends Equatable {
   Exp({
@@ -43,16 +42,16 @@ class Exp extends Equatable {
         position: json["position"],
         company: json["company"],
         type: experienceTypeFromJson(json["type"]),
-        startYear: dateFromJson(json["start_year"]),
-        endYear: dateFromJson(json["end_year"]),
+        startYear: DateTime.tryParse(json["start_year"] ?? ''),
+        endYear: DateTime.tryParse(json["end_year"] ?? ''),
       );
 
   Map<String, dynamic> toJson() => {
         "position": position,
         "company": company,
         "type": experienceTypeToJson(type),
-        "start_year": dateToJson(startYear),
-        "end_year": dateToJson(endYear),
+        "start_year": startYear?.toIso8601String(),
+        "end_year": endYear?.toIso8601String(),
       };
 
   @override

@@ -7,7 +7,6 @@ import 'experience.dart';
 import 'gender.dart';
 import 'address.dart';
 import 'language.dart';
-import 'util.dart';
 
 Worker workerFromJson(String str) => Worker.fromJson(json.decode(str));
 
@@ -98,7 +97,7 @@ class Worker extends Equatable {
         mailing: json["mailing"] ?? false,
         language: List<Language>.from(
             json["language"]?.map((x) => Language.fromJson(x)) ?? []),
-        birthday: dateFromJson(json["birthday"]),
+        birthday: DateTime.tryParse(json["birthday"] ?? ''),
         gender: genderFromJson(json["gender"]),
         address: (json["address"]?.isNotEmpty ?? false)
             ? Address.fromJson(json["address"])
@@ -123,7 +122,7 @@ class Worker extends Equatable {
         "name": name,
         "mailing": mailing,
         "language": List<dynamic>.from(language.map((x) => x.toJson())),
-        "birthday": dateToJson(birthday),
+        "birthday": birthday?.toIso8601String(),
         "gender": genderToJson(gender),
         "address": address.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),

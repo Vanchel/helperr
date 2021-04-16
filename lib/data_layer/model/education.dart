@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 import 'education_type.dart';
-import 'util.dart';
 
 class Education extends Equatable {
   Education({
@@ -44,16 +43,16 @@ class Education extends Equatable {
         profession: json["profession"],
         university: json["university"],
         type: educationTypeFromJson(json["type"]),
-        startYear: dateFromJson(json["start_year"]),
-        endYear: dateFromJson(json["end_year"]),
+        startYear: DateTime.tryParse(json["start_year"] ?? ''),
+        endYear: DateTime.tryParse(json["end_year"] ?? ''),
       );
 
   Map<String, dynamic> toJson() => {
         "profession": profession,
         "university": university,
         "type": educationTypeToJson(type),
-        "start_year": dateToJson(startYear),
-        "end_year": dateToJson(endYear),
+        "start_year": startYear?.toIso8601String(),
+        "end_year": endYear?.toIso8601String(),
       };
 
   @override

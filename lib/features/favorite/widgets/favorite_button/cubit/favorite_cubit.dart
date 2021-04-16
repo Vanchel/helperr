@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:helperr/widgets/favorite_button/repository/favorite_repository.dart';
+
+import '../repository/favorite_repository.dart';
 
 part 'favorite_state.dart';
 

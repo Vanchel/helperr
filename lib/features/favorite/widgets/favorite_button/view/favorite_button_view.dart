@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/favorite_cubit.dart';
-import '../../../constants.dart' as c;
+import '../../../../../constants.dart' as c;
 
 class FavoriteButtonView extends StatelessWidget {
   const FavoriteButtonView({Key key}) : super(key: key);

@@ -6,8 +6,8 @@ import '../cubit/favorite_cubit.dart';
 import '../repository/favorite_vacancy_repository.dart';
 import '../repository/favorite_resume_repository.dart';
 
-import '../../../data_layer/repository/authentication_repository.dart';
-import '../../../data_layer/model/user_type.dart';
+import '../../../../../data_layer/repository/authentication_repository.dart';
+import '../../../../../data_layer/model/user_type.dart';
 
 class FavoriteButton extends StatelessWidget {
   const FavoriteButton({

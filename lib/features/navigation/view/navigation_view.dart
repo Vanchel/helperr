@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/models.dart';
 import 'package:helperr/data_layer/model/user_type.dart';
 import 'package:helperr/data_layer/repository/authentication_repository.dart';
+import 'package:helperr/features/favorite/resumes/view/favorite_resumes_page.dart';
+import 'package:helperr/features/favorite/vacancies/view/favorite_vacancies_page.dart';
 import 'package:helperr/features/navigation/navigation.dart';
 import 'package:helperr/features/response_page_view_tab/repository/detailed_response_repository.dart';
 import 'package:helperr/features/response_page_view_tab/view/paged_response_page.dart';
@@ -85,6 +87,19 @@ class NavigationView extends StatelessWidget {
     return TabBarView(children: [inboxTab, outboxTab]);
   }
 
+  // TODO: yet another temporary solution
+  Widget _getFavoritesPage(BuildContext context) {
+    final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
+
+    if (user.userType == UserType.employee) {
+      return FavoriteVacanciesPage();
+    } else if (user.userType == UserType.employer) {
+      return FavoriteResumesPage();
+    } else {
+      return Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, int>(
@@ -140,11 +155,7 @@ class NavigationView extends StatelessWidget {
         } else if (state == 1) {
           body = _getResponseViews(context);
         } else if (state == 2) {
-          body = Container(
-            child: Center(
-              child: Text('В процессе разработки'),
-            ),
-          );
+          body = _getFavoritesPage(context);
         } else if (state == 3) {
           body = _getUserProfilePage(context);
         }
