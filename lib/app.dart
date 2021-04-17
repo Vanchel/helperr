@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:helperr/theme.dart';
 
 import 'data_layer/repository/authentication_repository.dart';
@@ -45,10 +46,18 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
+      theme: theme,
       //debugShowMaterialGrid: true,
       //showSemanticsDebugger: true,
       //showPerformanceOverlay: true,
-      theme: theme,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ru', ''),
+      ],
       onGenerateRoute: (_) => SplashPage.route(),
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
