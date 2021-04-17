@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
 import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/vacancy_details_loading_cubit.dart';
@@ -57,11 +58,7 @@ class VacancyDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          splashRadius: c.iconButtonSplashRadius,
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: const CustomBackButton(),
         title: Text(vacancyName),
       ),
       body: BlocBuilder<VacancyDetailsLoadingCubit, VacancyDetailsLoadingState>(

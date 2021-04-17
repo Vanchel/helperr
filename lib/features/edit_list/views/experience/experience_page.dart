@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../../../edit_single_value/views/experience_type/edit_experience_type.dart';
 import '../../../../widgets/date_input.dart';
@@ -36,12 +37,6 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
 
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(16.0)));
-
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: 24.0,
-      onPressed: () => Navigator.pop(context),
-    );
 
     final saveButton = IconButton(
       icon: const Icon(Icons.check_rounded),
@@ -140,7 +135,7 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: backButton,
+        leading: const CustomBackButton(),
         title: Text(
           widget.isEditing ? 'Изменить опыт работы' : 'Добавить опыт работы',
         ),

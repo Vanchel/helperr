@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../../../edit_single_value/views/education_type/edit_education_type.dart';
 import '../../../../widgets/date_input.dart';
@@ -36,12 +37,6 @@ class _EditEducationPageState extends State<EditEducationPage> {
 
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
-
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: c.iconButtonSplashRadius,
-      onPressed: () => Navigator.pop(context),
-    );
 
     final saveButton = IconButton(
       icon: const Icon(Icons.check_rounded),
@@ -128,7 +123,7 @@ class _EditEducationPageState extends State<EditEducationPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: backButton,
+        leading: const CustomBackButton(),
         title: Text(
           widget.isEditing ? 'Изменить образование' : 'Добавить образование',
         ),

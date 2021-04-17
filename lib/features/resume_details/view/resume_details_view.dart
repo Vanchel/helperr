@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
 import 'package:helperr/features/response/employer/view/employer_response_loading_page.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/resume_details_loading_cubit.dart';
@@ -48,11 +49,7 @@ class ResumeDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          splashRadius: c.iconButtonSplashRadius,
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: const CustomBackButton(),
         title: Text(resumeName),
       ),
       body: BlocBuilder<ResumeDetailsLoadingCubit, ResumeDetailsLoadingState>(

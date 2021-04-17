@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/back_response/repository/back_response_repository.dart';
 import 'package:helperr/features/back_response/view/back_response_page.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../data_layer/model/models.dart';
@@ -57,11 +58,7 @@ class ResponseDetailView extends StatelessWidget {
             sender;
 
     final appBar = AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_rounded),
-        splashRadius: c.iconButtonSplashRadius,
-        onPressed: () => Navigator.pop(context),
-      ),
+      leading: const CustomBackButton(),
       title: Text(sender == UserType.employer ? 'Приглашение' : 'Отклик'),
     );
 

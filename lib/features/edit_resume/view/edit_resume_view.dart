@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../cubit/edit_resume_cubit.dart';
 
@@ -216,12 +217,6 @@ class _EditResumeViewState extends State<EditResumeView> {
       deleteBlock = const SizedBox.shrink();
     }
 
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: 24.0,
-      onPressed: () => Navigator.pop(context),
-    );
-
     final onSavePressed = () {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -292,7 +287,7 @@ class _EditResumeViewState extends State<EditResumeView> {
     };
 
     final appBar = AppBar(
-      leading: backButton,
+      leading: const CustomBackButton(),
       title: Text(widget.isEditing ? 'Изменить резюме' : 'Добавить резюме'),
       actions: [saveButton],
       bottom: PreferredSize(

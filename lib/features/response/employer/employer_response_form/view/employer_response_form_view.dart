@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../cubit/employer_response_cubit.dart';
 import '../../../../../constants.dart' as c;
@@ -65,12 +66,6 @@ class _EmployerResponseFormViewState extends State<EmployerResponseFormView> {
       style: textTheme.caption,
     );
 
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: c.iconButtonSplashRadius,
-      onPressed: () => Navigator.pop(context),
-    );
-
     final onSubmitPressed = () {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -108,7 +103,7 @@ class _EmployerResponseFormViewState extends State<EmployerResponseFormView> {
     );
 
     final appBar = AppBar(
-      leading: backButton,
+      leading: const CustomBackButton(),
       title: const Text('Пригласить'),
       actions: [submitButton],
       bottom: PreferredSize(

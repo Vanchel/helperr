@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../../../edit_single_value/views/language_proficiency/edit_language_proficiency.dart';
 import '../../../../data_layer/model/models.dart';
@@ -32,12 +33,6 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
 
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
-
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: c.iconButtonSplashRadius,
-      onPressed: () => Navigator.pop(context),
-    );
 
     final saveButton = IconButton(
       icon: const Icon(Icons.check_rounded),
@@ -94,7 +89,7 @@ class _EditLanguagePageState extends State<EditLanguagePage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: backButton,
+        leading: const CustomBackButton(),
         title: Text(
           widget.isEditing
               ? 'Изменить владение языком'

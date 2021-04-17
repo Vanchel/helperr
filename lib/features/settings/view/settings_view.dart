@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../cubit/settings_cubit.dart';
 import '../../../constants.dart' as c;
@@ -11,11 +12,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          splashRadius: 24.0,
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: const CustomBackButton(),
         title: const Text('Настройки'),
       ),
       body: SingleChildScrollView(

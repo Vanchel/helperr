@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../../../../data_layer/model/portfolio.dart';
 import '../../../../constants.dart' as constants;
@@ -38,12 +39,6 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
 
     const textInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(16.0)));
-
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: 24.0,
-      onPressed: () => Navigator.pop(context),
-    );
 
     final saveButton = IconButton(
       icon: const Icon(Icons.check_rounded),
@@ -125,7 +120,7 @@ class _EditPortfolioPageState extends State<EditPortfolioPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: backButton,
+        leading: const CustomBackButton(),
         title: Text(
           widget.isEditing ? 'Изменить портфолио' : 'Добавить портфолио',
         ),

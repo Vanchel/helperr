@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../../../edit_single_value/views/publication_age/edit_publication_age.dart';
 import '../../../edit_list/views/chip_input/chip_input_widget.dart';
@@ -166,12 +167,6 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
       ),
     );
 
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: c.iconButtonSplashRadius,
-      onPressed: () => Navigator.pop(context),
-    );
-
     final onSavePressed = () {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -199,7 +194,7 @@ class _ResumeFilterPageState extends State<ResumeFilterPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: backButton,
+        leading: const CustomBackButton(),
         title: Text('Фильтры'),
         actions: [saveButton],
       ),

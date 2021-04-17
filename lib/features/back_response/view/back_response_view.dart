@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/constants.dart' as c;
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../cubit/back_response_cubit.dart';
 import '../../../data_layer/model/response.dart';
@@ -54,12 +55,6 @@ class _BackResponseViewState extends State<BackResponseView> {
       style: textTheme.caption,
     );
 
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: c.iconButtonSplashRadius,
-      onPressed: () => Navigator.pop(context),
-    );
-
     final onSubmitPressed = () {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -89,7 +84,7 @@ class _BackResponseViewState extends State<BackResponseView> {
     );
 
     final appBar = AppBar(
-      leading: backButton,
+      leading: const CustomBackButton(),
       title: const Text('Ответ'),
       actions: [submitButton],
       bottom: PreferredSize(

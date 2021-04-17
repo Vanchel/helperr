@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../cubit/load_resumes_cubit.dart';
 import '../worker_response_form/view/worker_response_form.dart';
@@ -23,11 +24,7 @@ class WorkerResponseView extends StatelessWidget {
   Widget build(BuildContext context) {
     final appBar = AppBar(
       title: Text('Откликнуться'),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_rounded),
-        splashRadius: c.iconButtonSplashRadius,
-        onPressed: () => Navigator.pop(context),
-      ),
+      leading: const CustomBackButton(),
       bottom: PreferredSize(
         child: const SizedBox.shrink(),
         preferredSize: const Size.fromHeight(4.0),

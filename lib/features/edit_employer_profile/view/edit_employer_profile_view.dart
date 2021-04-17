@@ -4,6 +4,7 @@ import 'package:helperr/features/edit_employer_profile/cubit/edit_profile_cubit.
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
 import 'package:helperr/constants.dart' as constants;
+import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../../../data_layer/model/models.dart';
 
@@ -112,12 +113,6 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
       style: themeData.textTheme.caption,
     );
 
-    final backButton = IconButton(
-      icon: const Icon(Icons.arrow_back_rounded),
-      splashRadius: 24.0,
-      onPressed: () => Navigator.pop(context),
-    );
-
     final onSubmitPressed = () {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -153,7 +148,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
     );
 
     final appBar = AppBar(
-      leading: backButton,
+      leading: const CustomBackButton(),
       title: const Text('Изменить профиль'),
       actions: [submitButton],
       bottom: PreferredSize(
