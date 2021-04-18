@@ -7,6 +7,7 @@ import 'package:helperr/features/edit_list/views/language/language_list.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
 import 'package:helperr/features/edit_worker_profile/cubit/edit_profile_cubit.dart';
+import 'package:helperr/widgets/address_input/view/address_input.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:helperr/widgets/date_input.dart';
 import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dart';
@@ -32,7 +33,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
   String _about;
   Gender _gender;
   DateTime _dob;
-  String _address;
+  Address _address;
   String _cz;
   List<String> _phoneNumbers;
   List<Education> _education;
@@ -106,16 +107,12 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
 
     final addressInput = Container(
       margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
-      child: TextFormField(
-        initialValue: widget.worker.address?.name,
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          labelText: 'Место проживания',
-          hintText: 'Москва',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _address = newValue,
+      child: AddressInput(
+        initialValue: widget.worker.address,
+        onUpdated: (address) => _address = address,
+        labelText: 'Место проживания',
+        hintText: 'Москва',
+        helperText: '',
       ),
     );
 
@@ -191,8 +188,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
           about: _about,
           birthday: _dob,
           gender: _gender,
-          // TODO: temporary solution
-          address: Address(name: _address, lat: 0.0, lng: 0.0),
+          address: _address,
           cz: _cz,
           phone: _phoneNumbers,
           education: _education,

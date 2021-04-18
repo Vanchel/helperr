@@ -17,7 +17,7 @@ import '../../edit_list/views/chip_input/chip_input_widget.dart';
 import '../../edit_set/views/work_type_filter/work_type_filter_widget.dart';
 import '../../edit_list/views/portfolio/portfolio_list.dart';
 
-import '../../../constants.dart' as constants;
+import '../../../constants.dart' as c;
 
 class EditResumeView extends StatefulWidget {
   EditResumeView({
@@ -52,10 +52,10 @@ class _EditResumeViewState extends State<EditResumeView> {
     final themeData = Theme.of(context);
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
     final vacancyNameInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.isEditing ? widget.resume.vacancyName : '',
         keyboardType: TextInputType.text,
@@ -72,7 +72,7 @@ class _EditResumeViewState extends State<EditResumeView> {
     );
 
     final industryInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.isEditing ? widget.resume.industry : '',
         keyboardType: TextInputType.text,
@@ -89,7 +89,7 @@ class _EditResumeViewState extends State<EditResumeView> {
     );
 
     final aboutInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.isEditing ? widget.resume.about : '',
         keyboardType: TextInputType.multiline,
@@ -107,7 +107,7 @@ class _EditResumeViewState extends State<EditResumeView> {
     );
 
     final gradeInput = Container(
-      margin: const EdgeInsets.only(bottom: 38.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin * 2),
       child: EditExperienceType(
         initialValue:
             widget.isEditing ? widget.resume.grade : ExperienceType.internship,
@@ -116,10 +116,12 @@ class _EditResumeViewState extends State<EditResumeView> {
     );
 
     final salaryInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.isEditing
-            ? ((widget.resume.salary != -1) ? widget.resume.salary : '')
+            ? ((widget.resume.salary != c.salaryNotSpecified)
+                    ? widget.resume.salary
+                    : '')
                 .toString()
             : '',
         keyboardType: TextInputType.number,
@@ -145,35 +147,38 @@ class _EditResumeViewState extends State<EditResumeView> {
             return 'Неверный формат целого числа.';
           }
         },
-        onSaved: (newValue) => _salary = newValue.isEmpty
-            ? constants.salaryNotSpecified
-            : int.parse(newValue),
+        onSaved: (newValue) => _salary =
+            newValue.isEmpty ? c.salaryNotSpecified : int.parse(newValue),
       ),
     );
 
     final workTypesFilter = Container(
-      margin: const EdgeInsets.only(bottom: 32.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 8.0),
+            margin: const EdgeInsets.only(bottom: c.defaultMargin),
             child: Text(
               'Типы работы',
-              style: themeData.textTheme.bodyText1,
+              style: themeData.textTheme.subtitle1,
             ),
           ),
           WorkTypeFilter(
             initialValue: widget.isEditing ? widget.resume.workType : {},
             onChanged: (newValue) => _workType = newValue,
           ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
+            child: const Divider(),
+          ),
         ],
       ),
     );
 
     final tagsInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: ChipInput(
         initialValue: widget.isEditing ? widget.resume.tags : [],
         onChanged: (newValue) => _tags = newValue,
@@ -202,7 +207,7 @@ class _EditResumeViewState extends State<EditResumeView> {
               'можете сделать это, нажав на кнопку ниже.',
               style: themeData.textTheme.caption,
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: c.defaultMargin),
             OutlinedButton(
               child: const Text('Удалить резюме'),
               style: OutlinedButton.styleFrom(primary: Colors.red),
@@ -256,7 +261,7 @@ class _EditResumeViewState extends State<EditResumeView> {
       builder: (context, state) {
         return IconButton(
           icon: const Icon(Icons.check_rounded),
-          splashRadius: 24.0,
+          splashRadius: c.iconButtonSplashRadius,
           onPressed: !(state is ResumeChangeInProgress) ? onSavePressed : null,
         );
       },
@@ -303,7 +308,7 @@ class _EditResumeViewState extends State<EditResumeView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+            padding: const EdgeInsets.all(c.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

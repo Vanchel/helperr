@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/address_input/view/address_input.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
 
 import '../cubit/edit_vacancy_cubit.dart';
@@ -45,7 +46,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
   String _industry;
   String _leading;
   String _trailing;
-  String _address;
+  Address _address;
   ExperienceType _grade;
   ExperienceDuration _experienceDuration;
   int _salary;
@@ -118,16 +119,15 @@ class _EditVacancyViewState extends State<EditVacancyView> {
       onSaved: (newValue) => _trailing = newValue,
     );
 
-    final addressInput = TextFormField(
-      initialValue: widget.isEditing ? widget.vacancy.address?.name : '',
-      keyboardType: TextInputType.streetAddress,
-      decoration: const InputDecoration(
+    final addressInput = Container(
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
+      child: AddressInput(
+        initialValue: widget.isEditing ? widget.vacancy.address : Address.empty,
+        onUpdated: (address) => _address = address,
         labelText: 'Адрес',
-        hintText: 'г. Москва, ул. Пушкина, дом 2',
+        hintText: 'г. Город, ул. Улица, д. 1',
         helperText: '',
-        border: textInputBorder,
       ),
-      onSaved: (newValue) => _address = newValue,
     );
 
     final gradeInput = EditExperienceType(
@@ -145,7 +145,9 @@ class _EditVacancyViewState extends State<EditVacancyView> {
 
     final salaryInput = TextFormField(
       initialValue: widget.isEditing
-          ? ((widget.vacancy.salary != -1) ? widget.vacancy.salary : '')
+          ? ((widget.vacancy.salary != c.salaryNotSpecified)
+                  ? widget.vacancy.salary
+                  : '')
               .toString()
           : '',
       keyboardType: TextInputType.number,
@@ -176,13 +178,13 @@ class _EditVacancyViewState extends State<EditVacancyView> {
     );
 
     final workTypesFilter = Container(
-      margin: const EdgeInsets.only(bottom: 32.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 8.0),
+            margin: const EdgeInsets.only(bottom: c.defaultMargin),
             child: Text(
               'Типы работы',
               style: themeData.textTheme.bodyText1,
@@ -192,12 +194,16 @@ class _EditVacancyViewState extends State<EditVacancyView> {
             initialValue: widget.isEditing ? widget.vacancy.workType : {},
             onChanged: (newValue) => _workType = newValue,
           ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
+            child: const Divider(),
+          ),
         ],
       ),
     );
 
     final tagsInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: ChipInput(
         initialValue: widget.isEditing ? widget.vacancy.tags : [],
         onChanged: (newValue) => _tags = newValue,
@@ -207,7 +213,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
     );
 
     final scrollsInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: ScrollsList(
         initialValue: widget.isEditing ? widget.vacancy.body : [],
         onChanged: (newValue) => _scrolls = newValue,
@@ -226,7 +232,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
               'можете сделать это, нажав на кнопку ниже.',
               style: themeData.textTheme.caption,
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: c.defaultMargin),
             OutlinedButton(
               child: const Text('Удалить вакансию'),
               style: OutlinedButton.styleFrom(primary: Colors.red),
@@ -263,8 +269,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
           industry: _industry,
           leading: _leading,
           trailing: _trailing,
-          // TODO: temporary solution
-          address: Address(name: _address, lat: 0.0, lng: 0.0),
+          address: _address,
           grade: _grade,
           exp: _experienceDuration,
           salary: _salary,
@@ -286,7 +291,7 @@ class _EditVacancyViewState extends State<EditVacancyView> {
       builder: (context, state) {
         return IconButton(
           icon: const Icon(Icons.check_rounded),
-          splashRadius: 24.0,
+          splashRadius: c.iconButtonSplashRadius,
           onPressed: !(state is VacancyChangeInProgress) ? onSavePressed : null,
         );
       },

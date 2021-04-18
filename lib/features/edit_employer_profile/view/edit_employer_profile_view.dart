@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_employer_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:helperr/widgets/address_input/view/address_input.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:helperr/constants.dart' as c;
 
@@ -32,7 +33,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
 
     String _name;
     String _about;
-    String _address;
+    Address _address;
     List<String> _phoneNumbers;
     List<String> _links;
 
@@ -75,16 +76,12 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
 
     final addressInput = Container(
       margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
-      child: TextFormField(
-        initialValue: widget.employer.address?.name,
-        keyboardType: TextInputType.streetAddress,
-        decoration: const InputDecoration(
-          labelText: 'Адрес',
-          hintText: 'г. Москва, ул. Ленина, дом 1',
-          helperText: '',
-          border: textInputBorder,
-        ),
-        onSaved: (newValue) => _address = newValue,
+      child: AddressInput(
+        initialValue: widget.employer.address,
+        onUpdated: (address) => _address = address,
+        labelText: 'Адрес',
+        hintText: 'г. Москва',
+        helperText: '',
       ),
     );
 
@@ -119,8 +116,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
         final editedEmployer = widget.employer.copyWith(
           name: _name,
           about: _about,
-          // TODO: temporary solution
-          address: Address(name: _address, lat: 0.0, lng: 0.0),
+          address: _address,
           phone: _phoneNumbers,
           links: _links,
           profileLink: '',
