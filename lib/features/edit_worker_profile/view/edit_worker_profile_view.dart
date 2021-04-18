@@ -10,7 +10,7 @@ import 'package:helperr/features/edit_worker_profile/cubit/edit_profile_cubit.da
 import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:helperr/widgets/date_input.dart';
 import 'package:helperr/features/edit_single_value/views/sex/edit_sex_widget.dart';
-import 'package:helperr/constants.dart' as constants;
+import 'package:helperr/constants.dart' as c;
 
 import '../../../data_layer/model/models.dart';
 
@@ -45,10 +45,10 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     final themeData = Theme.of(context);
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
     final nameInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.worker.name,
         keyboardType: TextInputType.name,
@@ -64,7 +64,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     );
 
     final aboutInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.worker.about,
         keyboardType: TextInputType.multiline,
@@ -81,7 +81,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     );
 
     final dobInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: DateInput(
         initialValue: widget.worker.birthday,
         onValidate: (newValue) => _dob = newValue,
@@ -90,11 +90,12 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     );
 
     final genderInput = Container(
-      margin: const EdgeInsets.only(bottom: 18.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin * 2.5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Пол', style: themeData.textTheme.bodyText1),
+          Text('Пол', style: themeData.textTheme.subtitle1),
+          const SizedBox(height: c.defaultMargin),
           EditSex(
             initialValue: widget.worker.gender,
             onChanged: (value) => _gender = value,
@@ -104,7 +105,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     );
 
     final addressInput = Container(
-      margin: const EdgeInsets.symmetric(vertical: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.worker.address?.name,
         keyboardType: TextInputType.text,
@@ -119,12 +120,12 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
     );
 
     final citizenshipInput = Container(
-      margin: const EdgeInsets.only(bottom: 10.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.worker.cz,
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(
-          labelText: 'Страна',
+          labelText: 'Гражданство',
           hintText: 'Россия',
           helperText: '',
           border: textInputBorder,
@@ -173,7 +174,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
       ),
     );
 
-    final divider = const Divider();
+    final divider = const Divider(height: 1);
 
     final commonPrompt = Text(
       'Профиль отражает Ваши навыки и умения, а также некоторую общую '
@@ -216,7 +217,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
       builder: (context, state) {
         return IconButton(
           icon: const Icon(Icons.check_rounded),
-          splashRadius: 24.0,
+          splashRadius: c.iconButtonSplashRadius,
           onPressed: !(state is ProfileSaveInProgress) ? onSubmitPressed : null,
         );
       },
@@ -255,7 +256,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+            padding: const EdgeInsets.all(c.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -266,11 +267,15 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
                 addressInput,
                 citizenshipInput,
                 phoneNumbersList,
-                educationList,
-                experienceList,
-                languagesList,
-                socialLinksList,
                 divider,
+                educationList,
+                divider,
+                experienceList,
+                divider,
+                languagesList,
+                divider,
+                socialLinksList,
+                const Divider(),
                 commonPrompt,
               ],
             ),

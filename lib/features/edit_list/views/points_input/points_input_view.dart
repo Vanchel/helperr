@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/edit_list_cubit.dart';
+import '../../../../constants.dart' as c;
 
 class PointsInputView extends StatefulWidget {
   const PointsInputView({
@@ -24,11 +25,12 @@ class _PointsInputViewState extends State<PointsInputView> {
 
   Widget _buildPointView(BuildContext context, String text, int index) {
     return Card(
+      margin: const EdgeInsets.all(0.0),
       child: ListTile(
         title: Text(text),
         trailing: IconButton(
           icon: const Icon(Icons.remove_rounded),
-          splashRadius: 24.0,
+          splashRadius: c.iconButtonSplashRadius,
           onPressed: () =>
               context.read<EditListCubit<String>>().deleteValue(index),
         ),
@@ -39,14 +41,14 @@ class _PointsInputViewState extends State<PointsInputView> {
   @override
   Widget build(BuildContext context) {
     const textInputBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+      borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)),
     );
 
     final _addButton = Container(
       margin: const EdgeInsets.only(right: 6.0),
       child: IconButton(
         icon: Icon(Icons.add_rounded),
-        splashRadius: 24.0,
+        splashRadius: c.iconButtonSplashRadius,
         onPressed: () {
           if (controller.text.isNotEmpty) {
             context.read<EditListCubit<String>>().addValue(controller.text);

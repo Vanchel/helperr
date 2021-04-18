@@ -5,6 +5,7 @@ import 'language_page.dart';
 import '../../cubit/edit_list_cubit.dart';
 import '../../../../data_layer/model/models.dart';
 import '../../../../widgets/list_action_header.dart';
+import '../../../../constants.dart' as c;
 
 class LanguageView extends StatelessWidget {
   const LanguageView({Key key, @required this.onChanged}) : super(key: key);
@@ -48,6 +49,7 @@ class LanguageView extends StatelessWidget {
     };
 
     return Card(
+      margin: const EdgeInsets.all(0.0),
       child: ListTile(
         title: Text(language.language),
         trailing: Row(
@@ -55,12 +57,12 @@ class LanguageView extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.edit_rounded),
-              splashRadius: 24.0,
+              splashRadius: c.iconButtonSplashRadius,
               onPressed: onEdit,
             ),
             IconButton(
               icon: const Icon(Icons.delete_rounded),
-              splashRadius: 24.0,
+              splashRadius: c.iconButtonSplashRadius,
               onPressed: onDelete,
             ),
           ],
@@ -88,8 +90,7 @@ class LanguageView extends StatelessWidget {
 
     return Column(
       children: [
-        ListActionHeader('Владение языками',
-            actionLabel: 'Добавить', action: onAdd),
+        ListAddHeader('Владение языками', action: onAdd),
         BlocBuilder<EditListCubit<Language>, List<Language>>(
           builder: (context, state) {
             if (onChanged != null) {

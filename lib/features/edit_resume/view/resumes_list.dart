@@ -113,9 +113,8 @@ class ResumesList extends StatelessWidget {
       );
     };
 
-    final header = ListActionHeader(
+    final header = ListAddHeader(
       'Ваши резюме',
-      actionLabel: 'Новое резюме',
       action: onAdd,
     );
 

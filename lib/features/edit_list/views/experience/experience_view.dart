@@ -5,6 +5,7 @@ import 'experience_page.dart';
 import '../../cubit/edit_list_cubit.dart';
 import '../../../../data_layer/model/models.dart';
 import '../../../../widgets/list_action_header.dart';
+import '../../../../constants.dart' as c;
 
 class ExperienceView extends StatelessWidget {
   const ExperienceView({Key key, @required this.onChanged}) : super(key: key);
@@ -48,6 +49,7 @@ class ExperienceView extends StatelessWidget {
     };
 
     return Card(
+      margin: const EdgeInsets.all(0.0),
       child: ListTile(
         title: Text(experience.position),
         subtitle: Text(experience.company),
@@ -56,12 +58,12 @@ class ExperienceView extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.edit_rounded),
-              splashRadius: 24.0,
+              splashRadius: c.iconButtonSplashRadius,
               onPressed: onEdit,
             ),
             IconButton(
               icon: const Icon(Icons.delete_rounded),
-              splashRadius: 24.0,
+              splashRadius: c.iconButtonSplashRadius,
               onPressed: onDelete,
             ),
           ],
@@ -89,7 +91,7 @@ class ExperienceView extends StatelessWidget {
 
     return Column(
       children: [
-        ListActionHeader('Опыт работы', actionLabel: 'Добавить', action: onAdd),
+        ListAddHeader('Опыт работы', action: onAdd),
         BlocBuilder<EditListCubit<Exp>, List<Exp>>(
           builder: (context, state) {
             if (onChanged != null) {

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ListActionHeader extends StatelessWidget {
-  const ListActionHeader(
+import '../constants.dart' as c;
+
+class ListAddHeader extends StatelessWidget {
+  const ListAddHeader(
     this.title, {
     Key key,
-    this.titleStyle,
-    this.actionLabel,
     this.action,
   })  : assert(title != null),
         super(key: key);
 
   final String title;
-  final TextStyle titleStyle;
-  final String actionLabel;
   final VoidCallback action;
 
   @override
@@ -22,8 +20,20 @@ class ListActionHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: titleStyle ?? themeData.textTheme.bodyText1),
-        OutlinedButton(child: Text(actionLabel), onPressed: action),
+        Expanded(
+          child: Text(
+            title,
+            style: themeData.textTheme.subtitle1,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.add_circle_outline_rounded),
+          color: themeData.primaryColor,
+          splashRadius: c.iconButtonSplashRadius,
+          onPressed: action,
+        ),
       ],
     );
   }

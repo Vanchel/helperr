@@ -119,9 +119,8 @@ class VacanciesList extends StatelessWidget {
       );
     };
 
-    final header = ListActionHeader(
+    final header = ListAddHeader(
       'Ваши вакансии',
-      actionLabel: 'Новая вакансия',
       action: onAdd,
     );
 

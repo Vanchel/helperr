@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_employer_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
-import 'package:helperr/constants.dart' as constants;
 import 'package:helperr/widgets/custom_back_button.dart';
+import 'package:helperr/constants.dart' as c;
 
 import '../../../data_layer/model/models.dart';
 
@@ -37,10 +37,10 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
     List<String> _links;
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
     final nameInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.employer.name,
         keyboardType: TextInputType.name,
@@ -57,7 +57,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
     );
 
     final aboutInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.employer.about,
         keyboardType: TextInputType.multiline,
@@ -74,7 +74,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
     );
 
     final addressInput = Container(
-      margin: const EdgeInsets.symmetric(vertical: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
       child: TextFormField(
         initialValue: widget.employer.address?.name,
         keyboardType: TextInputType.streetAddress,
@@ -104,7 +104,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
       ),
     );
 
-    final divider = const Divider();
+    final divider = const Divider(height: 1);
 
     final commonPrompt = Text(
       'Профиль отражает отличительные черты Вашей компании, а также некоторую '
@@ -141,7 +141,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
       builder: (context, state) {
         return IconButton(
           icon: const Icon(Icons.check_rounded),
-          splashRadius: 24.0,
+          splashRadius: c.iconButtonSplashRadius,
           onPressed: !(state is ProfileSaveInProgress) ? onSubmitPressed : null,
         );
       },
@@ -180,7 +180,7 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(constants.scaffoldBodyPadding),
+            padding: const EdgeInsets.all(c.scaffoldBodyPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -188,8 +188,9 @@ class _EditEmployerProfileViewState extends State<EditEmployerProfileView> {
                 aboutInput,
                 addressInput,
                 phoneNumbersList,
-                linksList,
                 divider,
+                linksList,
+                const Divider(),
                 commonPrompt,
               ],
             ),

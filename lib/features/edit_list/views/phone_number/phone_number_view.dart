@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'phone_number_page.dart';
 import '../../cubit/edit_list_cubit.dart';
 import '../../../../widgets/list_action_header.dart';
+import '../../../../constants.dart' as c;
 
 class PhoneNumberView extends StatelessWidget {
   const PhoneNumberView({Key key, @required this.onChanged}) : super(key: key);
@@ -31,11 +32,12 @@ class PhoneNumberView extends StatelessWidget {
     };
 
     return Card(
+      margin: const EdgeInsets.all(0.0),
       child: ListTile(
         title: Text(phoneNumber),
         trailing: IconButton(
           icon: const Icon(Icons.delete_rounded),
-          splashRadius: 24.0,
+          splashRadius: c.iconButtonSplashRadius,
           onPressed: onDelete,
         ),
       ),
@@ -60,8 +62,7 @@ class PhoneNumberView extends StatelessWidget {
 
     return Column(
       children: [
-        ListActionHeader('Номера телефона',
-            actionLabel: 'Добавить', action: onAdd),
+        ListAddHeader('Номера телефона', action: onAdd),
         BlocBuilder<EditListCubit<String>, List<String>>(
           builder: (context, state) {
             if (onChanged != null) {

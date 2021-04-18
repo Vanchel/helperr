@@ -111,13 +111,13 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
     );
 
     final experienceTypesFilter = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 16.0),
+            margin: const EdgeInsets.only(bottom: c.defaultMargin),
             child: Text(
               'Уровень должности',
               style: themeData.textTheme.subtitle1,
@@ -125,7 +125,7 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
           ),
           ExperienceTypeFilter(onChanged: (newValue) => _expTypes = newValue),
           Container(
-            margin: const EdgeInsets.only(top: 16.0),
+            margin: const EdgeInsets.only(top: c.defaultMargin),
             child: const Divider(),
           ),
         ],
@@ -133,13 +133,13 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
     );
 
     final experienceDurationsFilter = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 16.0),
+            margin: const EdgeInsets.only(bottom: c.defaultMargin),
             child: Text(
               'Опыт работы',
               style: themeData.textTheme.subtitle1,
@@ -148,7 +148,7 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
           ExperienceDurationFilter(
               onChanged: (newValue) => _expDurations = newValue),
           Container(
-            margin: const EdgeInsets.only(top: 16.0),
+            margin: const EdgeInsets.only(top: c.defaultMargin),
             child: const Divider(),
           ),
         ],
@@ -156,13 +156,13 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
     );
 
     final workTypesFilter = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 16.0),
+            margin: const EdgeInsets.only(bottom: c.defaultMargin),
             child: Text(
               'Тип работы',
               style: themeData.textTheme.subtitle1,
@@ -170,7 +170,7 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
           ),
           WorkTypeFilter(onChanged: (newValue) => _workTypes = newValue),
           Container(
-            margin: const EdgeInsets.only(top: 16.0),
+            margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
             child: const Divider(),
           ),
         ],
@@ -187,7 +187,7 @@ class _VacancyFilterPageState extends State<VacancyFilterPage> {
     );
 
     final pubAgeInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: EditPublicationAge(
         onChanged: (value) => _pubAge = value,
       ),

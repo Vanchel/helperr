@@ -22,6 +22,7 @@ class SexRadioGroup extends StatelessWidget {
         };
 
         return Card(
+          margin: const EdgeInsets.all(0.0),
           clipBehavior: Clip.antiAlias,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
