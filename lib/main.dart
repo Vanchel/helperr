@@ -23,8 +23,10 @@ void main() async {
   );
 
   RegularApiClient.httpClient = httpClient;
-  RegularApiClient.getAuthToken = () => authenticationApiClient.accessToken;
   RegularApiClient.onUnauthorized = () => authenticationRepository.logOut();
+  RegularApiClient.getAuthToken = () => authenticationApiClient.accessToken;
+  RegularApiClient.updateTokens =
+      () async => await authenticationApiClient.refreshCurrentToken();
 
   runApp(HelperApp(authenticationRepository: authenticationRepository));
 }

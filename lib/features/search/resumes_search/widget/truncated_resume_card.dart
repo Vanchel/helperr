@@ -23,7 +23,7 @@ class TruncatedResumeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final ImageProvider image = resume.photoUrl.isNotEmpty
+    final ImageProvider image = resume.photoUrl?.isNotEmpty ?? false
         ? NetworkImage(resume.photoUrl)
         : AssetImage('assets/avatar.png');
 
@@ -85,14 +85,6 @@ class TruncatedResumeCard extends StatelessWidget {
     );
 
     final divider = const Divider();
-
-    final onNotImplemented = () {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: const Text('Функция еще не реализована!'),
-        ));
-    };
 
     final onRespond = () {
       Navigator.push(

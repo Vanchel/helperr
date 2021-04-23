@@ -18,16 +18,20 @@ class AuthenticationApiClient {
   final http.Client httpClient;
   final FlutterSecureStorage storage = FlutterSecureStorage();
 
-  DateTime _expirationDate;
-
   String _accessToken;
   String get accessToken => _accessToken;
-
-  Timer _timer;
 
   AuthenticationApiClient({
     @required this.httpClient,
   }) : assert(httpClient != null);
+
+  Future<String> _readStoredToken() async {
+    final refreshToken = await storage.read(key: _refreshTokenKey);
+    if (refreshToken == null) {
+      throw Exception('No refresh token found');
+    }
+    return refreshToken;
+  }
 
   Future<void> _verifyToken(String token) async {
     final data = {'token': token};
@@ -46,37 +50,8 @@ class AuthenticationApiClient {
     }
   }
 
-  Future<void> _refreshToken(String token) async {
-    final data = {'refresh': token};
-    final body = utf8.encode(json.encode(data));
-
-    final response = await httpClient.post(
-      Uri.http(_baseUrl, 'api/auth/token/refresh/'),
-      body: body,
-      headers: _headers,
-    );
-
-    if (response.statusCode != 200) {
-      print(response.statusCode);
-      print(response.body);
-      throw Exception('Could not get a new pair of tokens');
-    }
-
-    final refreshResult =
-        tokenRefreshResultFromJson(utf8.decode(response.body.runes.toList()));
-
-    storage.write(key: _refreshTokenKey, value: refreshResult.refresh);
-    _accessToken = refreshResult.access;
-    _expirationDate = refreshResult.accessTokenExpiration;
-
-    final seconds = _expirationDate.difference(DateTime.now()).inSeconds - 10;
-    print('Next refresh is going to be in $seconds seconds');
-    _timer = Timer(
-      Duration(seconds: seconds),
-      () => _refreshToken(refreshResult.refresh),
-    );
-  }
-
+  // TODO: вспомнить, почему аутентифицированного пользователя я не могу
+  // брать сразу по токену, как это делает Санчес; из-за сессий?
   Future<User> _getAuthenticatedUser(String token) async {
     final publicPart = TokenPublicPart.parse(token);
 
@@ -94,6 +69,31 @@ class AuthenticationApiClient {
     return userFromJson(utf8.decode(response.body.runes.toList()));
   }
 
+  Future<void> refreshCurrentToken() async {
+    final currentToken = await _readStoredToken();
+
+    final data = {'refresh': currentToken};
+    final body = utf8.encode(json.encode(data));
+
+    final response = await httpClient.post(
+      Uri.http(_baseUrl, 'api/auth/token/refresh/'),
+      body: body,
+      headers: _headers,
+    );
+
+    if (response.statusCode != 200) {
+      print(response.statusCode);
+      print(response.body);
+      throw Exception('Could not get a new pair of tokens');
+    }
+
+    final refreshResult =
+        json.decode(utf8.decode(response.body.runes.toList()));
+
+    storage.write(key: _refreshTokenKey, value: refreshResult['refresh']);
+    _accessToken = refreshResult['access'];
+  }
+
   Future<User> login(String email, String password) async {
     final data = {'email': email, 'password': password};
     final body = utf8.encode(json.encode(data));
@@ -104,18 +104,19 @@ class AuthenticationApiClient {
       headers: _headers,
     );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseMap =
-          json.decode(utf8.decode(response.body.runes.toList()));
-
-      await _refreshToken(responseMap['refresh_token']);
-
-      return User.fromJson(responseMap['user']);
-    } else {
+    if (response.statusCode != 200) {
       print(response.statusCode);
       print(response.body);
       throw Exception('Failed to login');
     }
+
+    final Map<String, dynamic> responseMap =
+        json.decode(utf8.decode(response.body.runes.toList()));
+
+    storage.write(key: _refreshTokenKey, value: responseMap['refresh_token']);
+    _accessToken = responseMap['access_token'];
+
+    return User.fromJson(responseMap['user']);
   }
 
   // for some reason, the request cannot be completed when sending encoded UTF8
@@ -139,33 +140,26 @@ class AuthenticationApiClient {
       headers: _headers,
     );
 
-    if (response.statusCode == 201) {
-      return await login(email, password);
-    } else {
+    if (response.statusCode != 201) {
       print(response.statusCode);
       print(response.body);
       throw Exception('Failed to register');
     }
+
+    return await login(email, password);
   }
 
   Future<void> logout() async {
-    _timer?.cancel();
-    print(
-        'Next refresh that was going to be in ${_expirationDate.difference(DateTime.now()).inSeconds} is canceled');
     _accessToken = null;
-    _expirationDate = null;
-    storage.delete(key: _refreshTokenKey);
+    await storage.delete(key: _refreshTokenKey);
   }
 
   Future<User> loginAuto() async {
-    final refreshToken = await storage.read(key: _refreshTokenKey);
-    if (refreshToken == null) {
-      throw Exception('No refresh token found');
-    }
-
+    final refreshToken = await _readStoredToken();
     await _verifyToken(refreshToken);
     final user = await _getAuthenticatedUser(refreshToken);
-    await _refreshToken(refreshToken);
+
+    await refreshCurrentToken();
 
     return user;
   }
