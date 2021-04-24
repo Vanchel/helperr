@@ -22,7 +22,8 @@ class VacancyDetailsView extends StatelessWidget {
 
   final String vacancyName;
 
-  String _formatDate(DateTime date) => DateFormat('dd.MM.yyyy').format(date);
+  String _formatDate(DateTime date) =>
+      DateFormat('dd.MM.yyyy, HH:mm').format(date);
 
   String _grade(ExperienceType grade) => Intl.select(grade, {
         ExperienceType.internship: 'Стажировка',
@@ -64,145 +65,135 @@ class VacancyDetailsView extends StatelessWidget {
       body: BlocBuilder<VacancyDetailsLoadingCubit, VacancyDetailsLoadingState>(
         builder: (context, state) {
           if (state is VacancyLoadFailure) {
-            return ErrorScreen(
-              onRetry: () =>
-                  context.read<VacancyDetailsLoadingCubit>().loadVacancy(),
-            );
+            return ErrorScreen(onRetry: () {
+              context.read<VacancyDetailsLoadingCubit>().loadVacancy();
+            });
           } else if (state is VacancyLoadSuccess) {
             final textTheme = Theme.of(context).textTheme;
 
             final vacancy = state.vacancy;
 
-            final vacancyNameWidget = Text(
-              vacancy.vacancyName ?? '?Название вакансии?',
-              style: textTheme.headline5,
-            );
-
-            Widget vacancyIndustryWidget;
-            if (vacancy.industry?.isNotEmpty ?? false) {
-              vacancyIndustryWidget = Text(
-                vacancy.industry,
-                style: textTheme.overline,
-                maxLines: 1,
+            final titleWidget = ListTile(
+              contentPadding: const EdgeInsets.all(0.0),
+              title: Text(
+                vacancy.vacancyName ?? '?Название вакансии?',
+                style: textTheme.headline5,
+              ),
+              subtitle: Text(
+                ((vacancy.salary ?? c.salaryNotSpecified) !=
+                        c.salaryNotSpecified)
+                    ? '${vacancy.salary} руб. в месяц'
+                    : 'з/п не указана',
+                style: textTheme.subtitle1,
                 overflow: TextOverflow.ellipsis,
-              );
-            } else {
-              vacancyIndustryWidget = const SizedBox.shrink();
-            }
-
-            final salaryWidget = Text(
-              ((vacancy.salary ?? -1) != -1)
-                  ? '${vacancy.salary} руб. в месяц'
-                  : 'з/п не указана',
-              style: textTheme.headline6,
-              overflow: TextOverflow.ellipsis,
-            );
-
-            final headFooter = Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    (vacancy.address?.name?.isNotEmpty ?? false)
-                        ? vacancy.address.name
-                        : 'Местоположение неизвестно',
-                    style: textTheme.subtitle2,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  (vacancy.pubDate != null)
-                      ? _formatDate(vacancy.pubDate)
-                      : '?дата публикации?',
-                  style: textTheme.subtitle2,
-                ),
-              ],
-            );
-
-            final favoriteRow = Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Добавить в избранное:',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                FavoriteButton(
-                  id: vacancy.id,
-                  isInFavorite: vacancy.favorited,
-                ),
-              ],
-            );
-
-            final gradeWidget = Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Уровень должности:',
-                    style: textTheme.subtitle1,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  _grade(vacancy.grade),
-                  style: textTheme.subtitle1,
-                ),
-              ],
-            );
-
-            final expWidget = Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Опыт работы:',
-                    style: textTheme.subtitle1,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  _exp(vacancy.exp),
-                  style: textTheme.subtitle1,
-                ),
-              ],
+              ),
+              trailing: FavoriteButton(
+                id: vacancy.id,
+                isInFavorite: vacancy.favorited,
+              ),
             );
 
             Widget workTypeWidget;
             if (vacancy.workType?.isNotEmpty ?? false) {
               final workTypeList = List.from(vacancy.workType);
 
-              workTypeWidget = Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Типы работы:',
-                    style: textTheme.subtitle1,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: 40,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: workTypeList.length,
-                      itemBuilder: (context, index) {
-                        return Chip(
-                            label: Text(_workType(workTypeList[index])));
-                      },
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 4.0),
-                    ),
-                  ),
-                ],
+              workTypeWidget = SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: workTypeList.length,
+                  itemBuilder: (context, index) {
+                    return Chip(
+                      label: Text(_workType(workTypeList[index])),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 4.0);
+                  },
+                ),
               );
             } else {
               workTypeWidget = const SizedBox.shrink();
             }
 
+            final industryRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Отрасль',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text(vacancy.industry),
+              ],
+            );
+
+            final gradeRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Уровень должности',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text(_grade(vacancy.grade)),
+              ],
+            );
+
+            final expRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Опыт работы',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text(_exp(vacancy.exp)),
+              ],
+            );
+
+            final addressRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Место работы',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text((vacancy.address?.name?.isNotEmpty ?? false)
+                    ? vacancy.address.name
+                    : 'Не указано'),
+              ],
+            );
+
+            final pubDateRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Опубликовано',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text((vacancy.pubDate != null)
+                    ? _formatDate(vacancy.pubDate)
+                    : '?дата публикации?'),
+              ],
+            );
+
             final leadingTextWidget = Text(
-              vacancy.leading ?? '',
+              (vacancy.leading?.isNotEmpty ?? false)
+                  ? vacancy.leading
+                  : '- нет описания -',
               style: textTheme.bodyText2,
             );
 
@@ -238,18 +229,26 @@ class VacancyDetailsView extends StatelessWidget {
               style: textTheme.bodyText2,
             );
 
-            final tagsWidget = SizedBox(
-              height: 40,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: vacancy.tags.length,
-                itemBuilder: (context, index) {
-                  return Chip(label: Text(vacancy.tags[index]));
-                },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: 4.0),
-              ),
-            );
+            Widget tagsWidget;
+            if (vacancy.tags?.isNotEmpty ?? false) {
+              final tagsList = List.from(vacancy.tags);
+
+              tagsWidget = SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: tagsList.length,
+                  itemBuilder: (context, index) {
+                    return Chip(label: Text(tagsList[index]));
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 4.0);
+                  },
+                ),
+              );
+            } else {
+              tagsWidget = const SizedBox.shrink();
+            }
 
             Widget respondWidget;
             if (vacancy.gotResponsed) {
@@ -276,28 +275,35 @@ class VacancyDetailsView extends StatelessWidget {
               );
             }
 
+            final divider = const Divider();
+
+            final spacer = const SizedBox(height: c.defaultMargin);
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(c.scaffoldBodyPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  vacancyNameWidget,
-                  vacancyIndustryWidget,
-                  SizedBox(height: 16.0),
-                  salaryWidget,
-                  headFooter,
-                  favoriteRow,
-                  Divider(),
-                  gradeWidget,
-                  expWidget,
+                  titleWidget,
+                  spacer,
                   workTypeWidget,
-                  Divider(),
+                  divider,
+                  industryRow,
+                  spacer,
+                  gradeRow,
+                  spacer,
+                  expRow,
+                  spacer,
+                  addressRow,
+                  spacer,
+                  pubDateRow,
+                  divider,
                   leadingTextWidget,
                   scrollsWidget,
                   trailingTextWidget,
-                  SizedBox(height: 16.0),
+                  spacer,
                   tagsWidget,
-                  Divider(),
+                  divider,
                   respondWidget,
                 ],
               ),

@@ -49,10 +49,18 @@ class ScrollsView extends StatelessWidget {
     };
 
     return Card(
-      margin: const EdgeInsets.all(0.0),
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
       child: ListTile(
-        title: Text(scroll.title),
-        subtitle: Text(scroll.subtitle),
+        title: Text(
+          scroll.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          scroll.subtitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

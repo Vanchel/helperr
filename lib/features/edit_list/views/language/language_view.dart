@@ -49,7 +49,7 @@ class LanguageView extends StatelessWidget {
     };
 
     return Card(
-      margin: const EdgeInsets.all(0.0),
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
       child: ListTile(
         title: Text(language.language),
         trailing: Row(

@@ -21,7 +21,8 @@ class ResumeDetailsView extends StatelessWidget {
 
   final String resumeName;
 
-  String _formatDate(DateTime date) => DateFormat('dd.MM.yyyy').format(date);
+  String _formatDate(DateTime date) =>
+      DateFormat('dd.MM.yyyy, HH:mm').format(date);
 
   String _grade(ExperienceType grade) => Intl.select(grade, {
         ExperienceType.internship: 'Стажировка',
@@ -55,134 +56,128 @@ class ResumeDetailsView extends StatelessWidget {
       body: BlocBuilder<ResumeDetailsLoadingCubit, ResumeDetailsLoadingState>(
         builder: (context, state) {
           if (state is ResumeLoadFailure) {
-            return ErrorScreen(
-              onRetry: () =>
-                  context.read<ResumeDetailsLoadingCubit>().loadResume(),
-            );
+            return ErrorScreen(onRetry: () {
+              context.read<ResumeDetailsLoadingCubit>().loadResume();
+            });
           } else if (state is ResumeLoadSuccess) {
             final textTheme = Theme.of(context).textTheme;
 
             final resume = state.resume;
 
-            final resumeNameWidget = Text(
-              resume.vacancyName ?? '?Название резюме?',
-              style: textTheme.headline5,
-            );
-
-            Widget resumeIndustryWidget;
-            if (resume.industry?.isNotEmpty ?? false) {
-              resumeIndustryWidget = Text(
-                resume.industry,
-                style: textTheme.overline,
-                maxLines: 1,
+            final titleWidget = ListTile(
+              contentPadding: const EdgeInsets.all(0.0),
+              title: Text(
+                resume.vacancyName ?? '?Название резюме?',
+                style: textTheme.headline5,
+              ),
+              subtitle: Text(
+                ((resume.salary ?? c.salaryNotSpecified) !=
+                        c.salaryNotSpecified)
+                    ? '${resume.salary} руб. в месяц'
+                    : 'з/п не указана',
+                style: textTheme.subtitle1,
                 overflow: TextOverflow.ellipsis,
-              );
-            } else {
-              resumeIndustryWidget = const SizedBox.shrink();
-            }
-
-            final salaryWidget = Text(
-              ((resume.salary ?? -1) != -1)
-                  ? '${resume.salary} руб. в месяц'
-                  : 'з/п не указана',
-              style: textTheme.headline6,
-              overflow: TextOverflow.ellipsis,
-            );
-
-            final headFooter = Row(
-              children: [
-                Expanded(child: const SizedBox.shrink()),
-                Text(
-                  (resume.pubDate != null)
-                      ? _formatDate(resume.pubDate)
-                      : '?дата публикации?',
-                  style: textTheme.subtitle2,
-                ),
-              ],
-            );
-
-            final favoriteRow = Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Добавить в избранное:',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                FavoriteButton(
-                  id: resume.id,
-                  isInFavorite: resume.favorited,
-                ),
-              ],
-            );
-
-            final gradeWidget = Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Уровень должности:',
-                    style: textTheme.subtitle1,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  _grade(resume.grade),
-                  style: textTheme.subtitle1,
-                ),
-              ],
+              ),
+              trailing: FavoriteButton(
+                id: resume.id,
+                isInFavorite: resume.favorited,
+              ),
             );
 
             Widget workTypeWidget;
             if (resume.workType?.isNotEmpty ?? false) {
               final workTypeList = List.from(resume.workType);
 
-              workTypeWidget = Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Типы работы:',
-                    style: textTheme.subtitle1,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: 40,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: workTypeList.length,
-                      itemBuilder: (context, index) {
-                        return Chip(
-                            label: Text(_workType(workTypeList[index])));
-                      },
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 4.0),
-                    ),
-                  ),
-                ],
+              workTypeWidget = SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: workTypeList.length,
+                  itemBuilder: (context, index) {
+                    return Chip(
+                      label: Text(_workType(workTypeList[index])),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 4.0);
+                  },
+                ),
               );
             } else {
               workTypeWidget = const SizedBox.shrink();
             }
 
+            final industryRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Отрасль',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text(resume.industry),
+              ],
+            );
+
+            final gradeRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Уровень должности',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text(_grade(resume.grade)),
+              ],
+            );
+
+            final pubDateRow = Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Опубликовано',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Text((resume.pubDate != null)
+                    ? _formatDate(resume.pubDate)
+                    : '?дата публикации?'),
+              ],
+            );
+
             final aboutTextWidget = Text(
-              resume.about ?? '',
+              (resume.about?.isNotEmpty ?? false)
+                  ? resume.about
+                  : '- нет описания -',
               style: textTheme.bodyText2,
             );
 
-            final tagsWidget = SizedBox(
-              height: 40,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: resume.tags.length,
-                itemBuilder: (context, index) {
-                  return Chip(label: Text(resume.tags[index]));
-                },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: 4.0),
-              ),
-            );
+            Widget tagsWidget;
+            if (resume.tags?.isNotEmpty ?? false) {
+              final tagsList = List.from(resume.tags);
+
+              tagsWidget = SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: tagsList.length,
+                  itemBuilder: (context, index) {
+                    return Chip(label: Text(tagsList[index]));
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 4.0);
+                  },
+                ),
+              );
+            } else {
+              tagsWidget = const SizedBox.shrink();
+            }
 
             Widget respondWidget;
             if (resume.gotResponsed) {
@@ -209,25 +204,29 @@ class ResumeDetailsView extends StatelessWidget {
               );
             }
 
+            final divider = const Divider();
+
+            final spacer = const SizedBox(height: c.defaultMargin);
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(c.scaffoldBodyPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  resumeNameWidget,
-                  resumeIndustryWidget,
-                  SizedBox(height: 16.0),
-                  salaryWidget,
-                  headFooter,
-                  favoriteRow,
-                  Divider(),
-                  gradeWidget,
+                  titleWidget,
+                  spacer,
                   workTypeWidget,
-                  Divider(),
+                  divider,
+                  industryRow,
+                  spacer,
+                  gradeRow,
+                  spacer,
+                  pubDateRow,
+                  divider,
                   aboutTextWidget,
-                  SizedBox(height: 16.0),
+                  spacer,
                   tagsWidget,
-                  Divider(),
+                  divider,
                   respondWidget,
                 ],
               ),

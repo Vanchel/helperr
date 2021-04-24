@@ -129,7 +129,7 @@ class Vacancy extends Equatable {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "address": address?.toJson(),
         "bg_header_color": bgHeaderColor,
-        "pub_date": pubDate.toIso8601String(),
+        "pub_date": pubDate?.toIso8601String(),
         "leading": leading,
         "trailing": trailing,
         "body": List<dynamic>.from(body.map((x) => x.toJson())),

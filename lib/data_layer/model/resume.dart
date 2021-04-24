@@ -114,7 +114,7 @@ class Resume extends Equatable {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "about": about,
         "bg_header_color": bgHeaderColor,
-        "pub_date": pubDate.toIso8601String(),
+        "pub_date": pubDate?.toIso8601String(),
         "portfolio": List<dynamic>.from(portfolio.map((x) => x.toJson())),
         "got_responsed": gotResponsed,
         "favorite": favorited,
