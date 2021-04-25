@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/back_response/repository/back_response_repository.dart';
 import 'package:helperr/features/back_response/view/back_response_page.dart';
+import 'package:helperr/features/resume_details/view/resume_details_page.dart';
+import 'package:helperr/features/vacancy_details/view/vacancy_details_page.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:intl/intl.dart';
 
@@ -51,28 +53,97 @@ class ResponseDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final isRespondable =
-        RepositoryProvider.of<AuthenticationRepository>(context)
-                .user
-                .userType !=
-            sender;
+
+    final compactTextButtonStyle = TextButton.styleFrom(
+      padding: const EdgeInsets.all(0.0),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: VisualDensity.compact,
+      minimumSize: Size.zero,
+    );
+
+    final currentUserType =
+        RepositoryProvider.of<AuthenticationRepository>(context).user.userType;
 
     final appBar = AppBar(
       leading: const CustomBackButton(),
       title: Text(sender == UserType.employer ? 'Приглашение' : 'Отклик'),
     );
 
-    final headerTitle = Text(
-      sender == UserType.employer ? response.vacancyName : response.cvName,
-      style: textTheme.headline5,
-    );
+    final headerText =
+        sender == UserType.employer ? response.vacancyName : response.cvName;
 
-    final headerSubtitle = Text(
-      'В ответ на: ' +
-          (sender == UserType.employer
-              ? response.cvName
-              : response.vacancyName),
-      style: textTheme.subtitle2,
+    Widget headerTitle;
+    if (currentUserType != sender) {
+      headerTitle = Container(
+        alignment: Alignment.centerLeft,
+        child: TextButton(
+          style: compactTextButtonStyle,
+          child: Text(
+            headerText,
+            style: TextStyle(fontSize: textTheme.headline5.fontSize),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => (sender == UserType.employer)
+                    ? VacancyDetailsPage(
+                        vacancyName: response.vacancyName,
+                        vacancyId: response.vacancy,
+                      )
+                    : ResumeDetailsPage(
+                        resumeName: response.cvName,
+                        resumeId: response.cv,
+                      ),
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      headerTitle = Text(headerText, style: textTheme.headline5);
+    }
+
+    final headerSubtitleText =
+        sender == UserType.employer ? response.cvName : response.vacancyName;
+
+    Widget headerSubtitle;
+    if (currentUserType == sender) {
+      headerSubtitle = Container(
+        alignment: Alignment.centerLeft,
+        child: TextButton(
+          style: compactTextButtonStyle,
+          child: Text(
+            headerSubtitleText,
+            style: TextStyle(fontSize: textTheme.subtitle2.fontSize),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => (sender != UserType.employer)
+                    ? VacancyDetailsPage(
+                        vacancyName: response.vacancyName,
+                        vacancyId: response.vacancy,
+                      )
+                    : ResumeDetailsPage(
+                        resumeName: response.cvName,
+                        resumeId: response.cv,
+                      ),
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      headerSubtitle = Text(headerSubtitleText, style: textTheme.subtitle2);
+    }
+
+    final headerSubtitleRow = Row(
+      children: [
+        Text('В ответ на: ', style: textTheme.subtitle2),
+        Expanded(child: headerSubtitle),
+      ],
     );
 
     final fromRow = Row(
@@ -82,7 +153,7 @@ class ResponseDetailView extends StatelessWidget {
             'От',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.black54),
+            style: TextStyle(color: textTheme.caption.color),
           ),
         ),
         Text(sender == UserType.employer
@@ -98,7 +169,7 @@ class ResponseDetailView extends StatelessWidget {
             'Кому',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.black54),
+            style: TextStyle(color: textTheme.caption.color),
           ),
         ),
         Text(sender == UserType.employer
@@ -114,7 +185,7 @@ class ResponseDetailView extends StatelessWidget {
             'Дата',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.black54),
+            style: TextStyle(color: textTheme.caption.color),
           ),
         ),
         Text(_formattedPubDate),
@@ -132,7 +203,7 @@ class ResponseDetailView extends StatelessWidget {
     );
 
     Widget footer;
-    if (isRespondable) {
+    if (currentUserType != sender) {
       footer = BlocBuilder<EditSingleValueCubit<ResponseState>, ResponseState>(
         builder: (context, state) {
           if (state == ResponseState.sent) {
@@ -210,7 +281,7 @@ class ResponseDetailView extends StatelessWidget {
           children: [
             headerTitle,
             spacer,
-            headerSubtitle,
+            headerSubtitleRow,
             divider,
             fromRow,
             spacer,
