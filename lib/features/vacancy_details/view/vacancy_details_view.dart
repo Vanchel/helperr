@@ -123,7 +123,7 @@ class VacancyDetailsView extends StatelessWidget {
                     'Отрасль',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text(vacancy.industry),
@@ -137,7 +137,7 @@ class VacancyDetailsView extends StatelessWidget {
                     'Уровень должности',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text(_grade(vacancy.grade)),
@@ -151,7 +151,7 @@ class VacancyDetailsView extends StatelessWidget {
                     'Опыт работы',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text(_exp(vacancy.exp)),
@@ -165,7 +165,7 @@ class VacancyDetailsView extends StatelessWidget {
                     'Место работы',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text((vacancy.address?.name?.isNotEmpty ?? false)
@@ -181,7 +181,7 @@ class VacancyDetailsView extends StatelessWidget {
                     'Опубликовано',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text((vacancy.pubDate != null)
@@ -253,7 +253,7 @@ class VacancyDetailsView extends StatelessWidget {
             Widget respondWidget;
             if (vacancy.gotResponsed) {
               respondWidget = Text(
-                'Вы уже откликнулись на эту вакансию.',
+                'Обмен откликами уже был начат.',
                 style: textTheme.caption,
               );
             } else {

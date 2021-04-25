@@ -114,7 +114,7 @@ class ResumeDetailsView extends StatelessWidget {
                     'Отрасль',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text(resume.industry),
@@ -128,7 +128,7 @@ class ResumeDetailsView extends StatelessWidget {
                     'Уровень должности',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text(_grade(resume.grade)),
@@ -142,7 +142,7 @@ class ResumeDetailsView extends StatelessWidget {
                     'Опубликовано',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+                    style: TextStyle(color: textTheme.caption.color),
                   ),
                 ),
                 Text((resume.pubDate != null)
@@ -182,7 +182,7 @@ class ResumeDetailsView extends StatelessWidget {
             Widget respondWidget;
             if (resume.gotResponsed) {
               respondWidget = Text(
-                'Вы уже пригласили этого кандидата.',
+                'Обмен откликами уже был начат.',
                 style: textTheme.caption,
               );
             } else {

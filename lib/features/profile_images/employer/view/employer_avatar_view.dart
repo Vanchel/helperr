@@ -35,6 +35,8 @@ class _EmployerAvatarViewState extends State<EmployerAvatarView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+
     FadeInImage bgImage;
     if (widget.employer.profileBackground.isNotEmpty) {
       bgImage = FadeInImage.memoryNetwork(
@@ -142,14 +144,13 @@ class _EmployerAvatarViewState extends State<EmployerAvatarView> {
               Container(
                 height: (_avatarRadius + _padding) * 2,
                 width: double.infinity,
-                color: Colors.grey[200],
+                color: themeData.canvasColor.withAlpha(128),
                 child: bgImage,
               ),
               Positioned.fill(
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    splashColor: Colors.blueAccent.withOpacity(0.4),
                     onTapDown: _saveTapPosition,
                     onTap: onBgTap,
                   ),
@@ -158,7 +159,7 @@ class _EmployerAvatarViewState extends State<EmployerAvatarView> {
               Container(
                 margin: const EdgeInsets.all(_padding),
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: themeData.canvasColor.withAlpha(160),
                   shape: BoxShape.circle,
                 ),
                 child: ClipRRect(
@@ -176,7 +177,6 @@ class _EmployerAvatarViewState extends State<EmployerAvatarView> {
                   shape: const CircleBorder(),
                   color: Colors.transparent,
                   child: InkWell(
-                    splashColor: Colors.blueAccent.withOpacity(0.4),
                     onTapDown: _saveTapPosition,
                     onTap: onAvatarTap,
                   ),

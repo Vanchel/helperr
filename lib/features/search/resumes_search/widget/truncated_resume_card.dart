@@ -67,7 +67,7 @@ class TruncatedResumeCard extends StatelessWidget {
           resume.about,
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
-          style: textTheme.bodyText2.copyWith(color: Colors.black54),
+          style: textTheme.bodyText2.copyWith(color: textTheme.caption.color),
         ),
       );
     } else {

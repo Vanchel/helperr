@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'edit_vacancy_page.dart';
 import '../../../data_layer/model/vacancy.dart';
 import '../../../widgets/list_action_header.dart';
-import '../../../constants.dart' as constants;
+import '../../../constants.dart' as c;
 
 class VacanciesList extends StatelessWidget {
   const VacanciesList(this.vacancies, {Key key, @required this.onChanged})
@@ -29,7 +29,7 @@ class VacanciesList extends StatelessWidget {
       );
     };
 
-    final String salaryText = (vacancy.salary != constants.salaryNotSpecified)
+    final String salaryText = (vacancy.salary != c.salaryNotSpecified)
         ? '${vacancy.salary} руб.'
         : 'з/п не указана';
 
@@ -46,6 +46,8 @@ class VacanciesList extends StatelessWidget {
           vacancy.leading,
           maxLines: 4,
           overflow: TextOverflow.ellipsis,
+          style: themeData.textTheme.bodyText2
+              .copyWith(color: themeData.textTheme.caption.color),
         ),
       );
     } else {
@@ -59,26 +61,20 @@ class VacanciesList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.blue,
+            color: themeData.primaryColor,
             child: ListTile(
               title: Text(
                 vacancy.vacancyName,
-                style:
-                    themeData.textTheme.headline6.copyWith(color: Colors.white),
+                style: themeData.textTheme.headline6,
               ),
-              subtitle: Text(
-                salaryText,
-                style: themeData.textTheme.bodyText2
-                    .copyWith(color: Colors.white70),
-              ),
+              subtitle: Text(salaryText),
               trailing: Material(
                 color: Colors.transparent,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircleBorder(),
                 child: IconButton(
-                  icon: const Icon(Icons.edit_rounded),
-                  color: Colors.white70,
-                  splashRadius: 24.0,
+                  icon: Icon(Icons.edit_rounded),
+                  splashRadius: c.iconButtonSplashRadius,
                   onPressed: onEdit,
                 ),
               ),
@@ -89,8 +85,8 @@ class VacanciesList extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: Wrap(
-              spacing: 8.0,
-              runSpacing: 8.0,
+              spacing: c.defaultMargin,
+              runSpacing: c.defaultMargin,
               children: [
                 for (String tag in displayedTags)
                   Chip(

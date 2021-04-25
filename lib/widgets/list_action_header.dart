@@ -30,7 +30,6 @@ class ListAddHeader extends StatelessWidget {
         ),
         IconButton(
           icon: const Icon(Icons.add_circle_outline_rounded),
-          color: themeData.primaryColor,
           splashRadius: c.iconButtonSplashRadius,
           onPressed: action,
         ),

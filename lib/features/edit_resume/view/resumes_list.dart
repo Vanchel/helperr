@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'edit_resume_page.dart';
 import '../../../data_layer/model/resume.dart';
 import '../../../widgets/list_action_header.dart';
-import '../../../constants.dart' as constants;
+import '../../../constants.dart' as c;
 
 class ResumesList extends StatelessWidget {
   const ResumesList(this.resumes, {Key key, @required this.onChanged})
@@ -29,13 +29,29 @@ class ResumesList extends StatelessWidget {
       );
     };
 
-    final String salaryText = (resume.salary != constants.salaryNotSpecified)
+    final String salaryText = (resume.salary != c.salaryNotSpecified)
         ? '${resume.salary} руб.'
         : 'з/п не указана';
 
     final List<String> displayedTags = resume.tags.take(3).toList();
     if (resume.tags.length > 3) {
       displayedTags.add('...');
+    }
+
+    Widget description;
+    if (resume.about.isNotEmpty) {
+      description = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Text(
+          resume.about,
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
+          style: themeData.textTheme.bodyText2
+              .copyWith(color: themeData.textTheme.caption.color),
+        ),
+      );
+    } else {
+      description = const SizedBox.shrink();
     }
 
     return Card(
@@ -45,46 +61,32 @@ class ResumesList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.blue,
+            color: themeData.primaryColorLight,
             child: ListTile(
               title: Text(
                 resume.vacancyName,
-                style:
-                    themeData.textTheme.headline6.copyWith(color: Colors.white),
+                style: themeData.textTheme.headline6,
               ),
-              subtitle: Text(
-                salaryText,
-                style: themeData.textTheme.bodyText2
-                    .copyWith(color: Colors.white70),
-              ),
+              subtitle: Text(salaryText),
               trailing: Material(
                 color: Colors.transparent,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircleBorder(),
                 child: IconButton(
-                  icon: const Icon(Icons.edit_rounded),
-                  color: Colors.white70,
-                  splashRadius: 24.0,
+                  icon: Icon(Icons.edit_rounded),
+                  splashRadius: c.iconButtonSplashRadius,
                   onPressed: onEdit,
                 ),
               ),
             ),
           ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Text(
-              resume.about,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          description,
           Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: Wrap(
-              spacing: 8.0,
-              runSpacing: 8.0,
+              spacing: c.defaultMargin,
+              runSpacing: c.defaultMargin,
               children: [
                 for (String tag in displayedTags)
                   Chip(

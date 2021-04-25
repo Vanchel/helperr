@@ -46,7 +46,8 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
-      theme: theme,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       //debugShowMaterialGrid: true,
       //showSemanticsDebugger: true,
       //showPerformanceOverlay: true,
