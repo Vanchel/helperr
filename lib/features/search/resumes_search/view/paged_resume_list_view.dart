@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
+import 'package:helperr/widgets/error_screen/no_search_results_indicator.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../widget/truncated_resume_card.dart';
-import '../../widget/exception_indicators/error_indicator.dart';
-import '../../widget/exception_indicators/empty_list_indicator.dart';
 
 import '../cubit/resume_listing_cubit.dart';
 import '../../../../data_layer/model/truncated_resume.dart';
@@ -60,7 +60,8 @@ class _PagedResumeListViewState extends State<PagedResumeListView> {
               error: _pagingController.error,
               onTryAgain: () => _pagingController.refresh(),
             ),
-            noItemsFoundIndicatorBuilder: (context) => EmptyListIndicator(),
+            noItemsFoundIndicatorBuilder: (context) =>
+                NoSearchResultsIndicator(),
           ),
           pagingController: _pagingController,
           padding: const EdgeInsets.all(12.0),

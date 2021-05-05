@@ -18,4 +18,11 @@ class ProfileLoadSuccess extends ProfileState {
   List<Object> get props => [employerInfo];
 }
 
-class ProfileLoadFailure extends ProfileState {}
+class ProfileLoadFailure extends ProfileState {
+  ProfileLoadFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  List<Object> get props => [error];
+}

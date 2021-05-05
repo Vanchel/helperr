@@ -9,7 +9,14 @@ abstract class LoadVacanciesState extends Equatable {
 
 class VacanciesLoadInProgress extends LoadVacanciesState {}
 
-class VacanciesLoadFailure extends LoadVacanciesState {}
+class VacanciesLoadFailure extends LoadVacanciesState {
+  const VacanciesLoadFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  List<Object> get props => [error];
+}
 
 class VacanciesLoadSuccess extends LoadVacanciesState {
   const VacanciesLoadSuccess(this.vacancies);

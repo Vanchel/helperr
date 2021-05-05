@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
 import 'package:helperr/features/response/employer/view/employer_response_loading_page.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/resume_details_loading_cubit.dart';
 import '../../../widgets/loading_screen.dart';
-import '../../../widgets/error_screen.dart';
 import '../../../constants.dart' as c;
 
 import '../../../data_layer/model/experience_type.dart';
@@ -56,9 +56,11 @@ class ResumeDetailsView extends StatelessWidget {
       body: BlocBuilder<ResumeDetailsLoadingCubit, ResumeDetailsLoadingState>(
         builder: (context, state) {
           if (state is ResumeLoadFailure) {
-            return ErrorScreen(onRetry: () {
-              context.read<ResumeDetailsLoadingCubit>().loadResume();
-            });
+            return ErrorIndicator(
+              error: state.error,
+              onTryAgain: () =>
+                  context.read<ResumeDetailsLoadingCubit>().loadResume(),
+            );
           } else if (state is ResumeLoadSuccess) {
             final textTheme = Theme.of(context).textTheme;
 

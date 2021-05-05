@@ -18,8 +18,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final workerInfo = await ProfileRepository.getWorkerInfo(_id);
       emit(ProfileLoadSuccess(workerInfo));
-    } catch (_) {
-      emit(ProfileLoadFailure());
+    } catch (e) {
+      emit(ProfileLoadFailure(e));
     }
   }
 }

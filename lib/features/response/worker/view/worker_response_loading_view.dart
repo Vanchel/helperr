@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
 
 import '../cubit/load_resumes_cubit.dart';
 import '../worker_response_form/view/worker_response_form.dart';
 import '../../../../widgets/loading_screen.dart';
-import '../../../../widgets/error_screen.dart';
 import '../../../../constants.dart' as c;
 
 class WorkerResponseView extends StatelessWidget {
@@ -50,8 +50,9 @@ class WorkerResponseView extends StatelessWidget {
         } else if (state is ResumesLoadFailure) {
           return Scaffold(
             appBar: appBar,
-            body: ErrorScreen(
-              onRetry: () => context.read<LoadResumesCubit>().loadResumes(),
+            body: ErrorIndicator(
+              error: state.error,
+              onTryAgain: () => context.read<LoadResumesCubit>().loadResumes(),
             ),
           );
         } else {

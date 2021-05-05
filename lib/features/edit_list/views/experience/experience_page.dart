@@ -106,29 +106,24 @@ class _EditExperiencePageState extends State<EditExperiencePage> {
       initialValue: widget.isEditing ? widget.experience.startYear : null,
       labelText: 'Дата начала работы',
       onValidate: (newValue) => _startDate = newValue,
+      validator: (value) {
+        return (value == null) ? 'Дата должна быть указана' : null;
+      },
     );
 
     final endDateInput = DateInput(
       initialValue: widget.isEditing ? widget.experience.endYear : null,
       labelText: 'Дата окончания работы',
       onValidate: (newValue) => _endDate = newValue,
+      validator: (value) {
+        return (value == null) ? 'Дата должна быть указана' : null;
+      },
     );
-
-    // final untilNowSwitch = Row(
-    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //   children: [
-    //     Text('Работаю до сих пор', style: themeData.textTheme.subtitle1),
-    //     Switch(
-    //       value: true,
-    //       onChanged: (value) {},
-    //     ),
-    //   ],
-    // );
 
     final commonPrompt = Container(
       child: Text(
-        'Укажите данные об имеющемся у Вас опыте работы. Вы '
-        'сможете прикрепить эти данные к любому своему резюме.',
+        'Укажите данные об имеющемся у Вас опыте работы. Эти данные '
+        'наверняка заинтересуют потенциального работодателя.',
         style: themeData.textTheme.caption,
       ),
     );

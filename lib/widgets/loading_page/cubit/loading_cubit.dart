@@ -18,8 +18,8 @@ class LoadingCubit<T> extends Cubit<LoadingState<T>> {
       emit(const LoadInProgress());
       final value = await _callback();
       emit(LoadSuccess(value));
-    } catch (_) {
-      emit(LoadFailure());
+    } catch (e) {
+      emit(LoadFailure(e));
     }
   }
 }

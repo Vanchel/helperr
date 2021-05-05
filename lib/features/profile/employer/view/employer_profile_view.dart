@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/edit_employer_profile/view/edit_employer_profile_page.dart';
 import 'package:helperr/features/edit_vacancy/view/vacancies_list.dart';
 import 'package:helperr/features/profile_images/employer/view/employer_avatar_widget.dart';
-import 'package:helperr/widgets/error_screen.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
 import 'package:helperr/widgets/loading_screen.dart';
 import 'package:helperr/widgets/profile_card.dart';
 import '../cubit/profile_cubit.dart';
@@ -19,7 +19,10 @@ class EmployerProfileView extends StatelessWidget {
         if (state is ProfileLoadInProgress) {
           return const LoadingScreen();
         } else if (state is ProfileLoadFailure) {
-          return ErrorScreen(onRetry: () => profileCubit.loadProfile());
+          return ErrorIndicator(
+            error: state.error,
+            onTryAgain: () => profileCubit.loadProfile(),
+          );
         } else if (state is ProfileLoadSuccess) {
           final profile = state.employerInfo.employer;
 

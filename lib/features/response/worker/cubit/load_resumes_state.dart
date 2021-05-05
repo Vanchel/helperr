@@ -9,7 +9,14 @@ abstract class LoadResumesState extends Equatable {
 
 class ResumesLoadInProgress extends LoadResumesState {}
 
-class ResumesLoadFailure extends LoadResumesState {}
+class ResumesLoadFailure extends LoadResumesState {
+  const ResumesLoadFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  List<Object> get props => [error];
+}
 
 class ResumesLoadSuccess extends LoadResumesState {
   const ResumesLoadSuccess(this.resumes);

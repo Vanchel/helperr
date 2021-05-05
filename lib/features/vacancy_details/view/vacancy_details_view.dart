@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
 import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/vacancy_details_loading_cubit.dart';
 import '../../../widgets/loading_screen.dart';
-import '../../../widgets/error_screen.dart';
 import '../../../constants.dart' as c;
 
 import '../../../data_layer/model/experience_type.dart';
@@ -65,9 +65,11 @@ class VacancyDetailsView extends StatelessWidget {
       body: BlocBuilder<VacancyDetailsLoadingCubit, VacancyDetailsLoadingState>(
         builder: (context, state) {
           if (state is VacancyLoadFailure) {
-            return ErrorScreen(onRetry: () {
-              context.read<VacancyDetailsLoadingCubit>().loadVacancy();
-            });
+            return ErrorIndicator(
+              error: state.error,
+              onTryAgain: () =>
+                  context.read<VacancyDetailsLoadingCubit>().loadVacancy(),
+            );
           } else if (state is VacancyLoadSuccess) {
             final textTheme = Theme.of(context).textTheme;
 
@@ -299,7 +301,9 @@ class VacancyDetailsView extends StatelessWidget {
                   pubDateRow,
                   divider,
                   leadingTextWidget,
+                  spacer,
                   scrollsWidget,
+                  spacer,
                   trailingTextWidget,
                   spacer,
                   tagsWidget,

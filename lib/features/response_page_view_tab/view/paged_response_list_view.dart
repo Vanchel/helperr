@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
+import 'package:helperr/widgets/error_screen/no-responses-indicator.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../cubit/response_listing_cubit.dart';
-import '../widget/empty_response_list_indicator.dart';
 import '../../edit_single_value/views/response_details/detailed_response_list_item.dart';
 import '../../../data_layer/model/detailed_response.dart';
 import '../../../data_layer/model/user_type.dart';
-import '../../../widgets/error_screen.dart';
 
 typedef BuilderDelegate = Widget Function(
   BuildContext context,
@@ -67,11 +67,11 @@ class _PagedResponseListViewState extends State<PagedResponseListView> {
               response: response,
               sender: widget.sender,
             ),
-            firstPageErrorIndicatorBuilder: (context) => ErrorScreen(
-              onRetry: () => _pagingController.refresh(),
+            firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
+              error: _pagingController.error,
+              onTryAgain: () => _pagingController.refresh(),
             ),
-            noItemsFoundIndicatorBuilder: (context) =>
-                EmptyResponseListIndicator(),
+            noItemsFoundIndicatorBuilder: (context) => NoResponsesIndicator(),
           ),
           pagingController: _pagingController,
           separatorBuilder: (context, index) => const Divider(height: 1),

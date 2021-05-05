@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:helperr/features/favorite/widgets/empty_screen/empty_favorites_indicator.dart';
 import 'package:helperr/features/search/vacancies_search/widget/truncated_vacancy_card.dart';
-import 'package:helperr/widgets/error_screen.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
+import 'package:helperr/widgets/error_screen/no_favorites_indicator.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../cubit/favorite_vacancies_cubit.dart';
@@ -54,10 +54,11 @@ class _FavoriteVacanciesViewState extends State<FavoriteVacanciesView> {
           builderDelegate: PagedChildBuilderDelegate<TruncatedVacancy>(
             itemBuilder: (context, vacancy, index) =>
                 TruncatedVacancyCard(vacancy: vacancy),
-            firstPageErrorIndicatorBuilder: (context) =>
-                ErrorScreen(onRetry: () => _pagingController.refresh()),
-            noItemsFoundIndicatorBuilder: (context) =>
-                EmptyFavoritesIndicator(),
+            firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
+              error: _pagingController.error,
+              onTryAgain: () => _pagingController.refresh(),
+            ),
+            noItemsFoundIndicatorBuilder: (context) => NoFavoritesIndicator(),
           ),
           pagingController: _pagingController,
           padding: const EdgeInsets.all(12.0),

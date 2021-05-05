@@ -19,8 +19,8 @@ class LoadResumesCubit extends Cubit<LoadResumesState> {
       emit(ResumesLoadInProgress());
       final resumes = await RegularApiClient.fetchResumes(_userId);
       emit(ResumesLoadSuccess(resumes));
-    } catch (_) {
-      emit(ResumesLoadFailure());
+    } catch (e) {
+      emit(ResumesLoadFailure(e));
     }
   }
 }

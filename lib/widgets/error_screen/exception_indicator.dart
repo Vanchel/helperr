@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../constants.dart' as c;
+import '../../constants.dart' as c;
 
 class ExceptionIndicator extends StatelessWidget {
   const ExceptionIndicator({
@@ -19,68 +20,60 @@ class ExceptionIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = Container(
-      margin: const EdgeInsets.only(bottom: c.defaultMargin),
-      child: Image.asset(assetName),
+    final deviceHeight = MediaQuery.of(context).size.height;
+
+    final spacer = SizedBox(height: deviceHeight * 0.2);
+
+    final image = SvgPicture.asset(
+      assetName,
+      height: deviceHeight * 0.15,
+      //color: theme.accentColor,
     );
 
-    final titleWidget = Text(
-      title,
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline6,
+    final titleWidget = Container(
+      margin: const EdgeInsets.only(top: c.defaultMargin),
+      child: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.headline6,
+      ),
     );
 
     Widget messageWidget;
-    if (message.isNotEmpty ?? false) {
+    if (message?.isNotEmpty ?? false) {
       messageWidget = Container(
         margin: const EdgeInsets.only(top: c.defaultMargin),
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-        ),
+        child: Text(message, textAlign: TextAlign.center),
       );
     } else {
       messageWidget = const SizedBox.shrink();
     }
 
-    Widget spacer;
-    if (onTryAgain != null) {
-      spacer = const Spacer();
-    } else {
-      spacer = const SizedBox.shrink();
-    }
-
     Widget retryButton;
     if (onTryAgain != null) {
       retryButton = Container(
-        height: c.bigButtonHeight,
-        child: ElevatedButton.icon(
+        margin: const EdgeInsets.only(top: c.defaultMargin),
+        child: TextButton(
           onPressed: onTryAgain,
-          icon: const Icon(Icons.refresh_rounded),
-          label: const Text(
-            'Попробовать снова',
-            style: TextStyle(
-              fontSize: c.bigButtonFontSize,
-              color: Colors.white,
-            ),
-          ),
+          child: const Text('Попробовать снова'),
         ),
       );
     } else {
       retryButton = const SizedBox.shrink();
     }
 
-    return Container(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(c.scaffoldBodyPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          spacer,
           image,
           titleWidget,
           messageWidget,
-          spacer,
           retryButton,
+          spacer,
         ],
       ),
     );

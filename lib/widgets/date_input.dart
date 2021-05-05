@@ -2,12 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateInput extends StatelessWidget {
-  const DateInput({Key key, this.initialValue, this.onValidate, this.labelText})
-      : super(key: key);
+  const DateInput({
+    Key key,
+    this.initialValue,
+    this.validator,
+    this.onValidate,
+    this.labelText,
+  }) : super(key: key);
 
   final DateTime initialValue;
+  final String Function(DateTime) validator;
   final Function(DateTime newValue) onValidate;
   final String labelText;
+
+  String _performValidation(DateTime date) {
+    final result = validator?.call(date);
+    if (onValidate != null && result == null) {
+      onValidate(null);
+    }
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +47,13 @@ class DateInput extends StatelessWidget {
     final validator = (value) {
       try {
         if (value == '') {
-          if (onValidate != null) {
-            onValidate(null);
-          }
-          return null;
+          return _performValidation(null);
         }
 
         final formattedString = value.split('.').reversed.join();
-        if (onValidate != null) {
-          onValidate(DateTime.parse(formattedString));
-        }
-        return null;
+        final finalDate = DateTime.parse(formattedString);
+
+        return _performValidation(finalDate);
       } catch (_) {
         return 'Неверный формат даты.';
       }

@@ -106,12 +106,18 @@ class _EditEducationPageState extends State<EditEducationPage> {
       initialValue: widget.isEditing ? widget.education.startYear : null,
       labelText: 'Дата начала обучения',
       onValidate: (newValue) => _startDate = newValue,
+      validator: (value) {
+        return (value == null) ? 'Дата должна быть указана' : null;
+      },
     );
 
     final endDateInput = DateInput(
       initialValue: widget.isEditing ? widget.education.endYear : null,
       labelText: 'Дата окончания обучения',
       onValidate: (newValue) => _endDate = newValue,
+      validator: (value) {
+        return (value == null) ? 'Дата должна быть указана' : null;
+      },
     );
 
     final commonPrompt = Text(

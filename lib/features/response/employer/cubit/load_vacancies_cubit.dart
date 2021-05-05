@@ -19,8 +19,8 @@ class LoadVacanciesCubit extends Cubit<LoadVacanciesState> {
       emit(VacanciesLoadInProgress());
       final vacancies = await RegularApiClient.fetchVacancies(_userId);
       emit(VacanciesLoadSuccess(vacancies));
-    } catch (_) {
-      emit(VacanciesLoadFailure());
+    } catch (e) {
+      emit(VacanciesLoadFailure(e));
     }
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
+import 'package:helperr/widgets/error_screen/error_indicator.dart';
 
 import '../cubit/load_vacancies_cubit.dart';
 import '../employer_response_form/view/employer_response_form.dart';
 import '../../../../widgets/loading_screen.dart';
-import '../../../../widgets/error_screen.dart';
 import '../../../../constants.dart' as c;
 
 class EmployerResponseView extends StatelessWidget {
@@ -50,8 +50,10 @@ class EmployerResponseView extends StatelessWidget {
         } else if (state is VacanciesLoadFailure) {
           return Scaffold(
             appBar: appBar,
-            body: ErrorScreen(
-              onRetry: () => context.read<LoadVacanciesCubit>().loadVacancies(),
+            body: ErrorIndicator(
+              error: state.error,
+              onTryAgain: () =>
+                  context.read<LoadVacanciesCubit>().loadVacancies(),
             ),
           );
         } else {

@@ -16,7 +16,12 @@ class LoadInProgress<T> extends LoadingState<T> {
 }
 
 class LoadFailure<T> extends LoadingState<T> {
-  const LoadFailure();
+  const LoadFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  List<Object> get props => [error];
 }
 
 class LoadSuccess<T> extends LoadingState<T> {

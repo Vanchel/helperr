@@ -14,7 +14,7 @@ class NoConnectionIndicator extends StatelessWidget {
         title: 'Отсутствует интернет-соединение',
         message: 'Пожалуйста, проверьте, подключены ли Вы к интернету, '
             'и повторите попытку.',
-        assetName: 'assets/no-connection.png',
+        assetName: 'assets/no-connection.svg',
         onTryAgain: onTryAgain,
       );
 }

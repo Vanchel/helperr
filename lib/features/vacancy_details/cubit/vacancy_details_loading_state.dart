@@ -23,4 +23,11 @@ class VacancyLoadSuccess extends VacancyDetailsLoadingState {
   List<Object> get props => [vacancy];
 }
 
-class VacancyLoadFailure extends VacancyDetailsLoadingState {}
+class VacancyLoadFailure extends VacancyDetailsLoadingState {
+  const VacancyLoadFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  List<Object> get props => [error];
+}

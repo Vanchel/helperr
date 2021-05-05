@@ -19,8 +19,8 @@ class ResumeDetailsLoadingCubit extends Cubit<ResumeDetailsLoadingState> {
       emit(ResumeLoadInProgress());
       final resume = await RegularApiClient.fetchResume(_resumeId);
       emit(ResumeLoadSuccess(resume));
-    } catch (_) {
-      emit(ResumeLoadFailure());
+    } catch (e) {
+      emit(ResumeLoadFailure(e));
     }
   }
 }

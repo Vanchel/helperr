@@ -50,8 +50,6 @@ class AuthenticationApiClient {
     }
   }
 
-  // TODO: вспомнить, почему аутентифицированного пользователя я не могу
-  // брать сразу по токену, как это делает Санчес; из-за сессий?
   Future<User> _getAuthenticatedUser(String token) async {
     final publicPart = TokenPublicPart.parse(token);
 

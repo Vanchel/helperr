@@ -23,4 +23,11 @@ class ResumeLoadSuccess extends ResumeDetailsLoadingState {
   List<Object> get props => [resume];
 }
 
-class ResumeLoadFailure extends ResumeDetailsLoadingState {}
+class ResumeLoadFailure extends ResumeDetailsLoadingState {
+  const ResumeLoadFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  List<Object> get props => [error];
+}
