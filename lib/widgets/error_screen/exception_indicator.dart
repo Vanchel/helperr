@@ -20,6 +20,7 @@ class ExceptionIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     final deviceHeight = MediaQuery.of(context).size.height;
 
     final spacer = SizedBox(height: deviceHeight * 0.2);
@@ -27,7 +28,8 @@ class ExceptionIndicator extends StatelessWidget {
     final image = SvgPicture.asset(
       assetName,
       height: deviceHeight * 0.15,
-      //color: theme.accentColor,
+      color: themeData.accentColor,
+      colorBlendMode: BlendMode.srcATop,
     );
 
     final titleWidget = Container(
