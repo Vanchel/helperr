@@ -29,7 +29,12 @@ class ListAddHeader extends StatelessWidget {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.add_circle_outline_rounded),
+          icon: Icon(
+            Icons.add_circle_outline_rounded,
+            color: (themeData.brightness == Brightness.light)
+                ? Colors.black45
+                : null,
+          ),
           splashRadius: c.iconButtonSplashRadius,
           onPressed: action,
         ),
