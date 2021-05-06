@@ -139,10 +139,16 @@ class NavigationView extends StatelessWidget {
             title: const Text('Профиль'),
             actions: [
               IconButton(
-                icon: const Icon(Icons.settings_rounded),
-                splashRadius: 24.0,
-                onPressed: () => Navigator.push(context, SettingsPage.route()),
+                icon: const Icon(Icons.logout),
+                onPressed: () =>
+                    RepositoryProvider.of<AuthenticationRepository>(context)
+                        .logOut(),
               ),
+              // IconButton(
+              //   icon: const Icon(Icons.settings_rounded),
+              //   splashRadius: 24.0,
+              //   onPressed: () => Navigator.push(context, SettingsPage.route()),
+              // ),
             ],
           );
         } else {

@@ -65,15 +65,24 @@ class VacanciesList extends StatelessWidget {
             child: ListTile(
               title: Text(
                 vacancy.vacancyName,
-                style: themeData.textTheme.headline6,
+                style: themeData.textTheme.headline6
+                    .copyWith(color: themeData.colorScheme.onPrimary),
               ),
-              subtitle: Text(salaryText),
+              subtitle: Text(
+                salaryText,
+                style: TextStyle(
+                  color: themeData.colorScheme.onPrimary.withOpacity(0.54),
+                ),
+              ),
               trailing: Material(
                 color: Colors.transparent,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircleBorder(),
                 child: IconButton(
-                  icon: Icon(Icons.edit_rounded),
+                  icon: Icon(
+                    Icons.edit_rounded,
+                    color: themeData.colorScheme.onPrimary,
+                  ),
                   splashRadius: c.iconButtonSplashRadius,
                   onPressed: onEdit,
                 ),
