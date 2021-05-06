@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart' as c;
 import '../../register/view/register_page.dart';
@@ -20,18 +21,23 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final themeData = Theme.of(context);
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
     final header = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: Text('Вход', style: textTheme.headline2),
+      padding: const EdgeInsets.all(c.defaultMargin * 2),
+      child: SvgPicture.asset(
+        'assets/sign-in.svg',
+        height: 128.0,
+        color: themeData.accentColor,
+        colorBlendMode: BlendMode.srcATop,
+      ),
     );
 
     final emailInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
@@ -47,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
     );
 
     final passwordInput = Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         keyboardType: TextInputType.visiblePassword,
         obscureText: true,
@@ -74,38 +80,49 @@ class _LoginFormState extends State<LoginForm> {
           );
         } else {
           return Container(
-            height: c.bigButtonHeight,
-            margin: const EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton.icon(
+            //margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
+            child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
                   context.read<LoginCubit>().submitLogin(_email, _password);
                 }
               },
-              icon: const Icon(Icons.login_rounded),
-              label: const Text(
-                'Войти',
-                style: TextStyle(fontSize: c.bigButtonFontSize),
-              ),
+              child: const Text('Войти'),
             ),
           );
         }
       },
     );
 
-    final actionsRow = Wrap(
-      alignment: WrapAlignment.spaceBetween,
-      children: [
-        TextButton(
-          onPressed: () {},
-          child: Text('Забыли пароль?'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.push(context, RegisterPage.route()),
-          child: const Text('Зарегистрироваться'),
-        ),
-      ],
+    // final actionsRow = Wrap(
+    //   alignment: WrapAlignment.spaceBetween,
+    //   children: [
+    //     TextButton(
+    //       onPressed: () {},
+    //       child: Text('Забыли пароль?'),
+    //     ),
+    //     TextButton(
+    //       onPressed: () => Navigator.push(context, RegisterPage.route()),
+    //       child: const Text('Зарегистрироваться'),
+    //     ),
+    //   ],
+    // );
+
+    final orRow = Container(
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
+      child: Row(
+        children: [
+          Expanded(child: const Divider()),
+          Text('Или', style: TextStyle(color: themeData.disabledColor)),
+          Expanded(child: const Divider()),
+        ],
+      ),
+    );
+
+    final registerButton = TextButton(
+      onPressed: () => Navigator.push(context, RegisterPage.route()),
+      child: const Text('Зарегистрироваться'),
     );
 
     return BlocListener<LoginCubit, LoginState>(
@@ -135,7 +152,9 @@ class _LoginFormState extends State<LoginForm> {
                   emailInput,
                   passwordInput,
                   loginButton,
-                  actionsRow,
+                  //actionsRow,
+                  orRow,
+                  registerButton,
                 ],
               ),
             ),

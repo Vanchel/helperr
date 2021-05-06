@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:helperr/features/edit_single_value/views/user_type_toggle/user_type_toggle_widget.dart';
 
 import '../../../constants.dart' as c;
@@ -29,18 +30,23 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final themeData = Theme.of(context);
 
     const textInputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)));
+        borderRadius: BorderRadius.all(Radius.circular(c.borderRadius)));
 
     final header = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: Text('Регистрация', style: textTheme.headline2),
+      padding: const EdgeInsets.all(c.defaultMargin * 2),
+      child: SvgPicture.asset(
+        'assets/sign-in.svg',
+        height: 128.0,
+        color: themeData.accentColor,
+        colorBlendMode: BlendMode.srcATop,
+      ),
     );
 
     final nameInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         keyboardType: TextInputType.name,
         decoration: const InputDecoration(
@@ -57,7 +63,7 @@ class _RegisterFormState extends State<RegisterForm> {
     );
 
     final emailInput = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
@@ -71,8 +77,11 @@ class _RegisterFormState extends State<RegisterForm> {
       ),
     );
 
+    const passwordHelper =
+        'Пароль должен быть от 4 символов в длину и содержать хотя бы одну '
+        'цифру, строчную и заглавную букву.';
+
     final passwordInput = Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
       child: TextFormField(
         keyboardType: TextInputType.visiblePassword,
         obscureText: true,
@@ -81,27 +90,18 @@ class _RegisterFormState extends State<RegisterForm> {
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.lock_rounded),
           labelText: 'Пароль',
-          helperText: '',
+          helperText: passwordHelper,
+          helperMaxLines: 4,
+          errorMaxLines: 4,
           border: textInputBorder,
         ),
-        validator: (value) => !_isValidPassword(value)
-            ? 'Пароль не соответствует критериям'
-            : null,
+        validator: (value) => !_isValidPassword(value) ? passwordHelper : null,
         onSaved: (newValue) => _password = newValue,
       ),
     );
 
-    final passwordHint = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: Text(
-        'Пароль должен быть от 4 символов в длину и содержать хотя бы одну '
-        'цифру, строчную и заглавную букву.',
-        style: textTheme.caption,
-      ),
-    );
-
     final userTypeRow = Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin * 2),
       child: Row(
         textBaseline: TextBaseline.alphabetic,
         crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -130,9 +130,8 @@ class _RegisterFormState extends State<RegisterForm> {
           );
         } else
           return Container(
-            height: c.bigButtonHeight,
-            margin: const EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton.icon(
+            margin: const EdgeInsets.only(bottom: c.defaultMargin),
+            child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
@@ -141,31 +140,29 @@ class _RegisterFormState extends State<RegisterForm> {
                       .submitRegister(_name, _email, _password, _userType);
                 }
               },
-              icon: const Icon(Icons.login_rounded),
-              label: const Text(
-                'Зарегистрироваться',
-                style: TextStyle(fontSize: c.bigButtonFontSize),
-              ),
+              child: const Text('Зарегистрироваться'),
             ),
           );
       },
     );
 
-    final loginRow = Row(
-      textBaseline: TextBaseline.alphabetic,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      children: [
-        Expanded(
-          child: Text(
+    final orRow = Container(
+      margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
+      child: Row(
+        children: [
+          Expanded(child: const Divider()),
+          Text(
             'Уже есть аккаунт?',
-            style: textTheme.caption,
+            style: TextStyle(color: themeData.disabledColor),
           ),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Войти'),
-        ),
-      ],
+          Expanded(child: const Divider()),
+        ],
+      ),
+    );
+
+    final loginButton = TextButton(
+      onPressed: () => Navigator.pop(context),
+      child: const Text('Войти'),
     );
 
     return BlocListener<RegisterCubit, RegisterState>(
@@ -193,10 +190,10 @@ class _RegisterFormState extends State<RegisterForm> {
                   nameInput,
                   emailInput,
                   passwordInput,
-                  passwordHint,
                   userTypeRow,
                   registerButton,
-                  loginRow,
+                  orRow,
+                  loginButton,
                 ],
               ),
             ),
