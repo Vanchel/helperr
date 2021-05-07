@@ -7,8 +7,6 @@ import '../cubit/vacancy_details_loading_cubit.dart';
 class VacancyDetailsPage extends StatelessWidget {
   const VacancyDetailsPage({
     Key key,
-    // TODO: уточнить подробнее, а лучше вынести этот кусочек с ифнормацией
-    // о профиле в отдельный виджет
     @required this.vacancyName,
     @required this.vacancyId,
   })  : assert(vacancyName != null),

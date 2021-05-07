@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
-import 'package:helperr/features/response/worker/view/worker_response_loading_page.dart';
+import 'package:helperr/features/vacancy_details/widgets/respond_block.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:helperr/widgets/error_screen/error_indicator.dart';
 import 'package:intl/intl.dart';
@@ -252,30 +252,10 @@ class VacancyDetailsView extends StatelessWidget {
               tagsWidget = const SizedBox.shrink();
             }
 
-            Widget respondWidget;
-            if (vacancy.gotResponsed) {
-              respondWidget = Text(
-                'Обмен откликами уже был начат.',
-                style: textTheme.caption,
-              );
-            } else {
-              final onRespond = () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WorkerResponsePage(
-                        onSave: () {},
-                        vacancyId: vacancy.id,
-                        employerId: vacancy.userId,
-                      ),
-                    ));
-              };
-
-              respondWidget = ElevatedButton(
-                child: Text('Откликнуться'),
-                onPressed: onRespond,
-              );
-            }
+            Widget respondWidget = RespondBlock(
+              responded: vacancy.gotResponsed,
+              vacancy: vacancy,
+            );
 
             final divider = const Divider();
 

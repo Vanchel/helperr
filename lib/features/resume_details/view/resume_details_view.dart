@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/features/favorite/widgets/favorite_button/view/favorite_button.dart';
-import 'package:helperr/features/response/employer/view/employer_response_loading_page.dart';
+import 'package:helperr/features/resume_details/widgets/respond_block.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
 import 'package:helperr/widgets/error_screen/error_indicator.dart';
 import 'package:intl/intl.dart';
@@ -181,30 +181,10 @@ class ResumeDetailsView extends StatelessWidget {
               tagsWidget = const SizedBox.shrink();
             }
 
-            Widget respondWidget;
-            if (resume.gotResponsed) {
-              respondWidget = Text(
-                'Обмен откликами уже был начат.',
-                style: textTheme.caption,
-              );
-            } else {
-              final onRespond = () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EmployerResponsePage(
-                        onSave: () {},
-                        resumeId: resume.id,
-                        workerId: resume.userId,
-                      ),
-                    ));
-              };
-
-              respondWidget = ElevatedButton(
-                child: Text('Пригласить'),
-                onPressed: onRespond,
-              );
-            }
+            Widget respondWidget = RespondBlock(
+              responded: resume.gotResponsed,
+              resume: resume,
+            );
 
             final divider = const Divider();
 

@@ -14,10 +14,8 @@ import 'package:helperr/features/search/resumes_search/view/resumes_search_resul
 import 'package:helperr/features/search/resumes_search/view/resume_search_delegate.dart';
 import 'package:helperr/features/profile/employer/view/employer_profile_page.dart';
 import 'package:helperr/features/profile/worker/view/worker_profile_page.dart';
-import 'package:helperr/features/settings/view/settings_page.dart';
 
 class NavigationView extends StatelessWidget {
-  // TODO: yet another temporary solution
   Widget _getUserProfilePage(BuildContext context) {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 
@@ -30,7 +28,6 @@ class NavigationView extends StatelessWidget {
     }
   }
 
-  // TODO: yet another temporary solution
   SearchDelegate<Widget> _getSearchDelegate(BuildContext context) {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 
@@ -43,7 +40,6 @@ class NavigationView extends StatelessWidget {
     }
   }
 
-  // TODO: yet another temporary solution
   Widget _getSearchPage(BuildContext context) {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 
@@ -56,7 +52,6 @@ class NavigationView extends StatelessWidget {
     }
   }
 
-  // TODO: yet another temporary solution
   Widget _getResponseViews(BuildContext context) {
     final currentUserType =
         RepositoryProvider.of<AuthenticationRepository>(context).user.userType;
@@ -87,7 +82,6 @@ class NavigationView extends StatelessWidget {
     return TabBarView(children: [inboxTab, outboxTab]);
   }
 
-  // TODO: yet another temporary solution
   Widget _getFavoritesPage(BuildContext context) {
     final user = RepositoryProvider.of<AuthenticationRepository>(context).user;
 

@@ -34,14 +34,15 @@ class CustomBackButtonIcon extends StatelessWidget {
 
   static IconData _getIconData(TargetPlatform platform) {
     switch (platform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return Icons.arrow_back_ios_rounded;
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+      default:
         return Icons.arrow_back_rounded;
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        return Icons.arrow_back_ios_rounded;
     }
   }
 

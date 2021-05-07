@@ -12,8 +12,6 @@ class PublicationAgeDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     return BlocBuilder<EditSingleValueCubit<PublicationAge>, PublicationAge>(
       builder: (context, state) {
         if (onChanged != null) {

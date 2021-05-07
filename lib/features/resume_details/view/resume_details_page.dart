@@ -7,8 +7,6 @@ import '../cubit/resume_details_loading_cubit.dart';
 class ResumeDetailsPage extends StatelessWidget {
   const ResumeDetailsPage({
     Key key,
-    // TODO: уточнить подробнее, а лучше вынести этот кусочек с ифнормацией
-    // о профиле в отдельный виджет
     @required this.resumeName,
     @required this.resumeId,
   })  : assert(resumeName != null),
