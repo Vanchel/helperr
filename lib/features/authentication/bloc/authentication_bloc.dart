@@ -47,7 +47,6 @@ class AuthenticationBloc
       AuthenticationStatusChanged event) {
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
-        // TODO: think about
         return AuthenticationState.unauthenticated(
             _authenticationRepository.user);
       case AuthenticationStatus.authenticated:

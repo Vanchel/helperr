@@ -38,7 +38,7 @@ class AuthenticationApiClient {
     final body = utf8.encode(json.encode(data));
 
     var response = await httpClient.post(
-      Uri.http(_baseUrl, 'api/auth/token/verify/'),
+      Uri.https(_baseUrl, 'api/auth/token/verify/'),
       body: body,
       headers: _headers,
     );
@@ -54,7 +54,7 @@ class AuthenticationApiClient {
     final publicPart = TokenPublicPart.parse(token);
 
     final response = await http.get(
-      Uri.http(_baseUrl, 'api/users/${publicPart.userId}'),
+      Uri.https(_baseUrl, 'api/users/${publicPart.userId}'),
       headers: _headers,
     );
 
@@ -74,7 +74,7 @@ class AuthenticationApiClient {
     final body = utf8.encode(json.encode(data));
 
     final response = await httpClient.post(
-      Uri.http(_baseUrl, 'api/auth/token/refresh/'),
+      Uri.https(_baseUrl, 'api/auth/token/refresh/'),
       body: body,
       headers: _headers,
     );
@@ -97,7 +97,7 @@ class AuthenticationApiClient {
     final body = utf8.encode(json.encode(data));
 
     final response = await http.post(
-      Uri.http(_baseUrl, 'api/auth/login/'),
+      Uri.https(_baseUrl, 'api/auth/login/'),
       body: body,
       headers: _headers,
     );
@@ -133,7 +133,7 @@ class AuthenticationApiClient {
     final body = json.encode(data);
 
     final response = await http.post(
-      Uri.http(_baseUrl, 'api/register/'),
+      Uri.https(_baseUrl, 'api/register/'),
       body: body,
       headers: _headers,
     );

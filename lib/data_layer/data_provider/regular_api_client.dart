@@ -49,7 +49,7 @@ class RegularApiClient {
       String pageUri) async {
     final uri = (pageUri?.isNotEmpty ?? false)
         ? Uri.parse(pageUri)
-        : Uri.http(_baseUrl, 'api/favorites/vacancy');
+        : Uri.https(_baseUrl, 'api/favorites/vacancy');
 
     final response = await _requestAuthorized(
       () async => await httpClient.get(uri, headers: _headers),
@@ -64,7 +64,7 @@ class RegularApiClient {
       String pageUri) async {
     final uri = (pageUri?.isNotEmpty ?? false)
         ? Uri.parse(pageUri)
-        : Uri.http(_baseUrl, 'api/favorites/cv');
+        : Uri.https(_baseUrl, 'api/favorites/cv');
 
     final response = await _requestAuthorized(
       () async => await httpClient.get(uri, headers: _headers),
@@ -81,7 +81,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.post(
-        Uri.http(_baseUrl, 'api/favorites/vacancy/'),
+        Uri.https(_baseUrl, 'api/favorites/vacancy/'),
         body: body,
         headers: _headers,
       ),
@@ -92,7 +92,7 @@ class RegularApiClient {
   static Future<void> deleteFavoriteVacancy(int vacancyId) async {
     await _requestAuthorized(
       () async => await httpClient.delete(
-        Uri.http(_baseUrl, 'api/favorites/vacancy/$vacancyId'),
+        Uri.https(_baseUrl, 'api/favorites/vacancy/$vacancyId'),
         headers: _headers,
       ),
       'Failed to remove vacancy from favorite',
@@ -105,7 +105,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.post(
-        Uri.http(_baseUrl, 'api/favorites/cv/'),
+        Uri.https(_baseUrl, 'api/favorites/cv/'),
         body: body,
         headers: _headers,
       ),
@@ -116,7 +116,7 @@ class RegularApiClient {
   static Future<void> deleteFavoriteResume(int resumeId) async {
     await _requestAuthorized(
       () async => await httpClient.delete(
-        Uri.http(_baseUrl, 'api/favorites/cv/$resumeId'),
+        Uri.https(_baseUrl, 'api/favorites/cv/$resumeId'),
         headers: _headers,
       ),
       'Failed to remove resume from favorite',
@@ -132,7 +132,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.put(
-        Uri.http(_baseUrl, 'api/vacancy/response/'),
+        Uri.https(_baseUrl, 'api/vacancy/response/'),
         body: json.encode(body),
         headers: _headers,
       ),
@@ -149,7 +149,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.put(
-        Uri.http(_baseUrl, 'api/cv/response/'),
+        Uri.https(_baseUrl, 'api/cv/response/'),
         body: json.encode(body),
         headers: _headers,
       ),
@@ -161,7 +161,7 @@ class RegularApiClient {
       String pageUri, int userId) async {
     final uri = (pageUri?.isNotEmpty ?? false)
         ? Uri.parse(pageUri)
-        : Uri.http(_baseUrl, 'api/vacancy/response/worker/$userId');
+        : Uri.https(_baseUrl, 'api/vacancy/response/worker/$userId');
 
     final response = await _requestAuthorized(
       () async => await httpClient.get(uri, headers: _headers),
@@ -176,7 +176,7 @@ class RegularApiClient {
       String pageUri, int userId) async {
     final uri = (pageUri?.isNotEmpty ?? false)
         ? Uri.parse(pageUri)
-        : Uri.http(_baseUrl, 'api/vacancy/response/employer/$userId');
+        : Uri.https(_baseUrl, 'api/vacancy/response/employer/$userId');
 
     final response = await _requestAuthorized(
       () async => await httpClient.get(uri, headers: _headers),
@@ -191,7 +191,7 @@ class RegularApiClient {
       String pageUri, int userId) async {
     final uri = (pageUri?.isNotEmpty ?? false)
         ? Uri.parse(pageUri)
-        : Uri.http(_baseUrl, 'api/cv/response/worker/$userId');
+        : Uri.https(_baseUrl, 'api/cv/response/worker/$userId');
 
     final response = await _requestAuthorized(
       () async => await httpClient.get(uri, headers: _headers),
@@ -206,7 +206,7 @@ class RegularApiClient {
       String pageUri, int userId) async {
     final uri = (pageUri?.isNotEmpty ?? false)
         ? Uri.parse(pageUri)
-        : Uri.http(_baseUrl, 'api/cv/response/employer/$userId');
+        : Uri.https(_baseUrl, 'api/cv/response/employer/$userId');
 
     final response = await _requestAuthorized(
       () async => await httpClient.get(uri, headers: _headers),
@@ -220,7 +220,7 @@ class RegularApiClient {
   static Future<void> addVacancyResponse(Response vacancyResponse) async {
     await _requestAuthorized(
       () async => await httpClient.post(
-        Uri.http(_baseUrl, 'api/vacancy/response/'),
+        Uri.https(_baseUrl, 'api/vacancy/response/'),
         body: utf8.encode(responseToJson(vacancyResponse)),
         headers: _headers,
       ),
@@ -231,7 +231,7 @@ class RegularApiClient {
   static Future<void> addResumeResponse(Response resumeResponse) async {
     await _requestAuthorized(
       () async => await httpClient.post(
-        Uri.http(_baseUrl, 'api/cv/response/'),
+        Uri.https(_baseUrl, 'api/cv/response/'),
         body: utf8.encode(responseToJson(resumeResponse)),
         headers: _headers,
       ),
@@ -242,7 +242,7 @@ class RegularApiClient {
   static Future<Vacancy> fetchVacancy(int id) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/vacancy/$id'),
+        Uri.https(_baseUrl, 'api/vacancy/$id'),
         headers: _headers,
       ),
       'Failed to fetch vacancy',
@@ -254,7 +254,7 @@ class RegularApiClient {
   static Future<Resume> fetchResume(int id) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/cv/$id'),
+        Uri.https(_baseUrl, 'api/cv/$id'),
         headers: _headers,
       ),
       'Failed to fetch resume',
@@ -267,7 +267,7 @@ class RegularApiClient {
       VacancySearchOptions options) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/vacancy/search/', options.toJson()),
+        Uri.https(_baseUrl, 'api/vacancy/search/', options.toJson()),
         headers: _headers,
       ),
       'Failed to fetch search results for vacancies',
@@ -295,7 +295,7 @@ class RegularApiClient {
       ResumeSearchOptions options) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/cv/search/', options.toJson()),
+        Uri.https(_baseUrl, 'api/cv/search/', options.toJson()),
         headers: _headers,
       ),
       'Failed to fetch search results for resumes',
@@ -321,7 +321,7 @@ class RegularApiClient {
   static Future<Worker> fetchWorker(int userId) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/workers/$userId'),
+        Uri.https(_baseUrl, 'api/workers/$userId'),
         headers: _headers,
       ),
       'Failed to fetch worker',
@@ -335,7 +335,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.put(
-        Uri.http(_baseUrl, 'api/workers/${worker.userId}'),
+        Uri.https(_baseUrl, 'api/workers/${worker.userId}'),
         body: body,
         headers: _headers,
       ),
@@ -346,7 +346,7 @@ class RegularApiClient {
   static Future<List<Resume>> fetchResumes(int userId) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/cv/user/$userId'),
+        Uri.https(_baseUrl, 'api/cv/user/$userId'),
         headers: _headers,
       ),
       'Failed to fetch resumes',
@@ -364,7 +364,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.post(
-        Uri.http(_baseUrl, 'api/cv/'),
+        Uri.https(_baseUrl, 'api/cv/'),
         body: body,
         headers: _headers,
       ),
@@ -377,7 +377,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.put(
-        Uri.http(_baseUrl, 'api/cv/${resume.id}'),
+        Uri.https(_baseUrl, 'api/cv/${resume.id}'),
         body: body,
         headers: _headers,
       ),
@@ -388,7 +388,7 @@ class RegularApiClient {
   static Future<void> deleteResume(int resumeId) async {
     await _requestAuthorized(
       () async => await httpClient.delete(
-        Uri.http(_baseUrl, 'api/cv/$resumeId'),
+        Uri.https(_baseUrl, 'api/cv/$resumeId'),
         headers: _headers,
       ),
       'Failed to delete resume',
@@ -398,7 +398,7 @@ class RegularApiClient {
   static Future<Employer> fetchEmployer(int userId) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/employers/$userId'),
+        Uri.https(_baseUrl, 'api/employers/$userId'),
         headers: _headers,
       ),
       'Failed to fetch employer',
@@ -412,7 +412,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.put(
-        Uri.http(_baseUrl, 'api/employers/${employer.userId}'),
+        Uri.https(_baseUrl, 'api/employers/${employer.userId}'),
         body: body,
         headers: _headers,
       ),
@@ -423,7 +423,7 @@ class RegularApiClient {
   static Future<List<Vacancy>> fetchVacancies(int userId) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/vacancy/user/$userId'),
+        Uri.https(_baseUrl, 'api/vacancy/user/$userId'),
         headers: _headers,
       ),
       'Failed to fetch vacancies',
@@ -441,7 +441,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.post(
-        Uri.http(_baseUrl, 'api/vacancy/'),
+        Uri.https(_baseUrl, 'api/vacancy/'),
         body: body,
         headers: _headers,
       ),
@@ -454,7 +454,7 @@ class RegularApiClient {
 
     await _requestAuthorized(
       () async => await httpClient.put(
-        Uri.http(_baseUrl, 'api/vacancy/${vacancy.id}'),
+        Uri.https(_baseUrl, 'api/vacancy/${vacancy.id}'),
         body: body,
         headers: _headers,
       ),
@@ -465,7 +465,7 @@ class RegularApiClient {
   static Future<void> deleteVacancy(int vacancyId) async {
     await _requestAuthorized(
       () async => await httpClient.delete(
-        Uri.http(_baseUrl, 'api/vacancy/$vacancyId'),
+        Uri.https(_baseUrl, 'api/vacancy/$vacancyId'),
         headers: _headers,
       ),
       'Failed to delete vacancy',
@@ -475,7 +475,7 @@ class RegularApiClient {
   static Future<User> getUser(int userId) async {
     final response = await _requestAuthorized(
       () async => await httpClient.get(
-        Uri.http(_baseUrl, 'api/users/$userId'),
+        Uri.https(_baseUrl, 'api/users/$userId'),
         headers: _headers,
       ),
       'Failed to fetch user',
