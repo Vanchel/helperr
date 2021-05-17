@@ -7,6 +7,7 @@ import 'experience.dart';
 import 'gender.dart';
 import 'address.dart';
 import 'language.dart';
+import 'schedule.dart';
 
 Worker workerFromJson(String str) => Worker.fromJson(json.decode(str));
 
@@ -24,6 +25,7 @@ class Worker extends Equatable {
     this.address,
     this.phone,
     this.about,
+    this.schedules,
     this.socialLinks,
     this.education,
     this.exp,
@@ -43,6 +45,7 @@ class Worker extends Equatable {
   final Address address;
   final List<String> phone;
   final String about;
+  final List<Schedule> schedules;
   final List<String> socialLinks;
   final List<Education> education;
   final List<Exp> exp;
@@ -62,6 +65,7 @@ class Worker extends Equatable {
     Address address,
     List<String> phone,
     String about,
+    List<Schedule> schedules,
     List<String> socialLinks,
     List<Education> education,
     List<Exp> exp,
@@ -82,6 +86,7 @@ class Worker extends Equatable {
         address: address ?? this.address,
         phone: phone ?? this.phone,
         about: about ?? this.about,
+        schedules: schedules ?? this.schedules,
         socialLinks: socialLinks ?? this.socialLinks,
         education: education ?? this.education,
         exp: exp ?? this.exp,
@@ -105,6 +110,8 @@ class Worker extends Equatable {
             : Address.empty,
         phone: List<String>.from(json["phone"]?.map((x) => x) ?? []),
         about: json["about"] ?? '',
+        schedules: List<Schedule>.from(
+            json["schedule"]?.map((x) => Schedule.fromJson(x)) ?? []),
         socialLinks:
             List<String>.from(json["social_links"]?.map((x) => x) ?? []),
         education: List<Education>.from(
@@ -128,6 +135,7 @@ class Worker extends Equatable {
         "address": address.toJson(),
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "about": about,
+        "schedule": List<dynamic>.from(schedules.map((x) => x.toJson())),
         "social_links": List<dynamic>.from(socialLinks.map((x) => x)),
         "education": List<dynamic>.from(education.map((x) => x.toJson())),
         "experience": List<dynamic>.from(exp.map((x) => x.toJson())),
@@ -149,6 +157,7 @@ class Worker extends Equatable {
         this.address,
         this.phone,
         this.about,
+        this.schedules,
         this.socialLinks,
         this.education,
         this.exp,

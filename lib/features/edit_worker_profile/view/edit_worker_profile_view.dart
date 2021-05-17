@@ -6,6 +6,7 @@ import 'package:helperr/features/edit_list/views/experience/experience_list.dart
 import 'package:helperr/features/edit_list/views/language/language_list.dart';
 import 'package:helperr/features/edit_list/views/phone_number/phone_number_list.dart';
 import 'package:helperr/features/edit_list/views/social_links/social_link_list.dart';
+import 'package:helperr/features/edit_set/views/schedule/schedules_page.dart';
 import 'package:helperr/features/edit_worker_profile/cubit/edit_profile_cubit.dart';
 import 'package:helperr/widgets/address_input/view/address_input.dart';
 import 'package:helperr/widgets/custom_back_button.dart';
@@ -35,6 +36,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
   DateTime _dob;
   Address _address;
   String _cz;
+  List<Schedule> _schedules;
   List<String> _phoneNumbers;
   List<Education> _education;
   List<Exp> _experience;
@@ -131,6 +133,36 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
       ),
     );
 
+    final schedulesRow = Container(
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              'Желаемый график',
+              style: themeData.textTheme.subtitle1,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          OutlinedButton(
+            child: Text('Настроить'),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return SchedulesPage(
+                    initialValue:
+                        Set.from(_schedules ?? widget.worker.schedules),
+                    onChanged: (newValue) => _schedules = List.from(newValue),
+                  );
+                },
+              ));
+            },
+          ),
+        ],
+      ),
+    );
+
     final phoneNumbersList = Container(
       margin: const EdgeInsets.only(bottom: 6.0),
       child: PhoneNumberList(
@@ -190,6 +222,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
           gender: _gender,
           address: _address,
           cz: _cz,
+          schedules: _schedules,
           phone: _phoneNumbers,
           education: _education,
           exp: _experience,
@@ -262,6 +295,7 @@ class _EditWorkerProfileViewState extends State<EditWorkerProfileView> {
                 genderInput,
                 addressInput,
                 citizenshipInput,
+                schedulesRow,
                 phoneNumbersList,
                 divider,
                 educationList,

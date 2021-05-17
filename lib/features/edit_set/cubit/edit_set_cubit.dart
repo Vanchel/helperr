@@ -6,4 +6,8 @@ class EditSetCubit<T> extends Cubit<Set<T>> {
   void addValue(T value) => emit(Set.of(state)..add(value));
 
   void deleteValue(T value) => emit(Set.of(state)..remove(value));
+
+  void replaceValue(T oldValue, T newValue) => emit(Set.of(state)
+    ..remove(oldValue)
+    ..add(newValue));
 }

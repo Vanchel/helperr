@@ -29,3 +29,5 @@ export 'response_state.dart';
 export 'detailed_response.dart';
 export 'detailed_response_result.dart';
 export 'token_public_part.dart';
+export 'weekday.dart';
+export 'schedule.dart';
