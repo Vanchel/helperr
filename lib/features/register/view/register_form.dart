@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:helperr/features/edit_single_value/views/user_type_toggle/user_type_toggle_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart' as c;
 import '../../../data_layer/model/user_type.dart';
@@ -146,6 +148,54 @@ class _RegisterFormState extends State<RegisterForm> {
       },
     );
 
+    final openLink = (String urlString) async {
+      if (await canLaunch(urlString)) {
+        await launch(urlString);
+      } else {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text('Не удалось найти подходящее приложение'),
+          ));
+      }
+    };
+
+    final registerPrompt = Container(
+      margin: const EdgeInsets.only(bottom: c.defaultMargin),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: 'Нажимая на кнопку "Зарегистрироваться", Вы принимаете ',
+              style: themeData.textTheme.caption,
+            ),
+            TextSpan(
+              text: 'пользовательское соглашение',
+              style: themeData.textTheme.caption
+                  .copyWith(color: themeData.accentColor),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () async => await openLink('http://job-flow.ru'),
+            ),
+            TextSpan(
+              text: ' и ',
+              style: themeData.textTheme.caption,
+            ),
+            TextSpan(
+              text: 'политику конфиденциальности',
+              style: themeData.textTheme.caption
+                  .copyWith(color: themeData.accentColor),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () async => await openLink('http://job-flow.ru'),
+            ),
+            TextSpan(
+              text: '.',
+              style: themeData.textTheme.caption,
+            ),
+          ],
+        ),
+      ),
+    );
+
     final orRow = Container(
       margin: const EdgeInsets.symmetric(vertical: c.defaultMargin),
       child: Row(
@@ -192,6 +242,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   passwordInput,
                   userTypeRow,
                   registerButton,
+                  registerPrompt,
                   orRow,
                   loginButton,
                 ],

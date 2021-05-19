@@ -45,6 +45,7 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Helperr',
       navigatorKey: _navigatorKey,
       theme: lightTheme,
       darkTheme: darkTheme,
@@ -57,7 +58,7 @@ class _AppViewState extends State<AppView> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('ru', ''),
+        const Locale('ru'),
       ],
       onGenerateRoute: (_) => SplashPage.route(),
       builder: (context, child) {

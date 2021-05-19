@@ -86,6 +86,7 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
       controller: _startTimeController,
       enableInteractiveSelection: false,
       focusNode: AlwaysDisabledFocusNode(),
+      style: TextStyle(color: themeData.disabledColor),
       decoration: InputDecoration(
         labelText: 'Начало рабочего дня',
         helperText: '',
@@ -105,6 +106,7 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
       controller: _endTimeController,
       enableInteractiveSelection: false,
       focusNode: AlwaysDisabledFocusNode(),
+      style: TextStyle(color: themeData.disabledColor),
       decoration: InputDecoration(
         labelText: 'Конец рабочего дня',
         helperText: '',

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helperr/data_layer/model/models.dart';
@@ -14,6 +15,8 @@ import 'package:helperr/features/search/resumes_search/view/resumes_search_resul
 import 'package:helperr/features/search/resumes_search/view/resume_search_delegate.dart';
 import 'package:helperr/features/profile/employer/view/employer_profile_page.dart';
 import 'package:helperr/features/profile/worker/view/worker_profile_page.dart';
+import 'package:helperr/constants.dart' as c;
+import 'package:url_launcher/url_launcher.dart';
 
 class NavigationView extends StatelessWidget {
   Widget _getUserProfilePage(BuildContext context) {
@@ -94,6 +97,115 @@ class NavigationView extends StatelessWidget {
     }
   }
 
+  void _showAppAboutDialog(BuildContext context) {
+    final themeData = Theme.of(context);
+
+    final openLink = (String urlString) async {
+      if (await canLaunch(urlString)) {
+        await launch(urlString);
+      } else {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text('Не удалось найти подходящее приложение'),
+          ));
+      }
+    };
+
+    final getEmailUrl = (String emailAddress, String subject) {
+      final _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: emailAddress,
+        queryParameters: {
+          'subject': subject ?? '',
+        },
+      );
+      return _emailLaunchUri.toString();
+    };
+
+    showAboutDialog(
+      context: context,
+      applicationLegalese: '© 2021 Helperr Все права защищены',
+      children: [
+        const Divider(),
+        ListTile(
+          dense: true,
+          title: Text('О проекте'),
+          onTap: () async => await openLink('http://job-flow.ru'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Официальный сайт'),
+          onTap: () async => await openLink('http://job-flow.ru'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Пользовательское соглашение'),
+          onTap: () async => await openLink('http://job-flow.ru'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Лицензионное соглашение'),
+          onTap: () async => await openLink('http://job-flow.ru'),
+        ),
+        ListTile(
+          dense: true,
+          title: Text('Политика конфиденциальности'),
+          onTap: () async => await openLink('http://job-flow.ru'),
+        ),
+        const Divider(),
+        Text(
+          'Служба поддержки',
+          style: themeData.textTheme.bodyText1,
+        ),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'По вопросам работы приложения: ',
+                style: themeData.textTheme.caption,
+              ),
+              TextSpan(
+                text: '175940@edu.fa.ru',
+                style: themeData.textTheme.caption
+                    .copyWith(color: themeData.accentColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    await openLink(getEmailUrl(
+                      '175940@edu.fa.ru',
+                      'Вопрос по работе мобильного приложения Helperr',
+                    ));
+                  },
+              ),
+            ],
+          ),
+        ),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'По вопросам работы сайта: ',
+                style: themeData.textTheme.caption,
+              ),
+              TextSpan(
+                text: '175912@edu.fa.ru',
+                style: themeData.textTheme.caption
+                    .copyWith(color: themeData.accentColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    await openLink(getEmailUrl(
+                      '175912@edu.fa.ru',
+                      'Вопрос по работе сайта job-flow.ru',
+                    ));
+                  },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, int>(
@@ -106,7 +218,7 @@ class NavigationView extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.search_rounded),
-                splashRadius: 24.0,
+                splashRadius: c.iconButtonSplashRadius,
                 onPressed: () {
                   showSearch(
                     context: context,
@@ -133,16 +245,16 @@ class NavigationView extends StatelessWidget {
             title: const Text('Профиль'),
             actions: [
               IconButton(
+                icon: const Icon(Icons.help_outline_rounded),
+                onPressed: () => _showAppAboutDialog(context),
+              ),
+              IconButton(
                 icon: const Icon(Icons.logout),
+                splashRadius: c.iconButtonSplashRadius,
                 onPressed: () =>
                     RepositoryProvider.of<AuthenticationRepository>(context)
                         .logOut(),
               ),
-              // IconButton(
-              //   icon: const Icon(Icons.settings_rounded),
-              //   splashRadius: 24.0,
-              //   onPressed: () => Navigator.push(context, SettingsPage.route()),
-              // ),
             ],
           );
         } else {
