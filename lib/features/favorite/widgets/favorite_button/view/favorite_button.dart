@@ -14,10 +14,12 @@ class FavoriteButton extends StatelessWidget {
     Key key,
     @required this.id,
     @required this.isInFavorite,
+    @required this.onChanged,
   }) : super(key: key);
 
   final int id;
   final bool isInFavorite;
+  final void Function(bool newValue) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class FavoriteButton extends StatelessWidget {
         isInFavorite: isInFavorite,
         repository: repository,
       ),
-      child: FavoriteButtonView(),
+      child: FavoriteButtonView(onChanged: onChanged),
     );
   }
 }

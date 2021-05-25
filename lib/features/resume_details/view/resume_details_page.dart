@@ -9,18 +9,26 @@ class ResumeDetailsPage extends StatelessWidget {
     Key key,
     @required this.resumeName,
     @required this.resumeId,
+    @required this.onRespond,
+    @required this.onFavoriteChanged,
   })  : assert(resumeName != null),
         assert(resumeId != null),
         super(key: key);
 
   final String resumeName;
   final int resumeId;
+  final VoidCallback onRespond;
+  final void Function(bool) onFavoriteChanged;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ResumeDetailsLoadingCubit(resumeId)..loadResume(),
-      child: ResumeDetailsView(resumeName: resumeName),
+      child: ResumeDetailsView(
+        resumeName: resumeName,
+        onRespond: onRespond,
+        onFavoriteChanged: onFavoriteChanged,
+      ),
     );
   }
 }

@@ -90,10 +90,14 @@ class ResponseDetailView extends StatelessWidget {
                     ? VacancyDetailsPage(
                         vacancyName: response.vacancyName,
                         vacancyId: response.vacancy,
+                        onFavoriteChanged: null,
+                        onRespond: null,
                       )
                     : ResumeDetailsPage(
                         resumeName: response.cvName,
                         resumeId: response.cv,
+                        onFavoriteChanged: null,
+                        onRespond: null,
                       ),
               ),
             );
@@ -125,10 +129,14 @@ class ResponseDetailView extends StatelessWidget {
                     ? VacancyDetailsPage(
                         vacancyName: response.vacancyName,
                         vacancyId: response.vacancy,
+                        onFavoriteChanged: null,
+                        onRespond: null,
                       )
                     : ResumeDetailsPage(
                         resumeName: response.cvName,
                         resumeId: response.cv,
+                        onFavoriteChanged: null,
+                        onRespond: null,
                       ),
               ),
             );

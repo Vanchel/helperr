@@ -16,10 +16,14 @@ import '../../../data_layer/model/work_type.dart';
 class ResumeDetailsView extends StatelessWidget {
   const ResumeDetailsView({
     Key key,
-    this.resumeName,
+    @required this.resumeName,
+    @required this.onRespond,
+    @required this.onFavoriteChanged,
   }) : super(key: key);
 
   final String resumeName;
+  final VoidCallback onRespond;
+  final void Function(bool) onFavoriteChanged;
 
   String _formatDate(DateTime date) =>
       DateFormat('dd.MM.yyyy, HH:mm').format(date);
@@ -83,6 +87,7 @@ class ResumeDetailsView extends StatelessWidget {
               trailing: FavoriteButton(
                 id: resume.id,
                 isInFavorite: resume.favorited,
+                onChanged: onFavoriteChanged,
               ),
             );
 
@@ -184,6 +189,7 @@ class ResumeDetailsView extends StatelessWidget {
             Widget respondWidget = RespondBlock(
               responded: resume.gotResponsed,
               resume: resume,
+              onResponded: onRespond,
             );
 
             final divider = const Divider();

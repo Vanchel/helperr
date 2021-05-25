@@ -9,18 +9,26 @@ class VacancyDetailsPage extends StatelessWidget {
     Key key,
     @required this.vacancyName,
     @required this.vacancyId,
+    @required this.onRespond,
+    @required this.onFavoriteChanged,
   })  : assert(vacancyName != null),
         assert(vacancyId != null),
         super(key: key);
 
   final String vacancyName;
   final int vacancyId;
+  final VoidCallback onRespond;
+  final void Function(bool) onFavoriteChanged;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => VacancyDetailsLoadingCubit(vacancyId)..loadVacancy(),
-      child: VacancyDetailsView(vacancyName: vacancyName),
+      child: VacancyDetailsView(
+        vacancyName: vacancyName,
+        onRespond: onRespond,
+        onFavoriteChanged: onFavoriteChanged,
+      ),
     );
   }
 }

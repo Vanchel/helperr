@@ -8,9 +8,11 @@ class RespondBlockView extends StatelessWidget {
   const RespondBlockView({
     Key key,
     this.resume,
+    this.onResponded,
   }) : super(key: key);
 
   final Resume resume;
+  final VoidCallback onResponded;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,12 @@ class RespondBlockView extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => EmployerResponsePage(
-                    onSave: () => context.read<RespondedCubit>().respond(),
+                    onSave: () {
+                      context.read<RespondedCubit>().respond();
+                      if (onResponded != null) {
+                        onResponded.call();
+                      }
+                    },
                     resumeId: resume.id,
                     workerId: resume.userId,
                   ),

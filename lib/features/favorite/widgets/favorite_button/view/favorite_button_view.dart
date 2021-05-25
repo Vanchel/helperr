@@ -5,7 +5,12 @@ import '../cubit/favorite_cubit.dart';
 import '../../../../../constants.dart' as c;
 
 class FavoriteButtonView extends StatelessWidget {
-  const FavoriteButtonView({Key key}) : super(key: key);
+  const FavoriteButtonView({
+    Key key,
+    @required this.onChanged,
+  }) : super(key: key);
+
+  final void Function(bool newValue) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,10 @@ class FavoriteButtonView extends StatelessWidget {
             ..showSnackBar(SnackBar(
               content: Text('Произошла ошибка'),
             ));
+        } else {
+          if (onChanged != null) {
+            onChanged(state.isInFavorite);
+          }
         }
       },
       builder: (context, state) {

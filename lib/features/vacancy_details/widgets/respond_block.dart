@@ -8,18 +8,23 @@ import 'respond_block_view.dart';
 class RespondBlock extends StatelessWidget {
   const RespondBlock({
     Key key,
-    this.responded,
-    this.vacancy,
+    @required this.responded,
+    @required this.vacancy,
+    @required this.onResponded,
   }) : super(key: key);
 
   final bool responded;
   final Vacancy vacancy;
+  final VoidCallback onResponded;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RespondedCubit(responded: responded),
-      child: RespondBlockView(vacancy: vacancy),
+      child: RespondBlockView(
+        vacancy: vacancy,
+        onResponded: onResponded,
+      ),
     );
   }
 }
