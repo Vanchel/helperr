@@ -41,7 +41,7 @@ class _AboutAppDialogState extends State<AboutAppDialog> {
       ListTile(
         dense: true,
         title: Text('О проекте'),
-        onTap: () async => await openLink('http://job-flow.ru'),
+        onTap: () async => await openLink('http://job-flow.ru/about_company'),
       ),
       ListTile(
         dense: true,
@@ -51,17 +51,12 @@ class _AboutAppDialogState extends State<AboutAppDialog> {
       ListTile(
         dense: true,
         title: Text('Пользовательское соглашение'),
-        onTap: () async => await openLink('http://job-flow.ru'),
-      ),
-      ListTile(
-        dense: true,
-        title: Text('Лицензионное соглашение'),
-        onTap: () async => await openLink('http://job-flow.ru'),
+        onTap: () async => await openLink('http://job-flow.ru/oferta'),
       ),
       ListTile(
         dense: true,
         title: Text('Политика конфиденциальности'),
-        onTap: () async => await openLink('http://job-flow.ru'),
+        onTap: () async => await openLink('http://job-flow.ru/personal_data'),
       ),
     ];
 
