@@ -18,7 +18,7 @@ class DateInput extends StatelessWidget {
   String _performValidation(DateTime date) {
     final result = validator?.call(date);
     if (onValidate != null && result == null) {
-      onValidate(null);
+      onValidate(date);
     }
     return result;
   }

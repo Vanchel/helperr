@@ -31,7 +31,7 @@ class WorkerProfileView extends StatelessWidget {
               context,
               MaterialPageRoute<EditWorkerProfilePage>(builder: (context) {
                 return EditWorkerProfilePage(
-                  worker: profile.copyWith(),
+                  worker: profile.copyWith(birthday: profile.birthday),
                   onSave: () => profileCubit.loadProfile(),
                 );
               }),
