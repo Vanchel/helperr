@@ -12,7 +12,7 @@ class GenericErrorIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ExceptionIndicator(
         title: 'Что-то пошло не так',
-        message: 'В приложении возникла неизвестная ошибка.'
+        message: 'В приложении возникла неизвестная ошибка. '
             'Пожалуйста, повторите попытку позже.',
         assetName: 'assets/unknown-error.svg',
         onTryAgain: onTryAgain,
