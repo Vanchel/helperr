@@ -1,16 +1,10 @@
-# helperr
+# Helperr
 
-A new Flutter project.
+Приложение разработано в ходе выполнения дипломного проекта.
+Работа выполнялась группой из трех человек, по одному человеку на каждую из задач: веб-сайт, сервер, мобильное приложение.
 
-## Getting Started
+В данный момент протестировать работу приложения не представляется возможным, так как сервер, к которому обращается клиент, более не оплачивается.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Для ознакомления также доступен исходный код:
+ - [веб-сайта](https://github.com/DeducMe/Diploma)
+ - [серверной части сервиса](https://github.com/IvanShvedov/drf-diplom)
